@@ -7,6 +7,8 @@ import dotenv from "dotenv"
 
 
 import { sql } from "./config/db.js"
+import rentadRoutes from "./routes/rentadRoutes.js"
+import userRoutes from "./routes/userRoutes.js"
 
 
 dotenv.config()
@@ -27,6 +29,8 @@ app.use(
 )
 app.use(morgan("dev"))
 
+app.use("/api/rentads", rentadRoutes)
+app.use("/api/users", userRoutes)
 
 app.get("/", (req, res) => {
     res.send("Everything is working!")
@@ -35,6 +39,9 @@ app.get("/", (req, res) => {
 
 async function initDB(){
     try {
+        // await sql`DROP TABLE IF EXISTS rentads CASCADE`
+        // await sql`DROP TABLE IF EXISTS users CASCADE`
+
         await sql`
             CREATE TABLE IF NOT EXISTS users(
                 id SERIAL PRIMARY KEY,
@@ -51,7 +58,7 @@ async function initDB(){
             CREATE TABLE IF NOT EXISTS rentads(
                 id SERIAL PRIMARY KEY,
                 user_id INTEGER NOT NULL,
-                details VARCHAR(255) NOT NULL,
+                details VARCHAR(700) NOT NULL,
                 price DECIMAL(10, 2) NOT NULL,
                 images TEXT[],
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
