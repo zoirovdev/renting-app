@@ -15,9 +15,9 @@ export const aj = arcjet({
             // block all bots except search engines
             allow: [
                 "CATEGORY:SEARCH_ENGINE",
-                "CATEGORY:API",
                 "CATEGORY:MONITOR", 
-                "CATEGORY:PREVIEW"
+                "CATEGORY:PREVIEW",
+                
             ]
         }),
         // rate limiting

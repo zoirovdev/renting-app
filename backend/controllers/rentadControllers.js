@@ -18,25 +18,21 @@ export const getAll = async (req, res) => {
 
 export const create = async (req, res) => {
     try {
-        const { details, price, images, user_id } = req.body
+        const { property, area, area_unit, rent, rent_currency, rent_period, bedrooms, bathrooms, 
+            location_id, location_display, contacts, images, amenities, extras, user_id } = req.body
         console.log(req.body)
 
-        if(!details || !price || !images || !user_id){
+        if(!property || !rent || !rent_currency || !rent_period || !bedrooms || !location_id || !location_display || !contacts || !images || !user_id || !amenities || !extras){
             return res.status(400).json({ success: false, message: "All fields are required" })
         }
 
-        if (typeof details !== 'string' || isNaN(parseFloat(price))) {
-            return res.status(400).json({ 
-                success: false, 
-                message: "Invalid data format" 
-            })
-        }
-
         const imageArray = Array.isArray(images) ? images : [images]
+        const amenityArray = Array.isArray(amenities) ? amenities : [amenities]
+        const extraArray = Array.isArray(extras) ? extras : [extras]
 
         const newRentad = await sql`
-            INSERT INTO rentads (details, price, images, user_id)
-            VALUES (${details}, ${parseFloat(price)}, ${imageArray}, ${parseInt(user_id)})
+            INSERT INTO rentads (property, area, area_unit, rent, rent_currency, rent_period, bedrooms, bathrooms, location_id, location_display, contacts, images, amenities, extras, user_id)
+            VALUES (${property}, ${area}, ${area_unit}, ${rent}, ${rent_currency}, ${rent_period}, ${bedrooms}, ${bathrooms}, ${location_id}, ${location_display}, ${contacts}, ${imageArray}, ${amenityArray}, ${extraArray}, ${parseInt(user_id)})
             RETURNING *
         `
     
@@ -44,5 +40,181 @@ export const create = async (req, res) => {
     } catch (error) {
         console.log("Error in create", error)
         res.status(500).json({ success: false, message: "Internal Server Error" })
+    }
+}
+
+
+export const getRentad = async (req, res) => {
+    try {
+        const { id } = req.params
+
+        const rentad = await sql`
+            SELECT * FROM rentads WHERE id=${id}
+        `
+
+        res.status(200).json({ success: true, data: rentad[0] })
+    } catch (err) {
+        console.log("Error in getRentad function", err)
+        res.status(500).json({ success: false, message: "Internal Server Error" })
+    }
+}
+
+
+import multer from 'multer'
+import imagekit from '../lib/imagekit.js' 
+
+const upload = multer({
+    storage: multer.memoryStorage(),
+    limits: {
+        fileSize: 10 * 1024 * 1024, // 10mb 
+    },
+    fileFilter: (req, file, cb) => {
+        if (file.mimetype.startsWith('image/')) {
+            cb(null, true)
+        } else {
+            cb(new Error('Only images are allowed'))
+        }
+    }
+})
+
+export const uploadImage = async (req, res) => {
+    upload.single('image')(req, res, async (err) => {
+        console.log(1)
+        if (err) {
+            console.error('Multer error:', err)
+            return res.status(400).json({ error: err.message })
+        }
+
+        console.log(req.file)
+        if (!req.file) {
+            return res.status(400).json({ error: 'No file uploaded' })
+        }
+        console.log(2)
+
+        try {
+            const result = await imagekit.upload({
+                file: req.file.buffer,
+                fileName: `rental_${Date.now()}_${req.file.originalname}`,
+                folder: '/rentals',
+                useUniqueFileName: true,
+                transformation: {
+                    pre: 'l-text,i-Watermark,fs-50,l-end',
+                    post: [
+                        {
+                            type: 'transformation',
+                            value: 'w-800,h-600,c-at_max,q-80'
+                        }
+                    ]
+                }
+            })
+
+            console.log('ImageKit upload success:', result)
+
+            res.status(200).json({
+                success: true,
+                imageUrl: result.url,
+                fileId: result.fileId,
+                filePath: result.filePath
+            })
+
+        } catch (error) {
+            console.error('ImageKit upload error:', error)
+            res.status(500).json({ 
+                error: 'Failed to upload image',
+                details: error.message 
+            })
+        }
+    })
+}
+
+
+
+export const searchRentad = async (req, res) => {
+    try {
+        const {
+            property,
+            location,
+            minRent,
+            maxRent,
+            minArea,
+            maxArea,
+            bedrooms,
+            rent_period
+        } = req.query
+
+        let whereConditions = []
+        let params = []
+        let paramCount = 0
+
+        if(property && property.trim() !== ""){
+            paramCount++
+            whereConditions.push(`property ILIKE $${paramCount}`)
+            params.push(`%${property}%`)
+        }
+
+        if(location && location.trim() !== ''){
+            paramCount++
+            whereConditions.push(`location ILIKE $${paramCount}`)
+            params.push(`%${location}%`)
+        }
+
+        if(minRent){
+            paramCount++
+            whereConditions.push(`rent >= $${paramCount}`)
+            params.push(parseFloat(minRent))
+        }
+
+        if(maxRent){
+            paramCount++
+            whereConditions.push(`rent <= $${paramCount}`)
+            params.push(parseFloat(maxRent))
+        }
+
+        if(minArea){
+            paramCount++
+            whereConditions.push(`area >= $${paramCount}`)
+            params.push(parseFloat(minArea))
+        }
+
+        if(maxArea){
+            paramCount++
+            whereConditions.push(`area <= $${paramCount}`)
+            params.push(parseFloat(maxArea))
+        }
+
+        if(bedrooms){
+            paramCount++
+            whereConditions.push(`bedrooms = $${paramCount}`)
+            params.push(parseInt(bedrooms))
+        }
+
+        if(rent_period && rent_period.trim() !== ""){
+            paramCount++
+            whereConditions.push(`rent_period = $${paramCount}`)
+            params.push(rent_period)
+        }
+
+        let queryString = `SELECT * FROM rentads`
+
+        if(whereConditions.length > 0){
+            queryString += ` WHERE ${whereConditions.join(' AND ')}`
+        }
+
+        queryString += ` ORDER BY created_at DESC`
+
+        const result = await sql.query(queryString, params)
+
+        res.status(200).json({ 
+            success: true, 
+            count: result.length,
+            data: result 
+        })
+        
+    } catch (err) {
+        console.log("Error in searchRentad function", err)
+        res.status(500).json({ 
+            success: false, 
+            message: "Internal server error" 
+        })
     }
 }

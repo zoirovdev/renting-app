@@ -1,0 +1,165 @@
+import { create } from "zustand"
+import axios from "axios"
+
+
+
+const BASE_URL = import.meta.env.MODE === "development" ? "http://localhost:8000" : ""
+
+
+export const useUserStore = create((set, get) => ({
+    loading: true,
+    error: null,
+    currentUser: null,
+
+    signupForm: {
+        username: "",
+        firstname: "",
+        lastname: "",
+        phone: "",
+        password: ""
+    },
+
+
+    setSignupForm: (signupForm) => set({ signupForm }),
+    resetSignupForm: () => set({ signupForm: { username:"", firstname:"", lastname:"", phone:"", password:"" }}),
+
+    loginForm: {
+        username: "",
+        password: ""
+    },
+
+    setLoginForm: (loginForm) => set({ loginForm }),
+    resetLoginForm: () => set({ loginForm: { username: "", password: "" } }),
+
+    initializeAuth: async () => {
+        // console.log("🔍 initializeAuth STARTED")
+        
+        const token = localStorage.getItem("token")
+        const userId = localStorage.getItem("userId")
+        
+        // console.log("Token exists:", !!token)
+        // console.log("UserId:", userId)
+
+        if (token && userId) {
+            console.log("🚀 Attempting to fetch user...")
+            try {
+                const userIdNum = parseInt(userId)
+                if (isNaN(userIdNum)) {
+                    console.log("❌ Invalid userId")
+                    throw new Error("Invalid user ID")
+                }
+
+                const url = `${BASE_URL}/api/users/profile/${userIdNum}`
+                // console.log("📡 Fetching from:", url)
+                // console.log("🔑 With token:", token.substring(0, 20) + "...")
+                
+                const response = await axios.get(url, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                })
+
+                // console.log("✅ API Response received:", response.data)
+                // console.log("✅ User data:", response.data.data)
+                
+                set({ error: null, currentUser: response.data.data, loading: false })
+                // console.log("✅ Store updated with currentUser")
+                // console.log("Final store state:", useUserStore.getState())
+            } catch (err) {
+                // console.error("❌ FULL ERROR:", err)
+                // console.error("❌ Response status:", err.response?.status)
+                // console.error("❌ Response data:", err.response?.data)
+                // console.error("❌ Error message:", err.message)
+                
+                localStorage.removeItem("token")
+                localStorage.removeItem("userId")
+                set({ currentUser: null, loading: false, error: null })
+            }
+        } else {
+            // console.log("⚠️ No token or userId found in localStorage")
+            set({ loading: false })
+        }
+        
+        // console.log("🔍 initializeAuth COMPLETED")
+    },
+
+    signup: async () => {
+        set({ loading: true })
+
+        try {
+            const response = await axios.post(`${BASE_URL}/api/users/signup`, get().signupForm)
+            set({ error: null, currentUser: response.data.user })
+            localStorage.setItem("token", response.data.token)
+            localStorage.setItem("userId", response.data.user.id)
+            get().resetSignupForm()
+        } catch (err) {
+            if(err.status === 429) {
+                 set({ error: "Rate limit exceeded", currentUser: null }) 
+            } else if (err.status === 401) {
+                set({ error: "Invalid credentials", currentUser: null })
+            } else {
+                set({ error: "Something went wrong", currentUser: null })
+            }
+        } finally {
+            set({ loading: false })
+        }
+    },
+
+    login: async () => {
+        set({ loading: true })
+
+        try {
+            const response = await axios.post(`${BASE_URL}/api/users/login`, get().loginForm)
+            set({ error: null, currentUser: response.data.user })
+            localStorage.setItem("token", response.data.token)
+            localStorage.setItem("userId", response.data.user.id)
+            get().resetLoginForm()
+        } catch (err) {
+            if(err.status === 429) {
+                 set({ error: "Rate limit exceeded", currentUser: null }) 
+            } else if (err.status === 401) {
+                set({ error: "Invalid credentials", currentUser: null })
+            } else {
+                set({ error: "Something went wrong", currentUser: null })
+            }
+        } finally {
+            set({ loading: false })
+        }
+    },
+
+    getUser: async () => {
+        set({ loading: true })
+
+        try {
+            const userId = parseInt(localStorage.getItem("userId"))
+            const token = localStorage.getItem("token")
+
+            const response = await axios.get(`${BASE_URL}/api/users/profile/${userId}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+
+            set({ error: null, currentUser: response.data.data.user })
+        } catch (err){
+            if(err.status === 429) {
+                 set({ error: "Rate limit exceeded", currentUser: null }) 
+            } else if (err.status === 401) {
+                set({ error: "Invalid credentials", currentUser: null })
+            } else {
+                set({ error: "Something went wrong", currentUser: null })
+            }
+        } finally {
+            set({ loading: false })
+        }
+    },
+
+    logout: () => {
+        localStorage.removeItem("token")
+        localStorage.removeItem("userId")
+        set({ currentUser: null, error: null })
+    }
+}))
+
+
+useUserStore.getState().initializeAuth()
