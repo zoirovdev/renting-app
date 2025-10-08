@@ -14,7 +14,7 @@ const Sidebar = () => {
 
     console.log(page)
     return (
-        <div className="fixed top-0 left-0 right-0">
+        <div className="fixed top-0 left-0 right-0 z-50">
             <div className="flex flex-row justify-center items-center">
                 <p className="text-2xl font-semibold text-gray-900 hover:text-gray-700 absolute top-4 left-8 py-2 px-4">rented.com</p>
                 <div className='flex justify-center items-center bg-gray-100 rounded-full p-1

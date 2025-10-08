@@ -116,6 +116,9 @@ async function initDB(){
             CREATE TABLE IF NOT EXISTS rentads(
                 id SERIAL PRIMARY KEY,
                 user_id INTEGER NOT NULL,
+                user_type VARCHAR(255) NOT NULL,
+                user_phone VARCHAR(255) NOT NULL,
+                user_name VARCHAR(255) NOT NULL,
                 location_id INTEGER NOT NULL,
                 location_display VARCHAR(255) NOT NULL,
                 property VARCHAR(255) NOT NULL,
@@ -126,10 +129,8 @@ async function initDB(){
                 rent_period VARCHAR(255) NOT NULL,
                 bedrooms INTEGER NOT NULL,
                 bathrooms INTEGER NOT NULL,
-                contacts VARCHAR(255) NOT NULL,
                 images TEXT[],
-                amenities TEXT[],
-                extras TEXT[],
+                offers TEXT[],
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 CONSTRAINT fk_user

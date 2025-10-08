@@ -19,20 +19,21 @@ export const getAll = async (req, res) => {
 export const create = async (req, res) => {
     try {
         const { property, area, area_unit, rent, rent_currency, rent_period, bedrooms, bathrooms, 
-            location_id, location_display, contacts, images, amenities, extras, user_id } = req.body
+            location_id, location_display, images, offers, user_id, user_type, user_phone, user_name } = req.body
         console.log(req.body)
 
-        if(!property || !rent || !rent_currency || !rent_period || !bedrooms || !location_id || !location_display || !contacts || !images || !user_id || !amenities || !extras){
+        if(!property || !rent || !rent_currency || !rent_period || !bedrooms || !location_id || !location_display 
+        || !images || !user_id || !user_type || !user_name || !user_phone || !offers){
             return res.status(400).json({ success: false, message: "All fields are required" })
         }
 
         const imageArray = Array.isArray(images) ? images : [images]
-        const amenityArray = Array.isArray(amenities) ? amenities : [amenities]
-        const extraArray = Array.isArray(extras) ? extras : [extras]
+        const offerArray = Array.isArray(offers) ? offers : [offers]
 
         const newRentad = await sql`
-            INSERT INTO rentads (property, area, area_unit, rent, rent_currency, rent_period, bedrooms, bathrooms, location_id, location_display, contacts, images, amenities, extras, user_id)
-            VALUES (${property}, ${area}, ${area_unit}, ${rent}, ${rent_currency}, ${rent_period}, ${bedrooms}, ${bathrooms}, ${location_id}, ${location_display}, ${contacts}, ${imageArray}, ${amenityArray}, ${extraArray}, ${parseInt(user_id)})
+            INSERT INTO rentads (property, area, area_unit, rent, rent_currency, rent_period, bedrooms, bathrooms, location_id, location_display, images, offers, user_id, user_type, user_phone, user_name)
+            VALUES (${property}, ${area}, ${area_unit}, ${rent}, ${rent_currency}, ${rent_period}, ${bedrooms}, ${bathrooms}, ${location_id}, ${location_display}, ${imageArray}, ${offerArray}, 
+            ${parseInt(user_id)}, ${user_type}, ${user_phone}, ${user_name})
             RETURNING *
         `
     

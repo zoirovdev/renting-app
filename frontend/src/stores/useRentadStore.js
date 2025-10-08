@@ -25,17 +25,19 @@ export const useRentadStore = create((set, get) => ({
         bathrooms: 0,
         location_id: 0,
         location_display: "",
-        contacts: "",
         images: [],
-        amenities: [],
-        extras: [],
-        user_id: 0
+        offers: [],
+        user_id: 0,
+        user_type: "",
+        user_phone: "",
+        user_name: ""
     },
 
 
     setFormData: (formData) => set({formData}),
     resetFormData: () => set({ formData: { property:"", area:0, area_unit:"", rent:0, rent_currency:"", rent_period:"", 
-        bedrooms:0, bathrooms:0, location_id:0, location_display: "", contacts:"", images:[], amenities:[], extras:[], user_id:0}}),
+        bedrooms:0, bathrooms:0, location_id:0, location_display: "", images:[], offers:[], user_id:0, user_type:"", 
+        user_phone:"", user_name:""}}),
 
     
     fetchRentads: async () => {

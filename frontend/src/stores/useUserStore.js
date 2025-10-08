@@ -7,9 +7,11 @@ const BASE_URL = import.meta.env.MODE === "development" ? "http://localhost:8000
 
 
 export const useUserStore = create((set, get) => ({
-    loading: true,
+    currentUserloading: true,
+    randomUserLoading: true,
     error: null,
     currentUser: null,
+    randomUser: null,
 
     signupForm: {
         username: "",
@@ -73,18 +75,18 @@ export const useUserStore = create((set, get) => ({
                 
                 localStorage.removeItem("token")
                 localStorage.removeItem("userId")
-                set({ currentUser: null, loading: false, error: null })
+                set({ currentUser: null, currentUserloading: false, error: null })
             }
         } else {
             // console.log("⚠️ No token or userId found in localStorage")
-            set({ loading: false })
+            set({ currentUserloading: false })
         }
         
         // console.log("🔍 initializeAuth COMPLETED")
     },
 
     signup: async () => {
-        set({ loading: true })
+        set({ currentUserloading: true })
 
         try {
             const response = await axios.post(`${BASE_URL}/api/users/signup`, get().signupForm)
@@ -101,12 +103,12 @@ export const useUserStore = create((set, get) => ({
                 set({ error: "Something went wrong", currentUser: null })
             }
         } finally {
-            set({ loading: false })
+            set({ currentUserloading: false })
         }
     },
 
     login: async () => {
-        set({ loading: true })
+        set({ currentUserloading: true })
 
         try {
             const response = await axios.post(`${BASE_URL}/api/users/login`, get().loginForm)
@@ -123,12 +125,12 @@ export const useUserStore = create((set, get) => ({
                 set({ error: "Something went wrong", currentUser: null })
             }
         } finally {
-            set({ loading: false })
+            set({ currentUserloading: false })
         }
     },
 
     getUser: async () => {
-        set({ loading: true })
+        set({ currentUserloading: true })
 
         try {
             const userId = parseInt(localStorage.getItem("userId"))
@@ -150,7 +152,34 @@ export const useUserStore = create((set, get) => ({
                 set({ error: "Something went wrong", currentUser: null })
             }
         } finally {
-            set({ loading: false })
+            set({ currentUserloading: false })
+        }
+    },
+
+    getRandomUser: async (id) => {
+        set({ randomUserLoading: true })
+
+        try {
+            const token = localStorage.getItem("token")
+
+            const response = await axios.get(`${BASE_URL}/api/users/profile/${id}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+
+            // console.log(response.data.data.user)
+            set({ error: null, randomUser: response.data.data.user })
+        } catch (err) {
+            if(err.status === 429) {
+                 set({ error: "Rate limit exceeded", randomUser: null }) 
+            } else if (err.status === 401) {
+                set({ error: "Invalid credentials", randomUser: null })
+            } else {
+                set({ error: "Something went wrong", randomUser: null })
+            }
+        } finally {
+            set({ randomUserLoading: false })
         }
     },
 

@@ -27,37 +27,27 @@ const AddPage = () => {
     const currencyOptions = ['','$', '€', '£', '¥', '₹', '₽']
     const periodOptions = ['','month', 'week', 'day', 'year']
     const unitOptions = ['','m²', 'a', 'h']
+    const userTypeOptions = ['', 'Rieltor', 'Landlord']
 
-    const [selectedAmenities, setSelectedAmenities] = useState([])
-    const amenityOptions = [
-        'not rieltor', 'lease agreement', 'recently renovated', 'rent includes all fees'
-    ]
-
-    const [selectedExtras, setSelectedExtras] = useState([])
-    const extraOptions = [
+    const [selectedOffers, setSelectedOffers] = useState([])
+    const offerOptions = [
+        'lease agreement', 'recently renovated', 'rent includes all fees', 
         'wifi', 'tv', 'air conditioning', 'vacuum cleaner', 'fridge', 'washing machine'
     ]
 
-    const handleAmenity = (amenity) => {
-        setSelectedAmenities(prev =>
-            prev.includes(amenity) ? prev.filter(item => item !== amenity) : [...prev, amenity]
+
+    const handleOffer = (offer) => {
+        setSelectedOffers(prev =>
+            prev.includes(offer) ? prev.filter(item => item !== offer) : [...prev, offer]
         )
     }
 
-    const handleExtra = (extra) => {
-        setSelectedExtras(prev =>
-            prev.includes(extra) ? prev.filter(item => item !== extra) : [...prev, extra]
-        )
-    }
     
     
     useEffect(() => {
-        setFormData({ ...formData, amenities: selectedAmenities })
-    }, [selectedAmenities]);
+        setFormData({ ...formData, offers: selectedOffers })
+    }, [selectedOffers]);
 
-    useEffect(() => {
-        setFormData({ ...formData, extras: selectedExtras })
-    }, [selectedExtras])
 
     useEffect(() => {
         setFormData({ ...formData, images: buildingImages });
@@ -123,7 +113,9 @@ const AddPage = () => {
                             ...formData, 
                             location_id: currentLocation[0].id,
                             location_display: currentLocation[0].county + ', ' + currentLocation[0].city,
-                            user_id: currentUser.id 
+                            user_id: currentUser.id,
+                            user_name: currentUser.firstname + ' ' + currentUser.lastname,
+                            user_phone: currentUser.phone,
                         });
                     }
                 }, 100);
@@ -359,37 +351,22 @@ const AddPage = () => {
                     </div>
                 </div>
                 <div className='border border-gray-200 rounded-[20px] py-2 px-4'>
-                    <label htmlFor="" className="text-gray-500">Amenities</label>
-                    <div className='flex flex-wrap justify-start items-center gap-6'>
-                        {amenityOptions.map(amenity => (
-                            <div className='space-x-1' key={amenity}>
+                    <label htmlFor="" className="text-gray-500">Offers</label>
+                    <div className='flex flex-wrap justify-start items-center gap-2 mt-4'>
+                        {offerOptions.map(offer => (
+                            <div className='space-x-1' key={offer}>
                                 <input
                                     type="checkbox"
-                                    checked={selectedAmenities.includes(amenity)}
-                                    id={amenity}
-                                    onChange={(e) => handleAmenity(amenity)}
+                                    checked={selectedOffers.includes(offer)}
+                                    id={offer}
+                                    onChange={(e) => handleOffer(offer)}
                                     className='cursor-pointer'/>
-                                <label htmlFor={amenity}>{amenity}</label>
+                                <label htmlFor={offer}>{offer}</label>
                             </div>
                         )) }
                     </div>
                 </div>
-                <div className='border border-gray-200 rounded-[20px] py-2 px-4'>
-                    <label htmlFor="" className="text-gray-500">Extras</label>
-                    <div className='flex flex-wrap justify-start items-center gap-6'>
-                        {extraOptions.map(extra => (
-                            <div className='space-x-1' key={extra}>
-                                <input
-                                    type="checkbox"
-                                    checked={selectedExtras.includes(extra)}
-                                    id={extra}
-                                    onChange={() => handleExtra(extra)}
-                                    className='cursor-pointer'/>
-                                <label htmlFor={extra}>{extra}</label>
-                            </div>
-                        )) }
-                    </div>
-                </div>
+                
                 <div className='flex flex-col justify-between items-center border border-gray-200 rounded-[10px] py-2 px-4 gap-2'>
                     <button onClick={() => {getLocation()}} className='border border-gray-200 hover:bg-gray-200 rounded-[10px] py-2 px-4 cursor-pointer w-full'>Get location</button>
                     <input 
@@ -400,12 +377,17 @@ const AddPage = () => {
                         placeholder='Location will appear here...'
                     />
                 </div>
-                <div className='flex flex-row justify-between items-center border border-gray-200 rounded-[10px] py-2 px-4'>
-                    <label className='text-gray-500'>Enter phone number</label>
-                    <input type="text"
-                        className='outline-none '
-                        placeholder='+998 99 476 29 26'
-                        onChange={(e) => setFormData({ ...formData, contacts: e.target.value })}/>
+                <div className='flex justify-between items-center border border-gray-200 rounded-[10px] py-2 px-4'>
+                    <label htmlFor='property' className="text-gray-500">
+                    User type
+                    </label>
+                    
+                    <select value={formData?.user_type} className='outline-none'
+                        onChange={(e) => { setFormData({ ...formData, user_type: e.target.value })}}>
+                        {userTypeOptions.map(userType => (
+                            <option key={userType} value={userType}>{userType}</option>
+                        ))}
+                    </select>
                 </div>
                 <div className='flex justify-between items-center border border-gray-200 rounded-[10px] py-2 px-4'>
                     <input type='file' multiple
