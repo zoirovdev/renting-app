@@ -9,6 +9,7 @@ const BASE_URL = import.meta.env.MODE === "development" ? "http://localhost:8000
 
 export const useRentadStore = create((set, get) => ({
     rentads: [],
+    rentadsWithLocations: [],
     loading: false,
     error: null,
     currentRentad: null,
@@ -91,7 +92,21 @@ export const useRentadStore = create((set, get) => ({
             const response = await axios.get(`${BASE_URL}/api/rentads/search?${params.toString()}`)
             set({ rentads: response.data.data })
         } catch (err) {
-            console.log("Error in createRentad func", err)
+            console.log("Error in searchRentad func", err)
+        } finally {
+            set({ loading:false })
+        }
+    },
+
+    getRentadWithLocs: async () => {
+        set({ loading: true })
+
+        try {
+            const response = await axios.get(`${BASE_URL}/api/rentads/getWithLocations`)
+            set({ rentadsWithLocations: response.data.data, err:null })
+        } catch (err) {
+            if(error.status === 429) set({ err: "Rate limit exceeded", rentadsWithLocations:[] })
+            else set({ err: "something went wrong", rentadsWithLocations: [] })
         } finally {
             set({ loading:false })
         }

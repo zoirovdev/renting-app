@@ -49,11 +49,6 @@ const HomePage = () => {
                     <p key={offer} className="border border-blue-400 rounded-full px-2 text-sm text-gray-600">{offer}</p>
                   ))}
                 </div>
-                {/* <div className='flex flex-row justify-end items-center gap-2'>
-                  <p className='text-sm'>{Math.floor((new Date() - new Date(rentad.created_at)) / (1000 * 60 * 60 * 24))===0 ? 'Today' : 
-                    Math.floor((new Date() - new Date(rentad.created_at)) / (1000 * 60 * 60 * 24))===1 ? 'Yesterday' : 
-                    `${Math.floor((new Date() - new Date(rentad.created_at)) / (1000 * 60 * 60 * 24))} days ago` }</p>
-                </div> */}
               </div>
             </Link>
           ))}

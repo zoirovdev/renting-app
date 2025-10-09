@@ -134,7 +134,7 @@ export const searchRentad = async (req, res) => {
     try {
         const {
             property,
-            location,
+            location_display,
             minRent,
             maxRent,
             minArea,
@@ -153,10 +153,10 @@ export const searchRentad = async (req, res) => {
             params.push(`%${property}%`)
         }
 
-        if(location && location.trim() !== ''){
+        if(location_display && location_display.trim() !== ''){
             paramCount++
-            whereConditions.push(`location ILIKE $${paramCount}`)
-            params.push(`%${location}%`)
+            whereConditions.push(`location_display ILIKE $${paramCount}`)
+            params.push(`%${location_display}%`)
         }
 
         if(minRent){
@@ -213,6 +213,26 @@ export const searchRentad = async (req, res) => {
         
     } catch (err) {
         console.log("Error in searchRentad function", err)
+        res.status(500).json({ 
+            success: false, 
+            message: "Internal server error" 
+        })
+    }
+}
+
+
+
+export const getRentadsWithLocations = async (req, res) => {
+    try {
+        const result = await sql`
+            SELECT rentads.*, locations.lat AS latitude, locations.lon AS longitude FROM rentads
+            INNER JOIN locations ON rentads.location_id = locations.id
+            ORDER BY rentads.created_at DESC
+        `
+
+        res.status(200).json({ success: true, data: result })
+    } catch (err) {
+        console.log("Error in getRentadsWithLocations function in rentadsController", err)
         res.status(500).json({ 
             success: false, 
             message: "Internal server error" 
