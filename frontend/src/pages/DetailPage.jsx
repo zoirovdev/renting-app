@@ -140,7 +140,7 @@ const DetailPage = () => {
                     <p>{currentLocation?.county}</p>,
                     <p>{currentLocation?.city}</p>
                 </div>
-                <DetailMap lat={currentLocation?.lat} lon={currentLocation?.lon}/>
+                <DetailMap lat={currentLocation?.lat} lon={currentLocation?.lon} rentad={currentRentad}/>
                 <p className='mt-8 text-lg font-bold tracking-wider'>Contact {currentRentad?.user_type}</p>
                 <div className='py-2 px-4 border border-gray-200 rounded-[10px] mb-8 flex justify-between items-center'>
                     <p>{currentRentad?.user_name}</p>
