@@ -11,13 +11,14 @@ import { useUserStore } from '../stores/useUserStore'
 const DetailPage = () => {
     const { fetchRentad, currentRentad } = useRentadStore()
     const { id } = useParams()
-    const { getLocation, currentLocation } = useLocationStore()
+    const { getLocation, currentLocation, setCurrentLocation } = useLocationStore()
     const navigate = useNavigate()
 
     const [imagesModal, setImagesModal] = useState(false) 
     const [currentIndex, setCurrentIndex] = useState(0)
     const [copied, setCopied] = useState(false)
     const [shareCopied, setShareCopied] = useState(false)
+
 
 
     const handleShare = async () => {
@@ -140,7 +141,7 @@ const DetailPage = () => {
                     <p>{currentLocation?.county}</p>,
                     <p>{currentLocation?.city}</p>
                 </div>
-                <DetailMap lat={currentLocation?.lat} lon={currentLocation?.lon} rentad={currentRentad}/>
+                <DetailMap lat={currentLocation?.lat} lon={currentLocation?.lon} wth={"800px"}/>
                 <p className='mt-8 text-lg font-bold tracking-wider'>Contact {currentRentad?.user_type}</p>
                 <div className='py-2 px-4 border border-gray-200 rounded-[10px] mb-8 flex justify-between items-center'>
                     <p>{currentRentad?.user_name}</p>

@@ -21,7 +21,7 @@ const HomePage = () => {
 
   return (
       <div className='p-8 relative'>
-        <div className='flex flex-wrap justify-start items-center gap-2 place-content-center mt-8'>
+        <div className='flex flex-wrap justify-center items-center gap-x-2 gap-y-8 place-content-center mt-8'>
           {rentads.length && rentads.map((rentad) => (
             <Link to={`/detail/${rentad.id}`} key={rentad.id} 
               className='flex flex-col justify-start  w-[300px] h-[370px] gap-1'>

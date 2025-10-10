@@ -13,28 +13,12 @@ L.Icon.Default.mergeOptions({
 });
 
 
-const createCustomIcon = (price, currency) => {
+const createCustomIcon = () => {
   return L.divIcon({
     className: 'custom-marker',
     html: `
       <div style="position: relative;">
         <img src="${markerIcon}" style="width: 25px; height: 41px;" />
-        <div style="
-          position: absolute;
-          top: -25px;
-          left: 50%;
-          transform: translateX(-50%);
-          background: linear-gradient(135deg, #84cc16 0%, #65a30d 100%);
-          color: white;
-          padding: 4px 8px;
-          border-radius: 12px;
-          font-size: 12px;
-          font-weight: bold;
-          white-space: nowrap;
-          box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-        ">
-          ${currency}${price}
-        </div>
       </div>
     `,
     iconSize: [25, 41],
@@ -45,12 +29,12 @@ const createCustomIcon = (price, currency) => {
 
 
 
-function DetailMap({lat, lon, rentad}) {
+function DetailMap({lat, lon, wth}) {
     if (!lat || !lon) {
         return (
         <div style={{ 
             height: '500px', 
-            width: '800px', 
+            width: wth, 
             display: 'flex', 
             alignItems: 'center', 
             justifyContent: 'center',
@@ -68,7 +52,7 @@ function DetailMap({lat, lon, rentad}) {
         <MapContainer 
         center={position} 
         zoom={13} 
-        style={{ height: '500px', width: '800px', borderRadius: '12px' }}
+        style={{ height: '500px', width: wth, borderRadius: '12px' }}
         scrollWheelZoom={true}
         >
             <TileLayer
@@ -76,7 +60,7 @@ function DetailMap({lat, lon, rentad}) {
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             />
             <Marker position={position} 
-                icon={createCustomIcon(Math.floor(rentad.rent), rentad.rent_currency || '$')}
+                icon={createCustomIcon()}
             >
                 <Popup>Home location</Popup>
             </Marker>

@@ -26,6 +26,7 @@ export const useLocationStore = create((set, get) => ({
     },
 
     setFormLocation: (formLocation) => set({formLocation}),
+    setCurrentLocation: (currentLocation) => set({currentLocation}),
 
     createLocation: async () => {
         set({ loading: true })
