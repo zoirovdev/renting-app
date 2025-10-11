@@ -1,75 +1,111 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useUserStore } from "../stores/useUserStore.js"
 import { useRentadStore } from "../stores/useRentadStore.js"
-import { MapPin, Wallet, DollarSign, BedDouble } from "lucide-react"
+import { MapPin, Wallet, DollarSign, BedDouble, Copy, Check } from "lucide-react"
 import { Link } from "react-router-dom"
 
 
 const ProfilePage = () => {
     const { currentUser } = useUserStore()
-    const { rentads, fetchRentads } = useRentadStore()
+    const { rentads, getByUserId } = useRentadStore()
+    const [copied, setCopied] = useState(false)
+
+    const copyPhone = async () => {
+        try {
+            if(currentUser){
+                await navigator.clipboard.writeText(currentUser?.phone)
+                setCopied(true)
+                setTimeout(() => setCopied(false), 3000)
+            }
+        } catch (err) {
+            console.log("Error in copyPhone in ProfilePage", err)
+        }
+    }
 
     useEffect(() => {
-        fetchRentads()
-    }, [fetchRentads])
+        if(currentUser){
+            getByUserId(currentUser?.id)
+            console.log(rentads)
+            console.log(1)
+        }
+    }, [getByUserId, currentUser])
 
 
-    console.log(currentUser)
+    // console.log(currentUser)
     return (
-        <div className='flex justify-start items-center pl-[100px] pt-[50px]'>
-            <div>
-                <div className="flex justify-start items-center">
-                    <p className="text-lg font-semibold tracking-widest">Profile info</p>
+        <div className='flex flex-col justify-center items-center gap-8'>
+            <div className="w-[600px] py-4 px-6 space-y-4">
+                <div className="flex flex-row justify-center items-center gap-2 py-2 px-4">
+                    <p className="bg-black text-white rounded-full py-6 px-8 text-4xl">
+                        {currentUser?.firstname[0]}
+                    </p>
+                    <div className="flex flex-col justify-center gap-1 border-y border-r py-2 px-4 border-gray-200 
+                        rounded-r-[10px] overflow-hidden">
+                        <div className="flex flex-row justify-start items-center gap-2 text-lg tracking-wider">
+                            <p>{currentUser?.firstname}</p>
+                            <p>{currentUser?.lastname}</p>
+                        </div>
+                        <p className="text-lime-600">@{currentUser?.username}</p>
+                    </div>
                 </div>
-                <div className="w-[600px] border-l border-gray-200 py-4 px-6 font-serif">
-                    <div className="flex flex-row justify-between items-center border-b border-gray-200 py-2">
-                        <label className="text-gray-500">Username</label>
-                        <p>{currentUser?.username}</p>
-                    </div>
-                    <div className="flex flex-row justify-between items-center border-b border-gray-200 py-2">
-                        <label className="text-gray-500">Firstname</label>
-                        <p>{currentUser?.firstname}</p>
-                    </div>
-                    <div className="flex flex-row justify-between items-center border-b border-gray-200 py-2">
-                        <label className="text-gray-500">Lastname</label>
-                        <p>{currentUser?.lastname}</p>
-                    </div>
-                    <div className="flex flex-row justify-between items-center border-b border-gray-200 py-2">
-                        <label className="text-gray-500">Phone</label>
-                        <p>{currentUser?.phone}</p>
+                <div className="px-4 py-2 rounded-[10px]">
+                    <div className="flex flex-row justify-between items-center py-2 border-b border-gray-200">
+                        <label className="text-gray-500">Phone number</label>
+                        <div className='flex flex-row justify-center items-center gap-2
+                            cursor-pointer py-1 px-4 rounded-[10px] border border-gray-200'
+                            onClick={copyPhone}>
+                            {copied 
+                            ? <Check className='w-4 h-4 text-lime-500'/>
+                            : <Copy className='w-4 h-4 text-gray-400'/>}
+                            <p>{currentUser?.phone}</p>
+                        </div>
                     </div>
                     <div className="flex flex-row justify-between items-center py-2">
-                        <label className="text-gray-500">Joined at</label>
-                        <p>{new Date(currentUser?.created_at).toLocaleDateString()}</p>
+                        <label className="text-gray-500">Member since</label>
+                        <p>{new Date(currentUser?.created_at).toLocaleDateString('en-US', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric'
+                        })}</p>
                     </div>
                 </div>
-                <div className="flex justify-start items-center">
+            </div>
+            <div>
+                <div className="flex justify-center items-center">
                     <p className="text-lg font-semibold tracking-widest">Posted ads</p>
                 </div>
-                <div className="grid grid-cols-3 gap-2">
-                    {rentads && rentads.map(rentad => (
-                        <Link to={`/detail/${rentad.id}`} key={rentad.id} className='flex flex-col justify-start h-[370px] w-[370px]'>
-                            {rentad.images.length && 
-                            <div className='w-full'>
-                                <img src={rentad.images[0]} alt="" className='object-cover w-[370px] h-[200px]'/>  
-                            </div>}
-                            <ul className='ml-4 mt-2 mb-4 space-y-2 font-serif'>
-                                <li className='flex gap-2'>
-                                    <p className='flex justify-center items-center'><MapPin className='w-4 h-4'/></p>
-                                    <p>{rentad.property} in {rentad.location}</p>            
-                                </li>  
-                                <li className='flex gap-2'>
-                                    <p className='flex justify-center items-center'><Wallet className="w-4 h-4"/></p>
-                                    <p className='flex justify-center items-center'>{rentad.rent} <DollarSign className='w-4 h-4'/> per month</p>
-                                </li>
-                                <li className='flex gap-2'>
-                                    <p className='flex justify-center items-center'><BedDouble className='w-4 h-4'/></p>
-                                    <p>has {rentad.bedrooms} rooms</p>
-                                </li>
-                            </ul>
-                        </Link>
-                    ))}
-                </div>
+                <div className='flex flex-wrap justify-center items-center gap-x-2 gap-y-8 place-content-center mt-8'>
+                        {rentads.length && rentads.map((rentad) => (
+                            <Link to={`/detail/${rentad.id}`} key={rentad.id} 
+                                className='flex flex-col justify-start  w-[300px] h-[370px] gap-1'>
+                                {rentad.images.length && 
+                                <div className='w-full'>
+                                    <img src={rentad.images[0]} alt="" className='object-cover w-[300px] h-[200px] rounded-sm'/>  
+                                </div>}
+                                <div className='grid grid-cols-1 py-2 px-4 gap-2'>
+                                    <div className='flex justify-between items-center'>
+                                        <div className='flex flex-col'>
+                                        <p className='font-semibold tracking-wider'>{rentad.property}</p>
+                                        <p className=''>{rentad.bedrooms} <span className='text-gray-500'>{rentad.bedrooms > 1 ? "rooms" : "room"}</span> • {rentad.bathrooms} <span className='text-gray-500'>{rentad.bathrooms > 1 ? "baths" : "bath"}</span></p>
+                                        </div>
+                                        <div className='flex flex-col '>
+                                        <p className='text-lime-500'>{rentad.rent_currency}{(rentad.rent).toString().split('.')[0]}</p>
+                                        <p>{rentad.rent_period}</p>
+                                        </div>
+                                    </div>
+                                    <div className="flex flex-row justify-start items-center gap-2 w-full">
+                                        <MapPin className='w-4 h-4 text-orange-600'/>
+                                        <p>{rentad.location_display}</p>
+                                    </div>
+                                    <div className='flex flex-wrap gap-1'>
+                                        {rentad.offers && rentad.offers.map(offer => (
+                                            <p key={offer} className="border border-blue-400 rounded-full px-2 text-sm text-gray-600">{offer}</p>
+                                        ))}
+                                    </div>
+                                </div>
+                            </Link>
+                        ))}
+                    </div>
             </div>
         </div>
     )

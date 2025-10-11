@@ -47,9 +47,9 @@ export const useRentadStore = create((set, get) => ({
         try {
             const response = await axios.get(`${BASE_URL}/api/rentads`)
             set({ rentads: response.data.data, err:null })
-        } catch (error) {
-            if(error.status === 429) set({ err: "Rate limit exceeded", rentads:[] })
-            else set({ err: "something went wrong", rentads: [] })
+        } catch (err) {
+            if(err.status === 429) set({ error: "Rate limit exceeded", rentads:[] })
+            else set({ error: "something went wrong", rentads: [] })
         } finally {
             set({ loading: false })
         }
@@ -61,9 +61,9 @@ export const useRentadStore = create((set, get) => ({
         try {
             const response = await axios.get(`${BASE_URL}/api/rentads/${id}`)
             set({ currentRentad: response.data.data, err:null })
-        } catch (error) {
-            if(error.status === 429) set({ err: "Rate limit exceeded", currentRentad: null })
-            else set({ err: "Something went wrong", currentRentad: null })
+        } catch (err) {
+            if(err.status === 429) set({ error: "Rate limit exceeded", currentRentad: null })
+            else set({ error: "Something went wrong", currentRentad: null })
         } finally {
             set({ loading: false })
         }
@@ -105,10 +105,25 @@ export const useRentadStore = create((set, get) => ({
             const response = await axios.get(`${BASE_URL}/api/rentads/getWithLocations`)
             set({ rentadsWithLocations: response.data.data, err:null })
         } catch (err) {
-            if(error.status === 429) set({ err: "Rate limit exceeded", rentadsWithLocations:[] })
-            else set({ err: "something went wrong", rentadsWithLocations: [] })
+            if(err.status === 429) set({ error: "Rate limit exceeded", rentadsWithLocations:[] })
+            else set({ error: "something went wrong", rentadsWithLocations: [] })
         } finally {
             set({ loading:false })
+        }
+    },
+
+    getByUserId: async (userId) => {
+        set({ loading: true })
+
+        try {
+            const response = await axios.get(`${BASE_URL}/api/rentads/user/${userId}`)
+            console.log(response.data)
+            set({ error: null, rentads: response.data.data })
+        } catch (err) {
+            if(err.status === 429) set({ error: "Rate limit exceeded", rentads:[] })
+            else set({ error: "something went wrong", rentads: [] })
+        } finally {
+            set({ loading: false })
         }
     }
 }))

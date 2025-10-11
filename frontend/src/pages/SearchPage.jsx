@@ -124,7 +124,7 @@ const SearchPage = () => {
     }
     
     return (
-        <div className='mt-[80px] ml-[100px] mr-[100px] space-y-8'>
+        <div className='mx-[130px] space-y-8'>
             <div className='flex justify-center items-center gap-2'>
                 <button className="border border-gray-100 shadow-md hover:bg-gray-100 py-3 px-4 rounded-full
                     cursor-pointer"
@@ -360,7 +360,7 @@ const SearchPage = () => {
                 
             </div>
 
-            <Map />
+            <Map className="mx-4"/>
             
             <div className='flex flex-wrap justify-center items-center gap-x-2 gap-y-8'>
                 {rentads.length > 0 && rentads.map((rentad) => (
@@ -368,7 +368,7 @@ const SearchPage = () => {
                         className='flex flex-col justify-start w-[300px] h-[370px] gap-1'>
                         {rentad.images.length > 0 && 
                         <div className='w-full'>
-                            <img src={rentad.images[0]} alt="" className='object-cover w-[300px] h-[200px]'/>  
+                            <img src={rentad.images[0]} alt="" className='object-cover w-[300px] h-[200px] rounded-sm'/>  
                         </div>}
                         <div className='grid grid-cols-1 py-2 px-4 gap-2'>
                             <div className='flex justify-between items-center'>

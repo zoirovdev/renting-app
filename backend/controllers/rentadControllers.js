@@ -239,3 +239,22 @@ export const getRentadsWithLocations = async (req, res) => {
         })
     }
 }
+
+
+export const getAllByUserId = async (req, res) => {
+    try {
+        const { id } = req.params
+
+        const result = await sql`
+            SELECT * FROM rentads WHERE user_id=${id} ORDER BY created_at DESC
+        `
+
+        res.status(200).json({ success: true, data: result })
+    } catch (err) {
+        console.log("Error in getAllByUserId function in rentadsController", err)
+        res.status(500).json({ 
+            success: false, 
+            message: "Internal server error" 
+        })
+    }
+}

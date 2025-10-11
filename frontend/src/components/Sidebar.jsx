@@ -41,14 +41,14 @@ const Sidebar = () => {
                         <p>Add</p>
                     </div>
                 </div>
-                <Link to={"/profile"} className='absolute right-16 top-4 py-2 px-4'>
-                    <span className="bg-lime-300 rounded-full py-[10px] px-[15px] text-medium">
-                        {currentUser?.firstname[0].toUpperCase()}
-                    </span>
-                </Link>
-                <Link to={"/settings"} className='absolute right-8 top-4 py-2 px-4'>
-                    <Settings />
-                </Link>
+                <div className='absolute right-16 top-4 flex justify-center items-center p-1 gap-1'>
+                    <Link to={"/profile"} className={`rounded-full py-2 px-3.5 bg-black text-white place-content-center`}>
+                        <span className=''>{currentUser?.firstname[0].toUpperCase()}</span>
+                    </Link>
+                    <Link to={'/settings'} className={`rounded-full p-2.5 border border-gray-200`}>
+                        <Settings className='w-5 h-5'/>
+                    </Link>
+                </div>
             </div>
         </div>
     )

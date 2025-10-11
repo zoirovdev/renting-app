@@ -27,7 +27,7 @@ const HomePage = () => {
               className='flex flex-col justify-start  w-[300px] h-[370px] gap-1'>
               {rentad.images.length && 
               <div className='w-full'>
-                <img src={rentad.images[0]} alt="" className='object-cover w-[300px] h-[200px]'/>  
+                <img src={rentad.images[0]} alt="" className='object-cover w-[300px] h-[200px] rounded-sm'/>  
               </div>}
               <div className='grid grid-cols-1 py-2 px-4 gap-2'>
                 <div className='flex justify-between items-center'>
