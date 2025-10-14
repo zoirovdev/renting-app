@@ -12,6 +12,22 @@ const HomePage = () => {
   const { getLocation, currentLocation } = useLocationStore()
   const [displayRentads, setDisplayRentads] = useState()
 
+  const [sortOptions, setSortOptions] = useState([
+    { id: 1, name: "New", state: false },
+    { id: 2, name: "Recently renovated", state: false },
+    { id: 3, name: "Lowest rents", state: false },
+    { id: 4, name: "Nearby", state: false },
+    { id: 5, name: "Without rieltor", state: false },
+    { id: 6, name: "Lease agreement", state: false } 
+  ])
+
+  const handleSort = async (id) => {
+    setSortOptions(prevOptions => prevOptions.map(option => ({
+      ...option,
+      state: option.id === id
+    })))
+  }
+
   useEffect(() => {
     fetchRentads()
   }, [fetchRentads])
@@ -20,7 +36,19 @@ const HomePage = () => {
   if(loading) return <div>Loading...</div>
 
   return (
-      <div className='relative dark:bg-slate-900 h-screen'>
+      <div className='flex flex-col gap-4 relative dark:bg-slate-900 h-screen py-8'>
+        <div className="flex justify-center items-center">
+          <div className='flex flex-row justify-center items-center gap-1'>
+            {sortOptions.map(option => (
+              <p key={option.id}
+                className={`border border-gray-200 py-2 px-4 rounded-xl cursor-pointer
+                ${option.state ? "border-none bg-gray-900 text-gray-50" : ""}`}
+                onClick={() => handleSort(option.id)}>
+                {option.name}
+              </p>
+            ))}
+          </div>
+        </div>
         <div className='flex flex-wrap justify-start items-center gap-x-2 mx-[130px]'>
           {rentads.length && rentads.map((rentad) => (
             <Link to={`/detail/${rentad.id}`} key={rentad.id} 
