@@ -10,6 +10,7 @@ import LoginPage from "./pages/LoginPage.jsx"
 import SignupPage from "./pages/SignupPage.jsx"
 import PublicRoute from "./components/PublicRoute.jsx"
 import ProtectedRoute from "./components/ProtectedRoute.jsx"
+import { ThemeProvider } from "./components/ThemeProvider.jsx"
 
 
 import 'leaflet/dist/leaflet.css';
@@ -21,7 +22,8 @@ function App() {
   const showSidebar = location.pathname !== "/login" && location.pathname !== "/signup"
 
   return (
-    <div>
+    <ThemeProvider>
+    <div className="dark:bg-[#222831] min-h-screen">
       {showSidebar && <Sidebar />}
        
       <div className={showSidebar ? "mt-[100px]" : ""}>
@@ -71,6 +73,7 @@ function App() {
         </Routes>
       </div>
     </div>
+    </ThemeProvider>
   )
 }
 

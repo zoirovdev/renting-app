@@ -20,8 +20,8 @@ const HomePage = () => {
   if(loading) return <div>Loading...</div>
 
   return (
-      <div className='p-8 relative'>
-        <div className='flex flex-wrap justify-center items-center gap-x-2 gap-y-8 place-content-center mt-8'>
+      <div className='relative dark:bg-slate-900 h-screen'>
+        <div className='flex flex-wrap justify-center items-center gap-x-2 gap-y-8 place-content-center'>
           {rentads.length && rentads.map((rentad) => (
             <Link to={`/detail/${rentad.id}`} key={rentad.id} 
               className='flex flex-col justify-start  w-[300px] h-[370px] gap-1'>
@@ -32,21 +32,21 @@ const HomePage = () => {
               <div className='grid grid-cols-1 py-2 px-4 gap-2'>
                 <div className='flex justify-between items-center'>
                   <div className='flex flex-col'>
-                    <p className='font-semibold tracking-wider'>{rentad.property}</p>
-                    <p className=''>{rentad.bedrooms} <span className='text-gray-500'>{rentad.bedrooms > 1 ? "rooms" : "room"}</span> • {rentad.bathrooms} <span className='text-gray-500'>{rentad.bathrooms > 1 ? "baths" : "bath"}</span></p>
+                    <p className='font-semibold tracking-wider dark:text-slate-50'>{rentad.property}</p>
+                    <p className='dark:text-slate-50'>{rentad.bedrooms} <span className='text-gray-500 dark:text-slate-300'>{rentad.bedrooms > 1 ? "rooms" : "room"}</span> • {rentad.bathrooms} <span className='text-gray-500 dark:text-slate-300'>{rentad.bathrooms > 1 ? "baths" : "bath"}</span></p>
                   </div>
-                  <div className='flex flex-col '>
+                  <div className='flex flex-col dark:text-slate-50'>
                     <p className='text-lime-500'>{rentad.rent_currency}{(rentad.rent).toString().split('.')[0]}</p>
-                    <p>{rentad.rent_period}</p>
+                    <p className='dark:text-slate-300'>{rentad.rent_period}</p>
                   </div>
                 </div>
                 <div className="flex flex-row justify-start items-center gap-2 w-full">
                   <MapPin className='w-4 h-4 text-orange-600'/>
-                  <p>{rentad.location_display}</p>
+                  <p className='dark:text-slate-50'>{rentad.location_display}</p>
                 </div>
                 <div className='flex flex-wrap gap-1'>
                   {rentad.offers && rentad.offers.map(offer => (
-                    <p key={offer} className="border border-blue-400 rounded-full px-2 text-sm text-gray-600">{offer}</p>
+                    <p key={offer} className="border border-blue-400 rounded-full px-2 text-sm text-gray-600 dark:text-slate-300">{offer}</p>
                   ))}
                 </div>
               </div>

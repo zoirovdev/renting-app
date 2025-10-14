@@ -267,38 +267,39 @@ const AddPage = () => {
         <div className='flex justify-center items-center'>
             <div className='w-[800px] mt-[50px] p-8'>
                 <div className='flex flex-col justify-center items-center'>
-                    <p className='text-xl font-bold tracking-wider'>List your property</p>
-                    <p className='text-lg text-gray-500'>Fill details to create your rental listing</p>
+                    <p className='text-xl font-bold tracking-wider dark:text-slate-50'>List your property</p>
+                    <p className='text-lg text-gray-500 dark:text-slate-400'>Fill details to create your rental listing</p>
                 </div>
-                <div className='flex flex-col py-8 px-4 gap-2 border-b border-gray-200'>
+                <div className='flex flex-col py-8 px-4 gap-2 border-b dark:border-slate-700 border-gray-200'>
                     <div className="flex justify-start items-center gap-2">
-                        <House className="w-4 h-4"/>
-                        <label htmlFor='property' className="text-gray-500">
+                        <House className="w-4 h-4 dark:text-slate-100"/>
+                        <label htmlFor='property' className="text-gray-500 dark:text-slate-100">
                             Property type
                         </label>
                     </div>
                     
                     <div className='flex flex-row lg:w-[700px] gap-1'>
                         {propertyOptions && propertyOptions.map(pType => (
-                            <button key={pType} className={`border border-gray-200 rounded-[10px] py-2 px-8
-                                w-[50%] hover:bg-gray-100 cursor-pointer flex justify-center items-center gap-2
+                            <button key={pType} className={`border dark:border-none border-gray-200 rounded-[10px] py-2 px-8
+                                w-[50%] hover:bg-gray-100 dark:hover:bg-slate-700 dark:bg-slate-800 cursor-pointer 
+                                flex justify-center items-center gap-2
                                 ${formData?.property === pType ? "border-2 border-lime-500" : ""}`}
                                 onClick={() => { setFormData({ ...formData, property: pType })}}>
                                 <img src={`${pType==="Apartment" ? "apartment-building.svg" : "house-building.svg"}`} alt="home" 
-                                    className='w-10 h-10 object-cover'/>
-                                <p>{pType}</p>
+                                    className='w-10 h-10 object-cover dark:invert'/>
+                                <p className='dark:text-slate-100'>{pType}</p>
                             </button>
                         ))}
                     </div>
                 </div>
-                <div className='flex flex-col py-8 px-4 gap-2 border-b border-gray-200'>
+                <div className='flex flex-col py-8 px-4 gap-2 border-b dark:border-gray-700 border-gray-200'>
                     <div className='flex justify-start items-center gap-2'>
-                        <Coins className="w-4 h-4"/>
-                        <label htmlFor='rent' className='text-gray-500'>Rent</label>
+                        <Coins className="w-4 h-4 dark:text-slate-100"/>
+                        <label htmlFor='rent' className='text-gray-500 dark:text-slate-100'>Rent</label>
                     </div>
-                    <div className='flex justify-between gap-1'>
+                    <div className='flex justify-between gap-2'>
                         <select value={formData?.rent_currency} 
-                            className={`border border-gray-200 rounded-[10px] py-2 px-4`}
+                            className={`border border-gray-200 dark:border-slate-700 dark:text-slate-400 rounded-[10px] py-2 px-4`}
                             onChange={(e) => { setFormData({ ...formData, rent_currency: e.target.value }) }}>
                             {currencyOptions.map(currency => (
                                 <option key={currency} value={currency}>{currency}</option>
@@ -307,7 +308,8 @@ const AddPage = () => {
                         <input 
                             type="number"
                             id="rent" name="rent"
-                            className="basis-[80%] border border-gray-200 rounded-[10px] px-4
+                            className="basis-[80%] border dark:border-slate-700 border-gray-200
+                                rounded-[10px] px-4 dark:text-slate-100
                                 outline-none appearance-none [&::-webkit-outer-spin-button]:appearance-none 
                                 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 
                                 [&::-webkit-inner-spin-button]:m-0"
@@ -316,7 +318,7 @@ const AddPage = () => {
                             onChange={(e) => { setFormData({ ...formData, rent: e.target.value })}}
                         />
                         <select value={formData?.rent_period}
-                            className='border border-gray-200 rounded-[10px] py-2 px-4'
+                            className='border border-gray-200 dark:border-slate-700 dark:text-slate-400 rounded-[10px] py-2 px-4'
                             onChange={(e) => setFormData({ ...formData, rent_period: e.target.value })}>
                             {periodOptions.map(period => (
                                 <option key={period} value={period}>{period}</option>
@@ -324,16 +326,17 @@ const AddPage = () => {
                         </select>
                     </div>
                 </div>
-                <div className='flex flex-col py-8 px-4 gap-2 border-b border-gray-200'>
+                <div className='flex flex-col py-8 px-4 gap-2 border-b dark:border-slate-700 border-gray-200'>
                     <div className="flex flex-row justify-start items-center gap-2">
-                        <Scan className="w-4 h-4"/>
-                        <label htmlFor='area' className='text-gray-500'>Total Area</label>
+                        <Scan className="w-4 h-4 dark:text-slate-100"/>
+                        <label htmlFor='area' className='text-gray-500 dark:text-slate-100'>Total Area</label>
                     </div>
-                    <div className='flex justify-between gap-1'>
+                    <div className='flex justify-between gap-2'>
                         <input 
                             type="number"
                             id="area" name="area"
-                            className="outline-none basis-[90%] border border-gray-200 rounded-[10px] py-2 px-4
+                            className="outline-none basis-[90%] border border-gray-200 dark:border-slate-700
+                                rounded-[10px] py-2 px-4 dark:text-slate-100
                                 appearance-none [&::-webkit-outer-spin-button]:appearance-none 
                                 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 
                                 [&::-webkit-inner-spin-button]:m-0"
@@ -342,7 +345,7 @@ const AddPage = () => {
                             onChange={(e) => { setFormData({ ...formData, area: e.target.value })}}
                         />
                         <select value={formData?.area_unit}
-                            className='border border-gray-200 rounded-[10px] py-2 px-4'
+                            className='border border-gray-200 dark:border-slate-700 dark:text-slate-400 rounded-[10px] py-2 px-4'
                             onChange={(e) => setFormData({ ...formData, area_unit: e.target.value})}>
                             {unitOptions.map(unit => (
                                 <option key={unit} value={unit}>{unit}</option>
@@ -350,24 +353,26 @@ const AddPage = () => {
                         </select>
                     </div>
                 </div>
-                <div className='flex flex-col border-b border-gray-200 py-6'>
+                <div className='flex flex-col border-b dark:border-slate-700 border-gray-200 py-6'>
 
                     <div className='flex justify-between items-center py-2 px-4'>
                         <div className='flex justify-start items-center gap-2'>
-                            <Bed className='w-4 h-4'/>
-                            <label className='text-gray-500'>Bedrooms</label>
+                            <Bed className='w-4 h-4 dark:text-slate-100'/>
+                            <label className='text-gray-500 dark:text-slate-100'>Bedrooms</label>
                         </div>
                         <div className='flex flex-row justify-center items-center'>
                             <Minus 
-                                className='border border-gray-200 rounded-full p-2 w-8 h-8 cursor-pointer hover:bg-gray-100' 
+                                className='border border-gray-200 dark:border-slate-700 dark:text-slate-100
+                                rounded-full p-2 w-8 h-8 cursor-pointer hover:bg-gray-100 dark:hover:bg-slate-700' 
                                 onClick={() => updateBedrooms(-1)}
                             />
-                            <input className="w-[40px] ml-2 text-center"
+                            <input className="w-[40px] ml-2 text-center dark:text-slate-100"
                                 onChange={(e) => setFormData({ ...formData, bedrooms: e.target.value })}
                                 value={formData.bedrooms}
                             />
                             <Plus 
-                                className='border border-gray-200 rounded-full p-2 w-8 h-8 cursor-pointer hover:bg-gray-100' 
+                                className='border border-gray-200 dark:border-slate-700 dark:text-slate-100
+                                rounded-full p-2 w-8 h-8 cursor-pointer hover:bg-gray-100 dark:hover:bg-slate-700' 
                                 onClick={() => updateBedrooms(+1)}
                             />
                         </div>
@@ -375,29 +380,31 @@ const AddPage = () => {
 
                     <div className='flex justify-between items-center py-2 px-4'>
                         <div className='flex justify-start items-center gap-2'>
-                            <Bath className='w-4 h-4'/>
-                            <label htmlFor='bathrooms' className='text-gray-500'>Bathrooms</label>
+                            <Bath className='w-4 h-4 dark:text-slate-100'/>
+                            <label htmlFor='bathrooms' className='text-gray-500 dark:text-slate-100'>Bathrooms</label>
                         </div>
                         <div className='flex flex-row justify-center items-center'>
                             <Minus 
-                                className='border border-gray-200 rounded-full p-2 w-8 h-8 cursor-pointer hover:bg-gray-100' 
+                                className='border border-gray-200 dark:border-slate-700 dark:text-slate-100
+                                rounded-full p-2 w-8 h-8 cursor-pointer hover:bg-gray-100 dark:hover:bg-slate-700' 
                                 onClick={() => updateBathrooms(-1)}
                             />
-                            <input className="w-[40px] ml-2 text-center"
+                            <input className="w-[40px] ml-2 text-center dark:text-slate-100"
                                 onChange={(e) => setFormData({ ...formData, bathrooms: e.target.value })}
                                 value={formData.bathrooms}
                             />
                             <Plus 
-                                className='border border-gray-200 rounded-full p-2 w-8 h-8 cursor-pointer hover:bg-gray-100' 
+                                className='border border-gray-200 dark:border-slate-700 dark:text-slate-100
+                                rounded-full p-2 w-8 h-8 cursor-pointer hover:bg-gray-100 dark:hover:bg-slate-700' 
                                 onClick={() => updateBathrooms(+1)}
                             />
                         </div>
                     </div>
                 </div>
-                <div className='flex flex-col py-8 px-4 gap-2 border-b border-gray-200'>
+                <div className='flex flex-col py-8 px-4 gap-2 border-b dark:border-slate-700 border-gray-200'>
                     <div className='flex justify-start items-center gap-2'>
-                        <HandCoins className='w-4 h-4'/>    
-                        <label htmlFor="" className="text-gray-500">Offers</label>
+                        <HandCoins className='w-4 h-4 dark:text-slate-100'/>    
+                        <label htmlFor="" className="text-gray-500 dark:text-slate-100">Offers</label>
                     </div>
                     <div className='grid lg:grid-cols-3 flex-wrap justify-start items-center gap-2'>
                         {offerOptions.map(offer => (
@@ -408,26 +415,28 @@ const AddPage = () => {
                                     id={offer}
                                     onChange={(e) => handleOffer(offer)}
                                     className='cursor-pointer'/>
-                                <label htmlFor={offer}>{offer}</label>
+                                <label htmlFor={offer} className='dark:text-slate-100'>{offer}</label>
                             </div>
                         )) }
                     </div>
                 </div>
                 
-                <div className='flex flex-col justify-between items-center py-8 px-4 gap-2 border-b border-gray-200'>
+                <div className='flex flex-col justify-between items-center py-8 px-4 gap-2 border-b dark:border-slate-700
+                    border-gray-200'>
                     <DetailMap lat={currentLocation?.lat} lon={currentLocation?.lon} wth={"700px"}/>  
                     <input 
                         type='text'
-                        className='outline-none overflow-scroll border border-gray-200 rounded-[10px] py-2 px-4 w-full'
+                        className='outline-none overflow-scroll border border-gray-200 dark:border-slate-700
+                        rounded-[10px] py-2 px-4 w-full dark:text-slate-100'
                         value={inputLocation || ''}
                         readOnly
                         placeholder='Location will appear here...'
                     />
                 </div>
-                <div className='flex flex-col py-8 px-4 gap-2 border-b border-gray-200'>
+                <div className='flex flex-col py-8 px-4 gap-2 border-b dark:border-slate-700 border-gray-200'>
                     <div className='flex justify-start items-center gap-2'>
-                        <User className='w-4 h-4'/>
-                        <label htmlFor='property' className="text-gray-500">
+                        <User className='w-4 h-4 dark:text-slate-100'/>
+                        <label htmlFor='property' className="text-gray-500 dark:text-slate-100">
                         I am
                         </label>
                     </div>
@@ -435,8 +444,8 @@ const AddPage = () => {
                     <div className='flex flex-row gap-1'>
                         {userTypeOptions.map(userType => (
                             <button key={userType} 
-                                className={`border border-gray-200 rounded-[10px] py-2 px-8
-                                w-[50%] hover:bg-gray-100 cursor-pointer 
+                                className={`border border-gray-200 dark:border-slate-700 rounded-[10px] py-2 px-8
+                                w-[50%] hover:bg-gray-100 dark:hover:bg-slate-700 cursor-pointer dark:text-slate-100
                                 ${formData?.user_type === userType ? "border-2 border-lime-500" : ""}`}
                                 onClick={() => { setFormData({ ...formData, user_type: userType })}}
                             >
@@ -445,7 +454,8 @@ const AddPage = () => {
                         ))}
                     </div>
                 </div>
-                <div className='flex justify-between items-center py-2 px-4 my-8 border border-gray-200 rounded-[20px]'>
+                <div className='flex justify-between items-center py-2 px-4 my-8 
+                    border dark:border-slate-700 border-gray-200 rounded-[20px] dark:text-slate-100'>
                     <input type='file' multiple
                         accept='image/*'
                         className="hidden"
@@ -457,7 +467,8 @@ const AddPage = () => {
                             uploading ? 'opacity-50 cursor-not-allowed' : ''
                         }`}>
                         <div className='flex flex-row justify-center items-center gap-4'>
-                            <Upload className='w-10 h-10 text-gray-500 p-2 border border-dashed border-gray-200 rounded-full'/>
+                            <Upload className='w-10 h-10 text-gray-500 dark:text-slate-100 p-2 border border-dashed border-gray-200
+                            rounded-full'/>
                             <p>{uploading ? 'Uploading...' : 'Upload images(PNG, JPG up to 10 mb)'}</p>
                         </div>
                     </label>
@@ -467,12 +478,13 @@ const AddPage = () => {
                 {Object.keys(uploadProgress).length > 0 && (
                     <div className='space-y-2 my-2'>
                         {Object.entries(uploadProgress).map(([fileName, status]) => (
-                            <div key={fileName} className='flex justify-between items-center p-2 border border-gray-200 rounded'>
+                            <div key={fileName} className='flex justify-between items-center p-2 
+                                border border-gray-200 dark:border-slate-700 dark:text-slate-100 rounded'>
                                 <span className='text-sm truncate'>{fileName}</span>
                                 <span className={`text-xs px-2 py-1 rounded ${
-                                    status === 'uploading' ? 'bg-blue-100 text-blue-800' :
-                                    status === 'completed' ? 'bg-green-100 text-green-800' :
-                                    'bg-red-100 text-red-800'
+                                    status === 'uploading' ? 'bg-blue-100 dark:bg-slate-700 text-blue-800' :
+                                    status === 'completed' ? 'bg-green-100 dark:bg-slate-700 text-green-800' :
+                                    'bg-red-100 dark:bg-slate-700 text-red-800'
                                 }`}>
                                     {status}
                                 </span>
@@ -514,7 +526,8 @@ const AddPage = () => {
                 )}
 
                 <div className='flex justify-between'>
-                    <button className='border border-gray-200 hover:bg-gray-200 rounded-[10px] py-2 px-4 cursor-pointer'
+                    <button className='border border-gray-200 dark:border-slate-700 hover:bg-gray-200 dark:hover:bg-slate-700
+                        rounded-[10px] py-2 px-4 cursor-pointer dark:text-slate-100'
                         onClick={() => resetFormData()}>
                         Clear
                     </button>
