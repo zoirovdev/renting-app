@@ -33,7 +33,7 @@ const ProfilePage = () => {
 
     // console.log(currentUser)
     return (
-        <div className='flex flex-col justify-center items-center gap-8 p-4'>
+        <div className='flex flex-col items-center gap-8 py-8'>
             <div className="w-[600px] py-4 px-6 space-y-4">
                 <div className="flex flex-col justify-center items-center
                     border border-slate-200 shadow-xl rounded-xl py-6 gap-2">
@@ -61,14 +61,16 @@ const ProfilePage = () => {
                     </p>
                 </div>
             </div>
+
+            {/* List */}
             <div className="space-y-4">
                 <div className="flex justify-center items-center">
                     <p className="text-lg font-semibold tracking-widest dark:text-slate-100">Posted ads</p>
                 </div>
-                <div className='flex flex-wrap justify-center items-center gap-x-2 gap-y-8 place-content-center'>
+                <div className='flex flex-wrap justify-start items-center gap-x-2 mx-[130px]'>
                     {rentads.length && rentads.map((rentad) => (
                     <Link to={`/detail/${rentad.id}`} key={rentad.id} 
-                        className='flex flex-col justify-start  w-[300px] h-[370px] gap-1'>
+                        className='flex flex-col justify-start  w-[300px] h-[400px] gap-1 pb-4'>
                         {rentad.images.length && 
                         <div className='w-full'>
                         <img src={rentad.images[0]} alt="" className='object-cover w-[300px] h-[200px] rounded-xl'/>  
@@ -89,9 +91,19 @@ const ProfilePage = () => {
                             <p className='dark:text-slate-50'>{rentad.location_display}</p>
                         </div>
                         <div className='flex flex-wrap gap-1'>
-                            {rentad.offers && rentad.offers.map(offer => (
-                            <p key={offer} className="border border-blue-400 rounded-xl px-2 text-sm text-gray-600 dark:text-slate-300">{offer}</p>
+                            {rentad.offers && rentad.offers.slice(0, 4).map(offer => (
+                                <p key={offer} 
+                                    className="border border-blue-400 rounded-xl px-2 text-sm text-gray-600
+                                        dark:text-slate-300">
+                                    {offer}
+                                </p>
                             ))}
+                            {rentad.offers.length > 4 && (
+                                <p className="border border-blue-400 rounded-xl px-2 text-sm text-gray-600
+                                dark:text-slate-300">
+                                +{rentad.offers.length - 4} more
+                                </p>
+                            )}
                         </div>
                         </div>
                     </Link>

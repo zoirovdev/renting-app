@@ -1,4 +1,4 @@
-import { Plus, Minus, Upload, X, House, DollarSign, Coins, Scan, Bed, Bath, HandCoins, User } from 'lucide-react'
+import { Plus, Minus, Upload, X, House, DollarSign, Coins, Scan, Bed, Bath, HandCoins, User, MapPin } from 'lucide-react'
 import { useState, useRef, useEffect } from 'react'
 import { useRentadStore } from '../stores/useRentadStore'
 import { useLocation, useNavigate } from "react-router-dom"
@@ -107,9 +107,9 @@ const AddPage = () => {
                 
                 // Set form location all at once
                 setFormLocation(locationData);
-                
+
                 // Set input display
-                setInputLocation(data?.display_name);
+                setInputLocation(`${locationData.neighbourhood ? locationData.neighbourhood + ', ' : locationData.road ? locationData.road + ', ' : ''}${locationData.county}, ${locationData.city}`);
                 
                 await createLocation();
                 setTimeout(() => {
@@ -256,34 +256,32 @@ const AddPage = () => {
         setBuildingImages(prev => prev.filter((_, i) => i !== index))
     }
 
-    useEffect(() => {
-        getLocation()
-    }, [])
-
     console.log(formData)
     console.log(currentLocation)
 
     return (
         <div className='flex justify-center items-center'>
-            <div className='w-[800px] mt-[50px] p-8'>
+            <div className='w-[800px] mt-[50px] p-8 space-y-4'>
                 <div className='flex flex-col justify-center items-center'>
                     <p className='text-xl font-bold tracking-wider dark:text-slate-50'>List your property</p>
                     <p className='text-lg text-gray-500 dark:text-slate-400'>Fill details to create your rental listing</p>
                 </div>
-                <div className='flex flex-col py-8 px-4 gap-2 border-b dark:border-slate-700 border-gray-200'>
-                    <div className="flex justify-start items-center gap-2">
+                {/* Property */}
+                <div className='flex flex-col justify-center items-center pt-4 pb-6 px-6 gap-2 
+                    border dark:border-slate-700 border-gray-200 rounded-xl'>
+                    <div className="flex justify-start items-center gap-2 w-full">
                         <House className="w-4 h-4 dark:text-slate-100"/>
                         <label htmlFor='property' className="text-gray-500 dark:text-slate-100">
                             Property type
                         </label>
                     </div>
                     
-                    <div className='flex flex-row lg:w-[700px] gap-1'>
+                    <div className='flex flex-row justify-center w-full gap-2'>
                         {propertyOptions && propertyOptions.map(pType => (
-                            <button key={pType} className={`border dark:border-none border-gray-200 rounded-xl py-2 px-8
+                            <button key={pType} className={`border dark:border-none border-gray-200 rounded-xl py-4 px-8
                                 w-[50%] hover:bg-gray-100 dark:hover:bg-slate-700 dark:bg-slate-800 cursor-pointer 
                                 flex justify-center items-center gap-2
-                                ${formData?.property === pType ? "border-2 border-lime-500" : ""}`}
+                                focus:ring-2 focus:ring-lime-500`}
                                 onClick={() => { setFormData({ ...formData, property: pType })}}>
                                 <img src={`${pType==="Apartment" ? "apartment-building.svg" : "house-building.svg"}`} alt="home" 
                                     className='w-10 h-10 object-cover dark:invert'/>
@@ -292,70 +290,76 @@ const AddPage = () => {
                         ))}
                     </div>
                 </div>
-                <div className='flex flex-col py-8 px-4 gap-2 border-b dark:border-gray-700 border-gray-200'>
-                    <div className='flex justify-start items-center gap-2'>
-                        <Coins className="w-4 h-4 dark:text-slate-100"/>
-                        <label htmlFor='rent' className='text-gray-500 dark:text-slate-100'>Rent</label>
-                    </div>
-                    <div className='flex justify-between gap-2'>
-                        <select value={formData?.rent_currency} 
-                            className={`border border-gray-200 dark:border-slate-700 dark:text-slate-400 rounded-xl py-2 px-4`}
-                            onChange={(e) => { setFormData({ ...formData, rent_currency: e.target.value }) }}>
-                            {currencyOptions.map(currency => (
-                                <option key={currency} value={currency}>{currency}</option>
-                            ))}
-                        </select>
-                        <input 
-                            type="number"
-                            id="rent" name="rent"
-                            className="basis-[80%] border dark:border-slate-700 border-gray-200
-                                rounded-xl px-4 dark:text-slate-100
-                                outline-none appearance-none [&::-webkit-outer-spin-button]:appearance-none 
-                                [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 
-                                [&::-webkit-inner-spin-button]:m-0"
-                            placeholder='amount of rent payment'
-                            value={formData?.rent || ''} 
-                            onChange={(e) => { setFormData({ ...formData, rent: e.target.value })}}
-                        />
-                        <select value={formData?.rent_period}
-                            className='border border-gray-200 dark:border-slate-700 dark:text-slate-400 rounded-xl py-2 px-4'
-                            onChange={(e) => setFormData({ ...formData, rent_period: e.target.value })}>
-                            {periodOptions.map(period => (
-                                <option key={period} value={period}>{period}</option>
-                            ))}
-                        </select>
-                    </div>
-                </div>
-                <div className='flex flex-col py-8 px-4 gap-2 border-b dark:border-slate-700 border-gray-200'>
-                    <div className="flex flex-row justify-start items-center gap-2">
-                        <Scan className="w-4 h-4 dark:text-slate-100"/>
-                        <label htmlFor='area' className='text-gray-500 dark:text-slate-100'>Total Area</label>
-                    </div>
-                    <div className='flex justify-between gap-2'>
-                        <input 
-                            type="number"
-                            id="area" name="area"
-                            className="outline-none basis-[90%] border border-gray-200 dark:border-slate-700
-                                rounded-xl py-2 px-4 dark:text-slate-100
-                                appearance-none [&::-webkit-outer-spin-button]:appearance-none 
-                                [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 
-                                [&::-webkit-inner-spin-button]:m-0"
-                            placeholder='amount of total area'
-                            value={formData?.area || ''}
-                            onChange={(e) => { setFormData({ ...formData, area: e.target.value })}}
-                        />
-                        <select value={formData?.area_unit}
-                            className='border border-gray-200 dark:border-slate-700 dark:text-slate-400 rounded-xl py-2 px-4'
-                            onChange={(e) => setFormData({ ...formData, area_unit: e.target.value})}>
-                            {unitOptions.map(unit => (
-                                <option key={unit} value={unit}>{unit}</option>
-                            ))}
-                        </select>
-                    </div>
-                </div>
-                <div className='flex flex-col border-b dark:border-slate-700 border-gray-200 py-6'>
 
-                    <div className='flex justify-between items-center py-2 px-4'>
+                {/* Rent and Area */}
+                <div className='flex flex-col border dark:border-gray-700 border-gray-200 rounded-xl'>
+                    <div className='flex flex-col pt-4 pb-6 px-6 gap-2 border-b border-gray-200 dark:border-gray-700'>
+                        <div className='flex justify-start items-center gap-2'>
+                            <Coins className="w-4 h-4 dark:text-slate-100"/>
+                            <label htmlFor='rent' className='text-gray-500 dark:text-slate-100'>Rent</label>
+                        </div>
+                        <div className='flex justify-between gap-2'>
+                            <select value={formData?.rent_currency} 
+                                className={`border border-gray-200 dark:border-slate-700 dark:text-slate-400 rounded-xl py-2 px-4`}
+                                onChange={(e) => { setFormData({ ...formData, rent_currency: e.target.value }) }}>
+                                {currencyOptions.map(currency => (
+                                    <option key={currency} value={currency}>{currency}</option>
+                                ))}
+                            </select>
+                            <input 
+                                type="number"
+                                id="rent" name="rent"
+                                className="basis-[80%] border dark:border-slate-700 border-gray-200
+                                    rounded-xl px-4 dark:text-slate-100
+                                    outline-none appearance-none [&::-webkit-outer-spin-button]:appearance-none 
+                                    [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 
+                                    [&::-webkit-inner-spin-button]:m-0"
+                                placeholder='amount of rent payment'
+                                value={formData?.rent || ''} 
+                                onChange={(e) => { setFormData({ ...formData, rent: e.target.value })}}
+                            />
+                            <select value={formData?.rent_period}
+                                className='border border-gray-200 dark:border-slate-700 dark:text-slate-400 rounded-xl py-2 px-4'
+                                onChange={(e) => setFormData({ ...formData, rent_period: e.target.value })}>
+                                {periodOptions.map(period => (
+                                    <option key={period} value={period}>{period}</option>
+                                ))}
+                            </select>
+                        </div>
+                    </div>
+                    <div className='flex flex-col pt-4 pb-6 px-6 gap-2'>
+                        <div className="flex flex-row justify-start items-center gap-2">
+                            <Scan className="w-4 h-4 dark:text-slate-100"/>
+                            <label htmlFor='area' className='text-gray-500 dark:text-slate-100'>Total Area</label>
+                        </div>
+                        <div className='flex justify-between gap-2'>
+                            <input 
+                                type="number"
+                                id="area" name="area"
+                                className="outline-none basis-[90%] border border-gray-200 dark:border-slate-700
+                                    rounded-xl py-2 px-4 dark:text-slate-100
+                                    appearance-none [&::-webkit-outer-spin-button]:appearance-none 
+                                    [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 
+                                    [&::-webkit-inner-spin-button]:m-0"
+                                placeholder='amount of total area'
+                                value={formData?.area || ''}
+                                onChange={(e) => { setFormData({ ...formData, area: e.target.value })}}
+                            />
+                            <select value={formData?.area_unit}
+                                className='border border-gray-200 dark:border-slate-700 dark:text-slate-400 rounded-xl py-2 px-4'
+                                onChange={(e) => setFormData({ ...formData, area_unit: e.target.value})}>
+                                {unitOptions.map(unit => (
+                                    <option key={unit} value={unit}>{unit}</option>
+                                ))}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Rooms */}
+                <div className='flex flex-col border dark:border-slate-700 border-gray-200 rounded-xl'>
+
+                    <div className='flex justify-between items-center pt-4 pb-6 px-6 border-b border-gray-200 dark:border-gray-700'>
                         <div className='flex justify-start items-center gap-2'>
                             <Bed className='w-4 h-4 dark:text-slate-100'/>
                             <label className='text-gray-500 dark:text-slate-100'>Bedrooms</label>
@@ -378,7 +382,7 @@ const AddPage = () => {
                         </div>
                     </div>
 
-                    <div className='flex justify-between items-center py-2 px-4'>
+                    <div className='flex justify-between items-center pt-4 pb-6 px-6'>
                         <div className='flex justify-start items-center gap-2'>
                             <Bath className='w-4 h-4 dark:text-slate-100'/>
                             <label htmlFor='bathrooms' className='text-gray-500 dark:text-slate-100'>Bathrooms</label>
@@ -401,14 +405,17 @@ const AddPage = () => {
                         </div>
                     </div>
                 </div>
-                <div className='flex flex-col py-8 px-4 gap-2 border-b dark:border-slate-700 border-gray-200'>
-                    <div className='flex justify-start items-center gap-2'>
+
+                {/* Offers */}
+                <div className='flex flex-col justify-center items-center pt-4 pb-6 px-6 gap-2
+                    border dark:border-gray-700 border-gray-200 rounded-xl'>
+                    <div className='flex flex-row justify-start items-center gap-2 w-full'>
                         <HandCoins className='w-4 h-4 dark:text-slate-100'/>    
                         <label htmlFor="" className="text-gray-500 dark:text-slate-100">Offers</label>
                     </div>
-                    <div className='grid lg:grid-cols-3 flex-wrap justify-start items-center gap-2'>
+                    <div className='grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 w-full'>
                         {offerOptions.map(offer => (
-                            <div className='space-x-1' key={offer}>
+                            <div className='basis-xs space-x-2' key={offer}>
                                 <input
                                     type="checkbox"
                                     checked={selectedOffers.includes(offer)}
@@ -421,19 +428,35 @@ const AddPage = () => {
                     </div>
                 </div>
                 
-                <div className='flex flex-col justify-between items-center py-8 px-4 gap-2 border-b dark:border-slate-700
-                    border-gray-200'>
-                    <DetailMap lat={currentLocation?.lat} lon={currentLocation?.lon} wth={"700px"}/>  
-                    <input 
-                        type='text'
-                        className='outline-none overflow-scroll border border-gray-200 dark:border-slate-700
-                        rounded-xl py-2 px-4 w-full dark:text-slate-100'
-                        value={inputLocation || ''}
-                        readOnly
-                        placeholder='Location will appear here...'
-                    />
+                {/* Location */}
+                <div className='flex flex-col justify-center items-center gap-2 
+                    border dark:border-gray-700 border-gray-200 rounded-xl'>
+                    <DetailMap lat={currentLocation?.lat} lon={currentLocation?.lon} wth={"734px"}/>  
+                    <div className='flex flex-row justify-between items-center w-full gap-2 pt-4 pb-6 px-6'>
+                        <div className='flex flex-row justify-start items-center gap-2 basis-3/4'>
+                            <MapPin className="w-4 h-4"/>
+                            <input 
+                                type='text'
+                                className='outline-none basis-[90%] overflow-scroll 
+                                border-b border-gray-200 dark:border-slate-700
+                                py-2 px-4 dark:text-slate-100'
+                                value={inputLocation || ''}
+                                readOnly
+                                placeholder='Location will appear here...'
+                            />
+                        </div>
+                        <button 
+                            className='basis-1/4 py-2 px-4 cursor-pointer
+                            border border-gray-200 dark:border-gray-700 hover:bg-gray-100 rounded-xl'
+                            onClick={getLocation}>
+                            Get location
+                        </button>
+                    </div>
                 </div>
-                <div className='flex flex-col py-8 px-4 gap-2 border-b dark:border-slate-700 border-gray-200'>
+
+                {/* User */}
+                <div className='flex flex-col pt-4 pb-6 px-6 gap-2 
+                    border dark:border-slate-700 border-gray-200 rounded-xl'>
                     <div className='flex justify-start items-center gap-2'>
                         <User className='w-4 h-4 dark:text-slate-100'/>
                         <label htmlFor='property' className="text-gray-500 dark:text-slate-100">
@@ -446,7 +469,7 @@ const AddPage = () => {
                             <button key={userType} 
                                 className={`border border-gray-200 dark:border-slate-700 rounded-xl py-2 px-8
                                 w-[50%] hover:bg-gray-100 dark:hover:bg-slate-700 cursor-pointer dark:text-slate-100
-                                ${formData?.user_type === userType ? "border-2 border-lime-500" : ""}`}
+                                focus:ring-2 focus:ring-lime-500`}
                                 onClick={() => { setFormData({ ...formData, user_type: userType })}}
                             >
                                 {userType}
@@ -454,8 +477,10 @@ const AddPage = () => {
                         ))}
                     </div>
                 </div>
+
+                {/* Images */}
                 <div className='flex justify-between items-center py-2 px-4 my-8 
-                    border dark:border-slate-700 border-gray-200 rounded-[20px] dark:text-slate-100'>
+                    border dark:border-slate-700 border-gray-200 rounded-xl dark:text-slate-100'>
                     <input type='file' multiple
                         accept='image/*'
                         className="hidden"
@@ -478,7 +503,7 @@ const AddPage = () => {
                 {Object.keys(uploadProgress).length > 0 && (
                     <div className='space-y-2 my-2'>
                         {Object.entries(uploadProgress).map(([fileName, status]) => (
-                            <div key={fileName} className='flex justify-between items-center p-2 
+                            <div key={fileName} className='flex justify-between items-center py-2 px-4 
                                 border border-gray-200 dark:border-slate-700 dark:text-slate-100 rounded-xl'>
                                 <span className='text-sm truncate'>{fileName}</span>
                                 <span className={`text-xs px-2 py-1 rounded ${
