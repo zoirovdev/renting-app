@@ -96,7 +96,7 @@ export const useUserStore = create((set, get) => ({
             get().resetSignupForm()
         } catch (err) {
             if(err.status === 429) {
-                 set({ error: "Rate limit exceeded", currentUser: null }) 
+                set({ error: "Rate limit exceeded", currentUser: null }) 
             } else if (err.status === 401) {
                 set({ error: "Invalid credentials", currentUser: null })
             } else {
@@ -187,6 +187,33 @@ export const useUserStore = create((set, get) => ({
         localStorage.removeItem("token")
         localStorage.removeItem("userId")
         set({ currentUser: null, error: null })
+    },
+
+    changePassword: async (currentPassword, newPassword) => {
+        set({ loading: true })
+
+        try {
+            const token = localStorage.getItem('token')
+            const response = await axios.put(`${BASE_URL}/api/users/change-password`,{
+                currentPassword: currentPassword, 
+                newPassword: newPassword
+            },
+            {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+        } catch (err) {
+            if(err.status === 429) {
+                set({ error: "Rate limit exceeded", randomUser: null }) 
+            } else if (err.status === 401) {
+                set({ error: "Invalid credentials", randomUser: null })
+            } else {
+                set({ error: "Something went wrong", randomUser: null })
+            }
+        } finally {
+            set({ loading: false })
+        }
     }
 }))
 

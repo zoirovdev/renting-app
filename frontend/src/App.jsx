@@ -23,7 +23,7 @@ function App() {
 
   return (
     <ThemeProvider>
-    <div className="dark:bg-[#222831] min-h-screen">
+    <div className="dark:bg-slate-900 min-h-screen">
       {showSidebar && <Sidebar />}
        
       <div className={showSidebar ? "mt-[100px]" : ""}>
