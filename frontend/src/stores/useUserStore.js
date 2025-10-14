@@ -205,11 +205,46 @@ export const useUserStore = create((set, get) => ({
             })
         } catch (err) {
             if(err.status === 429) {
-                set({ error: "Rate limit exceeded", randomUser: null }) 
+                set({ error: "Rate limit exceeded", currentUser: null }) 
             } else if (err.status === 401) {
-                set({ error: "Invalid credentials", randomUser: null })
+                set({ error: "Invalid credentials", currentUser: null })
             } else {
-                set({ error: "Something went wrong", randomUser: null })
+                set({ error: "Something went wrong", currentUser: null })
+            }
+        } finally {
+            set({ loading: false })
+        }
+    },
+
+    updateProfile: async (firstname, lastname, username) => {
+        set({ loading: true })
+
+        try {
+            const token = localStorage.getItem('token')
+
+            const response = await axios.put(`${BASE_URL}/api/users/update`, {
+                firstname: firstname,
+                lastname: lastname,
+                username: username                
+            }, 
+            {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+
+            if(response.data.success){
+                set({ currentUser: response.data.data, error: null })
+            } else {
+                set({ error: response.data.message })
+            }
+        } catch (err) {
+            if(err.status === 429) {
+                set({ error: "Rate limit exceeded", currentUser: null }) 
+            } else if (err.status === 401) {
+                set({ error: "Invalid credentials", currentUser: null })
+            } else {
+                set({ error: "Something went wrong", currentUser: null })
             }
         } finally {
             set({ loading: false })

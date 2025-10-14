@@ -6,13 +6,32 @@ import { useUserStore } from "../stores/useUserStore.js"
 
 const SettingsPage = () => {
     const { isDark, toggleTheme } = useTheme()
-    const { logout, changePassword, currentUser } = useUserStore()
+    const { logout, changePassword, currentUser, error, updateProfile } = useUserStore()
+
     const [ currentPassword, setCurrentPassword ] = useState('')
     const [ newPassword, setNewPassword ] = useState('')
 
-    const handlePassword = async () => {
+    const [ firstname, setFirstname ] = useState('')
+    const [ lastname, setLastname ] = useState('')
+    const [ username, setUsername ] = useState('')
+
+    useEffect(() => {
         if(currentUser){
+            setFirstname(currentUser.firstname)
+            setLastname(currentUser.lastname)
+            setUsername(currentUser.username)
+        }
+    }, [currentUser])
+
+    const handlePassword = async () => {
+        if(currentUser && currentPassword && newPassword){
             await changePassword(currentPassword, newPassword)
+        }
+    }
+
+    const handleProfileInfo = async () => {
+        if(currentUser){
+            await updateProfile(firstname, lastname, username)
         }
     }
 
@@ -37,8 +56,50 @@ const SettingsPage = () => {
                     </div>
                     <div className='flex flex-col gap-4 w-[600px] p-4'>
                         <p className='text-slate-400 text-lg tracking-wider'>Account</p>
+                        <div className="flex flex-col border-b border-slate-200 pb-4
+                            dark:border-slate-700 gap-2">
+                            <p className="dark:text-slate-100">Update Profile Info</p>
+                            <div className='flex gap-2'>
+                                <div className='flex flex-col basis-1/2'>
+                                    <label htmlFor="firstname" 
+                                        className='text-slate-500'>
+                                        Firstname
+                                    </label>
+                                    <input type="text" 
+                                        value={firstname}
+                                        onChange={(e) => setFirstname(e.target.value)}
+                                        className="border border-slate-200 py-2 px-4 rounded-xl"/>
+                                </div>
+                                <div className="flex flex-col basis-1/2">
+                                    <label className='text-slate-500'>
+                                        Lastname
+                                    </label>
+                                    <input type="text" 
+                                        placeholder="Lastname"
+                                        value={lastname}
+                                        onChange={(e) => setLastname(e.target.value)}
+                                        className="border border-slate-200 py-2 px-4 rounded-xl"/>
+                                </div>
+                            </div>
+                            <div className="flex flex-col">
+                                <label htmlFor=""
+                                    className='text-slate-500'>
+                                    Username
+                                </label>
+                                <input type="text" 
+                                    value={username}
+                                    onChange={(e) => setUsername(e.target.value)}
+                                    className="border border-slate-200 py-2 px-4 rounded-xl"/>
+                            </div>
+                            <div className="flex flex-row-reverse">
+                                <button className="bg-black text-white py-2 px-4 rounded-xl"
+                                    onClick={handleProfileInfo}>
+                                    Save
+                                </button>
+                            </div>
+                        </div>
                         <div className='flex flex-col pb-4 border-b border-slate-200
-                            dark:border-slate-700 gap-4'>                    
+                            dark:border-slate-700 gap-2'>                    
                             <p className="dark:text-slate-100">Update current password</p>
                             <input type="password"
                                 id="currentPassword"

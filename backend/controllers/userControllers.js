@@ -193,38 +193,26 @@ export const getProfile = async (req, res) => {
 // Update User (Protected Route)
 export const updateUser = async (req, res) => {
     try {
-        const { firstname, lastname, phone, location } = req.body
+        const { firstname, lastname, username } = req.body
         const userId = req.user.id
 
-        // Build dynamic update query
-        const updates = []
-        const values = []
-        
-        if (firstname) {
-            updates.push(`firstname = $${updates.length + 1}`)
-            values.push(firstname)
-        }
-        if (lastname) {
-            updates.push(`lastname = $${updates.length + 1}`)
-            values.push(lastname)
-        }
-        if (phone) {
-            updates.push(`phone = $${updates.length + 1}`)
-            values.push(phone)
-        }
-        
-        if (updates.length === 0) {
-            return res.status(400).json({ success: false, message: 'No fields to update' })
+        if(username){
+            const userExist = await sql`
+                SELECT * FROM users
+                WHERE username = ${username} and id != ${userId}
+            `
+
+            if(userExist.length > 0){
+                return res.status(400).json({ success: false, message: "username is already taken" })
+            }
         }
 
-        updates.push('updated_at = CURRENT_TIMESTAMP')
-        values.push(userId)
 
         const updatedUser = await sql`
             UPDATE users 
-            SET ${sql(updates.join(', '))}
+            SET firstname = ${firstname}, lastname = ${lastname}, username = ${username}
             WHERE id = ${userId}
-            RETURNING id, username, firstname, lastname, phone, updated_at
+            RETURNING *
         `
 
         res.json({
@@ -234,10 +222,6 @@ export const updateUser = async (req, res) => {
         })
     } catch (error) {
         console.error('Update user error:', error)
-        
-        if (error.code === '23505' && error.constraint === 'users_phone_key') {
-            return res.status(409).json({ success: false, message: "Phone number already exists" })
-        }
         
         res.status(500).json({ success: false, message: 'Server error' })
     }

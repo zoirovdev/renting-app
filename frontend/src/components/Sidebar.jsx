@@ -17,7 +17,8 @@ const Sidebar = () => {
     return (
         <div className="sticky top-0 left-0 right-0 z-50 dark:bg-slate-900">
             <div className="flex flex-row justify-center items-center dark:bg-slate-900">
-                <p className="text-2xl font-semibold text-gray-900 dark:text-slate-50 hover:text-gray-700 absolute top-4 left-8 py-2 px-4">rented.com</p>
+                <p className="text-2xl font-semibold text-gray-900 dark:text-slate-50 tracking-wider
+                    hover:text-gray-700 absolute top-4 left-8 py-2 px-4">rented.com</p>
                 <div className='flex justify-center items-center bg-gray-100 rounded-full p-1 dark:bg-slate-800
                     absolute top-4'>
                     <div className={`text-medium flex justify-center items-center gap-2 cursor-pointer rounded-full
