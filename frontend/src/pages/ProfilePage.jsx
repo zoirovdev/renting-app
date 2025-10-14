@@ -35,40 +35,30 @@ const ProfilePage = () => {
     return (
         <div className='flex flex-col justify-center items-center gap-8 p-4'>
             <div className="w-[600px] py-4 px-6 space-y-4">
-                <div className="flex flex-row justify-center items-center gap-2 py-2 px-4">
-                    <p className="bg-black dark:bg-slate-400 text-white dark:text-slate-900 rounded-full py-6 px-8 text-4xl">
-                        {currentUser?.firstname[0]}
-                    </p>
-                    <div className="flex flex-col justify-center gap-1 border-y border-r py-2 px-4 border-gray-200 
-                        rounded-r-[10px] overflow-hidden dark:border-slate-700">
-                        <div className="flex flex-row justify-start items-center gap-2 text-lg tracking-wider
-                            dark:text-slate-100">
-                            <p>{currentUser?.firstname}</p>
-                            <p>{currentUser?.lastname}</p>
-                        </div>
-                        <p className="text-lime-600 dark:text-lime-500">@{currentUser?.username}</p>
+                <div className="flex flex-col justify-center items-center
+                    border border-slate-200 shadow-xl rounded-xl py-6 gap-2">
+                    <div className="flex flex-row justify-start items-center gap-2 text-xl tracking-wider
+                        dark:text-slate-100">
+                        <p>{currentUser?.firstname}</p>
+                        <p>{currentUser?.lastname}</p>
                     </div>
-                </div>
-                <div className="px-4 py-2 rounded-[10px]">
-                    <div className="flex flex-row justify-between items-center py-2 border-b border-gray-200 dark:border-slate-700">
-                        <label className="text-gray-500 dark:text-slate-400">Phone number</label>
-                        <div className='flex flex-row justify-center items-center gap-2 dark:text-slate-100
-                            cursor-pointer py-1 px-4 rounded-[10px] border border-gray-200 dark:border-slate-700'
-                            onClick={copyPhone}>
-                            {copied 
-                            ? <Check className='w-4 h-4 text-lime-500'/>
-                            : <Copy className='w-4 h-4 text-gray-400'/>}
-                            <p>{currentUser?.phone}</p>
-                        </div>
+                    <p className="text-lime-600 dark:text-lime-500 text-xl">@{currentUser?.username}</p>
+                    <div className='flex flex-row justify-center items-center gap-2 dark:text-slate-100
+                        cursor-pointer py-2 px-4 rounded-xl border border-gray-200 dark:border-slate-700'
+                        onClick={copyPhone}>
+                        {copied 
+                        ? <Check className='w-4 h-4 text-lime-500'/>
+                        : <Copy className='w-4 h-4 text-gray-400'/>}
+                        <p>{currentUser?.phone}</p>
                     </div>
-                    <div className="flex flex-row justify-between items-center py-2">
-                        <label className="text-gray-500 dark:text-slate-400">Member since</label>
-                        <p className="dark:text-slate-100">{new Date(currentUser?.created_at).toLocaleDateString('en-US', {
+                    <p className="dark:text-slate-100">
+                        <span className="text-slate-500">since </span>
+                        {new Date(currentUser?.created_at).toLocaleDateString('en-US', {
                             year: 'numeric',
                             month: 'long',
                             day: 'numeric'
-                        })}</p>
-                    </div>
+                        })}
+                    </p>
                 </div>
             </div>
             <div className="space-y-4">
@@ -81,7 +71,7 @@ const ProfilePage = () => {
                         className='flex flex-col justify-start  w-[300px] h-[370px] gap-1'>
                         {rentad.images.length && 
                         <div className='w-full'>
-                        <img src={rentad.images[0]} alt="" className='object-cover w-[300px] h-[200px] rounded-sm'/>  
+                        <img src={rentad.images[0]} alt="" className='object-cover w-[300px] h-[200px] rounded-xl'/>  
                         </div>}
                         <div className='grid grid-cols-1 py-2 px-4 gap-2'>
                         <div className='flex justify-between items-center'>
@@ -100,7 +90,7 @@ const ProfilePage = () => {
                         </div>
                         <div className='flex flex-wrap gap-1'>
                             {rentad.offers && rentad.offers.map(offer => (
-                            <p key={offer} className="border border-blue-400 rounded-full px-2 text-sm text-gray-600 dark:text-slate-300">{offer}</p>
+                            <p key={offer} className="border border-blue-400 rounded-xl px-2 text-sm text-gray-600 dark:text-slate-300">{offer}</p>
                             ))}
                         </div>
                         </div>

@@ -280,7 +280,7 @@ const AddPage = () => {
                     
                     <div className='flex flex-row lg:w-[700px] gap-1'>
                         {propertyOptions && propertyOptions.map(pType => (
-                            <button key={pType} className={`border dark:border-none border-gray-200 rounded-[10px] py-2 px-8
+                            <button key={pType} className={`border dark:border-none border-gray-200 rounded-xl py-2 px-8
                                 w-[50%] hover:bg-gray-100 dark:hover:bg-slate-700 dark:bg-slate-800 cursor-pointer 
                                 flex justify-center items-center gap-2
                                 ${formData?.property === pType ? "border-2 border-lime-500" : ""}`}
@@ -299,7 +299,7 @@ const AddPage = () => {
                     </div>
                     <div className='flex justify-between gap-2'>
                         <select value={formData?.rent_currency} 
-                            className={`border border-gray-200 dark:border-slate-700 dark:text-slate-400 rounded-[10px] py-2 px-4`}
+                            className={`border border-gray-200 dark:border-slate-700 dark:text-slate-400 rounded-xl py-2 px-4`}
                             onChange={(e) => { setFormData({ ...formData, rent_currency: e.target.value }) }}>
                             {currencyOptions.map(currency => (
                                 <option key={currency} value={currency}>{currency}</option>
@@ -309,7 +309,7 @@ const AddPage = () => {
                             type="number"
                             id="rent" name="rent"
                             className="basis-[80%] border dark:border-slate-700 border-gray-200
-                                rounded-[10px] px-4 dark:text-slate-100
+                                rounded-xl px-4 dark:text-slate-100
                                 outline-none appearance-none [&::-webkit-outer-spin-button]:appearance-none 
                                 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 
                                 [&::-webkit-inner-spin-button]:m-0"
@@ -318,7 +318,7 @@ const AddPage = () => {
                             onChange={(e) => { setFormData({ ...formData, rent: e.target.value })}}
                         />
                         <select value={formData?.rent_period}
-                            className='border border-gray-200 dark:border-slate-700 dark:text-slate-400 rounded-[10px] py-2 px-4'
+                            className='border border-gray-200 dark:border-slate-700 dark:text-slate-400 rounded-xl py-2 px-4'
                             onChange={(e) => setFormData({ ...formData, rent_period: e.target.value })}>
                             {periodOptions.map(period => (
                                 <option key={period} value={period}>{period}</option>
@@ -336,7 +336,7 @@ const AddPage = () => {
                             type="number"
                             id="area" name="area"
                             className="outline-none basis-[90%] border border-gray-200 dark:border-slate-700
-                                rounded-[10px] py-2 px-4 dark:text-slate-100
+                                rounded-xl py-2 px-4 dark:text-slate-100
                                 appearance-none [&::-webkit-outer-spin-button]:appearance-none 
                                 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 
                                 [&::-webkit-inner-spin-button]:m-0"
@@ -345,7 +345,7 @@ const AddPage = () => {
                             onChange={(e) => { setFormData({ ...formData, area: e.target.value })}}
                         />
                         <select value={formData?.area_unit}
-                            className='border border-gray-200 dark:border-slate-700 dark:text-slate-400 rounded-[10px] py-2 px-4'
+                            className='border border-gray-200 dark:border-slate-700 dark:text-slate-400 rounded-xl py-2 px-4'
                             onChange={(e) => setFormData({ ...formData, area_unit: e.target.value})}>
                             {unitOptions.map(unit => (
                                 <option key={unit} value={unit}>{unit}</option>
@@ -363,7 +363,7 @@ const AddPage = () => {
                         <div className='flex flex-row justify-center items-center'>
                             <Minus 
                                 className='border border-gray-200 dark:border-slate-700 dark:text-slate-100
-                                rounded-full p-2 w-8 h-8 cursor-pointer hover:bg-gray-100 dark:hover:bg-slate-700' 
+                                rounded-xl p-2 w-8 h-8 cursor-pointer hover:bg-gray-100 dark:hover:bg-slate-700' 
                                 onClick={() => updateBedrooms(-1)}
                             />
                             <input className="w-[40px] ml-2 text-center dark:text-slate-100"
@@ -372,7 +372,7 @@ const AddPage = () => {
                             />
                             <Plus 
                                 className='border border-gray-200 dark:border-slate-700 dark:text-slate-100
-                                rounded-full p-2 w-8 h-8 cursor-pointer hover:bg-gray-100 dark:hover:bg-slate-700' 
+                                rounded-xl p-2 w-8 h-8 cursor-pointer hover:bg-gray-100 dark:hover:bg-slate-700' 
                                 onClick={() => updateBedrooms(+1)}
                             />
                         </div>
@@ -386,7 +386,7 @@ const AddPage = () => {
                         <div className='flex flex-row justify-center items-center'>
                             <Minus 
                                 className='border border-gray-200 dark:border-slate-700 dark:text-slate-100
-                                rounded-full p-2 w-8 h-8 cursor-pointer hover:bg-gray-100 dark:hover:bg-slate-700' 
+                                rounded-xl p-2 w-8 h-8 cursor-pointer hover:bg-gray-100 dark:hover:bg-slate-700' 
                                 onClick={() => updateBathrooms(-1)}
                             />
                             <input className="w-[40px] ml-2 text-center dark:text-slate-100"
@@ -395,7 +395,7 @@ const AddPage = () => {
                             />
                             <Plus 
                                 className='border border-gray-200 dark:border-slate-700 dark:text-slate-100
-                                rounded-full p-2 w-8 h-8 cursor-pointer hover:bg-gray-100 dark:hover:bg-slate-700' 
+                                rounded-xl p-2 w-8 h-8 cursor-pointer hover:bg-gray-100 dark:hover:bg-slate-700' 
                                 onClick={() => updateBathrooms(+1)}
                             />
                         </div>
@@ -427,7 +427,7 @@ const AddPage = () => {
                     <input 
                         type='text'
                         className='outline-none overflow-scroll border border-gray-200 dark:border-slate-700
-                        rounded-[10px] py-2 px-4 w-full dark:text-slate-100'
+                        rounded-xl py-2 px-4 w-full dark:text-slate-100'
                         value={inputLocation || ''}
                         readOnly
                         placeholder='Location will appear here...'
@@ -444,7 +444,7 @@ const AddPage = () => {
                     <div className='flex flex-row gap-1'>
                         {userTypeOptions.map(userType => (
                             <button key={userType} 
-                                className={`border border-gray-200 dark:border-slate-700 rounded-[10px] py-2 px-8
+                                className={`border border-gray-200 dark:border-slate-700 rounded-xl py-2 px-8
                                 w-[50%] hover:bg-gray-100 dark:hover:bg-slate-700 cursor-pointer dark:text-slate-100
                                 ${formData?.user_type === userType ? "border-2 border-lime-500" : ""}`}
                                 onClick={() => { setFormData({ ...formData, user_type: userType })}}
@@ -468,7 +468,7 @@ const AddPage = () => {
                         }`}>
                         <div className='flex flex-row justify-center items-center gap-4'>
                             <Upload className='w-10 h-10 text-gray-500 dark:text-slate-100 p-2 border border-dashed border-gray-200
-                            rounded-full'/>
+                            rounded-xl'/>
                             <p>{uploading ? 'Uploading...' : 'Upload images(PNG, JPG up to 10 mb)'}</p>
                         </div>
                     </label>
@@ -479,7 +479,7 @@ const AddPage = () => {
                     <div className='space-y-2 my-2'>
                         {Object.entries(uploadProgress).map(([fileName, status]) => (
                             <div key={fileName} className='flex justify-between items-center p-2 
-                                border border-gray-200 dark:border-slate-700 dark:text-slate-100 rounded'>
+                                border border-gray-200 dark:border-slate-700 dark:text-slate-100 rounded-xl'>
                                 <span className='text-sm truncate'>{fileName}</span>
                                 <span className={`text-xs px-2 py-1 rounded ${
                                     status === 'uploading' ? 'bg-blue-100 dark:bg-slate-700 text-blue-800' :
@@ -503,12 +503,13 @@ const AddPage = () => {
                                     <img
                                         src={imageUrl}
                                         alt={`Upload ${index + 1}`}
-                                        className='w-full h-32 object-cover rounded-lg border border-gray-200'
+                                        className='w-full h-32 object-cover rounded-xl border border-gray-200'
                                     />
                                     {/* Remove button */}
                                     <button
                                         onClick={() => removeImage(index)}
-                                        className='absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity'
+                                        className='absolute top-2 right-2 bg-red-500 text-white p-1 rounded-xl
+                                        opacity-0 group-hover:opacity-100 transition-opacity'
                                     >
                                         <X size={16} />
                                     </button>
@@ -520,18 +521,18 @@ const AddPage = () => {
 
                 {/* Error Display */}
                 {error && (
-                    <div className='p-4 bg-red-100 border border-red-400 text-red-700 rounded'>
+                    <div className='p-4 bg-red-100 border border-red-400 text-red-700 rounded-xl'>
                         {error}
                     </div>
                 )}
 
                 <div className='flex justify-between'>
                     <button className='border border-gray-200 dark:border-slate-700 hover:bg-gray-200 dark:hover:bg-slate-700
-                        rounded-[10px] py-2 px-4 cursor-pointer dark:text-slate-100'
+                        rounded-xl py-2 px-4 cursor-pointer dark:text-slate-100'
                         onClick={() => resetFormData()}>
                         Clear
                     </button>
-                    <button className='bg-lime-300 hover:bg-lime-400 rounded-[10px] py-2 px-4 cursor-pointer'
+                    <button className='bg-lime-300 hover:bg-lime-400 rounded-xl py-2 px-4 cursor-pointer'
                         onClick={(e) => {handleSubmit(e);navigate("/")}}>
                         Submit
                     </button>

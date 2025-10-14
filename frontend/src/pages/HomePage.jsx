@@ -27,7 +27,7 @@ const HomePage = () => {
               className='flex flex-col justify-start  w-[300px] h-[370px] gap-1'>
               {rentad.images.length && 
               <div className='w-full'>
-                <img src={rentad.images[0]} alt="" className='object-cover w-[300px] h-[200px] rounded-sm'/>  
+                <img src={rentad.images[0]} alt="" className='object-cover w-[300px] h-[200px] rounded-xl'/>  
               </div>}
               <div className='grid grid-cols-1 py-2 px-4 gap-2'>
                 <div className='flex justify-between items-center'>
@@ -46,7 +46,11 @@ const HomePage = () => {
                 </div>
                 <div className='flex flex-wrap gap-1'>
                   {rentad.offers && rentad.offers.map(offer => (
-                    <p key={offer} className="border border-blue-400 rounded-full px-2 text-sm text-gray-600 dark:text-slate-300">{offer}</p>
+                    <p key={offer} 
+                      className="border border-blue-400 rounded-xl px-2 text-sm text-gray-600
+                      dark:text-slate-300">
+                      {offer}
+                    </p>
                   ))}
                 </div>
               </div>

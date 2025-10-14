@@ -126,12 +126,13 @@ const SearchPage = () => {
     return (
         <div className='flex flex-col gap-8 px-[130px] py-8 bg-white dark:bg-slate-900'>
             <div className='flex justify-center items-center gap-2'>
-                <button className="border dark:border-none border-gray-100 dark:bg-slate-800 shadow-md
-                    hover:bg-gray-100 dark:hover:bg-slate-700 py-3 px-4 rounded-full cursor-pointer dark:text-slate-50"
+                <button className="border dark:border-none border-gray-100 dark:bg-slate-800 shadow-xl
+                    hover:bg-gray-100 dark:hover:bg-slate-700 py-3 px-4 rounded-xl cursor-pointer
+                    dark:text-slate-50"
                     onClick={handleClearFilters}>
                     Clear filters
                 </button>
-                <div className='border dark:border-none border-gray-100 rounded-full p-1 shadow-md 
+                <div className='border dark:border-none border-gray-100 rounded-xl p-1 shadow-xl
                     flex justify-center items-center focus-within:bg-gray-100 dark:focus-within:bg-slate-700
                     focus-within:text-gray-500 dark:focus-within:text-slate-300
                     dark:bg-slate-800 dark:text-slate-50'>
@@ -141,7 +142,7 @@ const SearchPage = () => {
                         <button 
                             className='outline-none w-full py-2 px-4  cursor-pointer focus:bg-white dark:focus:bg-slate-900 
                                 focus:text-black dark:focus:text-slate-50 
-                                focus:rounded-full focus:shadow-lg flex items-center justify-between gap-2 whitespace-nowrap' 
+                                focus:rounded-xl focus:shadow-xl flex items-center justify-between gap-2 whitespace-nowrap' 
                             onClick={() => setIsPropertyOpen(!isPropertyOpen)}
                         >
                             <span>{searchTerm.property || "Property type"}</span>
@@ -149,7 +150,7 @@ const SearchPage = () => {
                         
                         {isPropertyOpen && (
                             <div className="absolute top-full left-0 mt-2 w-[200px] bg-white dark:bg-slate-800 text-black dark:text-slate-50 
-                                rounded-lg shadow-lg max-h-60 overflow-auto z-[9999]">
+                                rounded-xl shadow-xl max-h-60 overflow-auto z-[9999]">
                                 {propertyOptions.map(option => (
                                     <div
                                         key={option}
@@ -171,7 +172,7 @@ const SearchPage = () => {
                     <div className='relative' ref={locationRef}>
                         <button 
                             className='outline-none w-full py-2 px-4 cursor-pointer focus:text-black dark:focus:text-slate-50
-                                focus:rounded-full focus:shadow-lg focus:bg-white dark:focus:bg-slate-900 flex items-center justify-between gap-2
+                                focus:rounded-xl focus:shadow-xl focus:bg-white dark:focus:bg-slate-900 flex items-center justify-between gap-2
                                 whitespace-nowrap' 
                             onClick={() => setIsLocationOpen(!isLocationOpen)}
                         >
@@ -180,7 +181,7 @@ const SearchPage = () => {
                         
                         {isLocationOpen && (
                             <div className="absolute top-full left-0 mt-2 w-[200px] bg-white dark:bg-slate-800 text-black dark:text-slate-50
-                                rounded-lg shadow-lg max-h-60 overflow-auto z-[9999]">
+                                rounded-xl shadow-xl max-h-60 overflow-auto z-[9999]">
                                 {locationOptions.map(option => (
                                     <div
                                         key={option}
@@ -202,7 +203,7 @@ const SearchPage = () => {
                     <div className='relative' ref={rentRef}>
                         <button 
                             className='outline-none w-full py-2 px-4 cursor-pointer focus:text-black dark:focus:text-slate-50
-                                focus:rounded-full focus:shadow-lg focus:bg-white dark:focus:bg-slate-900 flex items-center justify-between 
+                                focus:rounded-xl focus:shadow-xl focus:bg-white dark:focus:bg-slate-900 flex items-center justify-between 
                                 gap-2 whitespace-nowrap' 
                             onClick={() => setShowRentRange(!showRentRange)}
                         >
@@ -214,7 +215,8 @@ const SearchPage = () => {
                         </button>
                         
                         {showRentRange && (
-                            <div className="absolute top-full left-0 mt-2 w-[300px] bg-white dark:bg-slate-800 text-black dark:text-slate-50 rounded-lg shadow-lg 
+                            <div className="absolute top-full left-0 mt-2 w-[300px] bg-white dark:bg-slate-800
+                             text-black dark:text-slate-50 rounded-xl shadow-xl
                                 p-6 z-[9999]">
                                 <div className="space-y-4">
                                     <div>
@@ -230,7 +232,7 @@ const SearchPage = () => {
                                             onChange={(e) => { 
                                                 setRentRange({ ...rentRange, min: Math.min(Number(e.target.value), rentRange.max - 100)});
                                             }}
-                                            className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-lime-400"
+                                            className="w-full h-2 bg-gray-200 rounded-xl appearance-none cursor-pointer accent-lime-400"
                                         />
                                     </div>
                                     <div>
@@ -246,12 +248,12 @@ const SearchPage = () => {
                                             onChange={(e) => {
                                                 setRentRange({ ...rentRange, max: Math.max(Number(e.target.value), rentRange.min + 100)});
                                             }}
-                                            className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-lime-400"
+                                            className="w-full h-2 bg-gray-200 rounded-xl appearance-none cursor-pointer accent-lime-400"
                                         />
                                     </div>
                                     <button
                                         onClick={() => setShowRentRange(false)}
-                                        className="w-full py-2 bg-lime-300 hover:bg-lime-400 dark:text-slate-900 rounded-lg transition-colors"
+                                        className="w-full py-2 bg-lime-300 hover:bg-lime-400 dark:text-slate-900 rounded-xl transition-colors"
                                     >
                                         Apply
                                     </button>
@@ -264,7 +266,8 @@ const SearchPage = () => {
                     <div className='relative' ref={areaRef}>
                         <button 
                             className='outline-none w-full py-2 px-4 cursor-pointer focus:text-black dark:focus:text-slate-50
-                                focus:rounded-full focus:shadow-lg focus:bg-white dark:focus:bg-slate-900 flex items-center justify-between gap-2 whitespace-nowrap' 
+                                focus:rounded-xl focus:shadow-lg focus:bg-white dark:focus:bg-slate-900 flex items-center 
+                                justify-between gap-2 whitespace-nowrap' 
                             onClick={() => setShowAreaRange(!showAreaRange)}
                         >
                             <span>
@@ -275,8 +278,8 @@ const SearchPage = () => {
                         </button>
                         
                         {showAreaRange && (
-                            <div className="absolute top-full left-0 mt-2 w-[300px] bg-white dark:bg-slate-800 text-black dark:text-slate-50 rounded-lg shadow-lg 
-                                p-6 z-[9999]">
+                            <div className="absolute top-full left-0 mt-2 w-[300px] bg-white dark:bg-slate-800 text-black 
+                            dark:text-slate-50 rounded-xl shadow-xl p-6 z-[9999]">
                                 <div className="space-y-4">
                                     <div>
                                         <label className="text-sm text-gray-600 dark:text-slate-50 mb-2 block">
@@ -292,7 +295,7 @@ const SearchPage = () => {
                                                 ...areaRange, 
                                                 min: Math.min(Number(e.target.value), areaRange.max - 10)
                                             })}
-                                            className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-lime-400"
+                                            className="w-full h-2 bg-gray-200 rounded-xl appearance-none cursor-pointer accent-lime-400"
                                         />
                                     </div>
                                     <div>
@@ -309,12 +312,12 @@ const SearchPage = () => {
                                                 ...areaRange, 
                                                 max: Math.max(Number(e.target.value), areaRange.min + 10)
                                             })}
-                                            className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-lime-400"
+                                            className="w-full h-2 bg-gray-200 rounded-xl appearance-none cursor-pointer accent-lime-400"
                                         />
                                     </div>
                                     <button
                                         onClick={() => setShowAreaRange(false)}
-                                        className="w-full py-2 bg-lime-300 hover:bg-lime-400 dark:text-slate-900 rounded-lg transition-colors"
+                                        className="w-full py-2 bg-lime-300 hover:bg-lime-400 dark:text-slate-900 rounded-xl transition-colors"
                                     >
                                         Apply
                                     </button>
@@ -327,7 +330,8 @@ const SearchPage = () => {
                     <div className='relative' ref={bedroomsRef}>
                         <button 
                             className='outline-none w-full py-2 px-4 cursor-pointer focus:text-black dark:focus:text-slate-50
-                                focus:rounded-full focus:shadow-lg focus:bg-white dark:focus:bg-slate-900 flex items-center justify-between gap-2 whitespace-nowrap' 
+                                focus:rounded-xl focus:shadow-xl focus:bg-white dark:focus:bg-slate-900 flex items-center 
+                                justify-between gap-2 whitespace-nowrap' 
                             onClick={() => setIsBedroomsOpen(!isBedroomsOpen)}
                         >
                             <span>{searchTerm.bedrooms ? `${searchTerm.bedrooms} bed${searchTerm.bedrooms !== '1' ? 's' : ''}` : "Bedrooms"}</span>
@@ -335,7 +339,7 @@ const SearchPage = () => {
                         
                         {isBedroomsOpen && (
                             <div className="absolute top-full left-0 mt-2 w-[200px] bg-white dark:bg-slate-800 
-                                text-black dark:text-slate-50 rounded-lg shadow-lg max-h-60 overflow-auto z-[9999]">
+                                text-black dark:text-slate-50 rounded-xl shadow-xl max-h-60 overflow-auto z-[9999]">
                                 {bedroomOptions.map(option => (
                                     <div
                                         key={option}
@@ -356,7 +360,8 @@ const SearchPage = () => {
                     </div>
 
                     <button 
-                        className='cursor-pointer py-2 px-4 bg-lime-300 opacity-100 text-black hover:bg-lime-400 rounded-full shadow-md 
+                        className='cursor-pointer py-2 px-4 bg-lime-300 opacity-100 text-black
+                            hover:bg-lime-400 rounded-xl shadow-xl
                             transition-colors whitespace-nowrap ml-1' 
                         onClick={(e) => handleSearch(e)}>
                         Search
@@ -373,7 +378,7 @@ const SearchPage = () => {
                     className='flex flex-col justify-start  w-[300px] h-[370px] gap-1'>
                     {rentad.images.length && 
                     <div className='w-full'>
-                    <img src={rentad.images[0]} alt="" className='object-cover w-[300px] h-[200px] rounded-sm'/>  
+                    <img src={rentad.images[0]} alt="" className='object-cover w-[300px] h-[200px] rounded-xl'/>  
                     </div>}
                     <div className='grid grid-cols-1 py-2 px-4 gap-2'>
                     <div className='flex justify-between items-center'>
@@ -392,7 +397,7 @@ const SearchPage = () => {
                     </div>
                     <div className='flex flex-wrap gap-1'>
                         {rentad.offers && rentad.offers.map(offer => (
-                        <p key={offer} className="border border-blue-400 rounded-full px-2 text-sm text-gray-600 dark:text-slate-300">{offer}</p>
+                        <p key={offer} className="border border-blue-400 rounded-xl px-2 text-sm text-gray-600 dark:text-slate-300">{offer}</p>
                         ))}
                     </div>
                     </div>

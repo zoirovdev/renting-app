@@ -79,10 +79,10 @@ const DetailPage = () => {
                     <img 
                         src={currentRentad?.images?.[0]|| null} 
                         alt="image" 
-                        className='object-cover w-[100%] h-[100%] rounded-[10px]'
+                        className='object-cover w-[100%] h-[100%] rounded-xl'
                     />
-                    <button className='absolute bottom-2 right-2 bg-gray-100 py-1 px-4 
-                        cursor-pointer rounded-[5px] z-20'
+                    <button className='absolute bottom-2 right-2 bg-gray-100 py-2 px-4 
+                        cursor-pointer rounded-xl z-20'
                         onClick={() => setImagesModal(true)}>
                         Show all pics
                     </button>
@@ -90,7 +90,7 @@ const DetailPage = () => {
                 <div className='flex justify-between items-center mt-8 mb-1'>
                     <p className='text-lg font-bold tracking-wider'>Details</p>
                     <button className='flex justify-center items-center gap-2 ml-2 border border-gray-200 
-                        rounded-[10px] px-3 py-1 cursor-pointer'
+                        rounded-xl px-3 py-1 cursor-pointer'
                         onClick={handleShare}>
                         {shareCopied 
                         ? <Check className='w-4 h-4'/>
@@ -98,7 +98,7 @@ const DetailPage = () => {
                         <p>Share</p>
                     </button>
                 </div>
-                <div className="flex flex-col pl-4 pr-2 pb-4 border border-gray-200 rounded-[10px] mb-8">
+                <div className="flex flex-col pl-4 pr-2 pb-4 border border-gray-200 rounded-xl mb-8">
                     <div className='flex justify-between items-center'>
                         <div className='flex flex-col'>
                             <div className='flex justify-start items-center gap-2'>
@@ -118,7 +118,7 @@ const DetailPage = () => {
                                 <p>{currentRentad?.bathrooms} bathrooms</p>
                             </div>
                         </div>
-                        <div className='flex flex-col justify-center items-center border border-lime-500 rounded-[10px] py-2 px-4 mt-2'>
+                        <div className='flex flex-col justify-center items-center border border-lime-500 rounded-xl py-2 px-4 mt-2'>
                             <p className=''>{currentRentad?.rent_currency} {currentRentad?.rent}</p>
                             <p>{currentRentad?.rent_period}</p>
                         </div>
@@ -143,10 +143,10 @@ const DetailPage = () => {
                 </div>
                 <DetailMap lat={currentLocation?.lat} lon={currentLocation?.lon} wth={"800px"}/>
                 <p className='mt-8 text-lg font-bold tracking-wider'>Contact {currentRentad?.user_type}</p>
-                <div className='py-2 px-4 border border-gray-200 rounded-[10px] mb-8 flex justify-between items-center'>
+                <div className='py-2 px-4 border border-gray-200 rounded-xl mb-8 flex justify-between items-center'>
                     <p>{currentRentad?.user_name}</p>
                     <div className='flex flex-row justify-center items-center gap-2
-                        cursor-pointer py-1 px-4 rounded-[10px] shadow-inner bg-gray-100'
+                        cursor-pointer py-2 px-4 rounded-xl shadow-inner bg-gray-100'
                         onClick={handleCopy}>
                         {copied 
                         ? <Check className='w-4 h-4 text-lime-500'/>
@@ -159,14 +159,14 @@ const DetailPage = () => {
             {imagesModal && 
                 <div className='fixed inset-0 z-50 bg-black bg-opacity-90'>
                     <button onClick={() => {setImagesModal(false);}}
-                            className='absolute top-4 right-[200px] text-white hover:bg-gray-600 rounded-[10px] py-1 px-4 cursor-pointer'>
+                            className='absolute top-4 right-[200px] text-white hover:bg-gray-600 rounded-xl py-2 px-4 cursor-pointer'>
                             <X />
                     </button> 
                     <div className="flex items-center justify-evenly mt-[100px]">
-                        <ChevronLeft className={`${currentIndex===0 ? "text-black" : "text-white hover:bg-gray-500"}  w-12 h-12 rounded-full p-2`}
+                        <ChevronLeft className={`${currentIndex===0 ? "text-black" : "text-white hover:bg-gray-500"}  w-12 h-12 rounded-xl p-2`}
                         onClick={() => {goPrev()}}/>
                         <img src={currentRentad.images[currentIndex]} alt="image" className='w-[800px] h-[600px] object-cover transition-transform duration-300'/>
-                        <ChevronRight className={`${currentIndex===currentRentad.images.length-1 ? "text-black" : "text-white hover:bg-gray-500"} w-12 h-12 rounded-full p-2`}
+                        <ChevronRight className={`${currentIndex===currentRentad.images.length-1 ? "text-black" : "text-white hover:bg-gray-500"} w-12 h-12 rounded-xl p-2`}
                         onClick={() => {goNext()}}/>
                     </div>
                 </div>
