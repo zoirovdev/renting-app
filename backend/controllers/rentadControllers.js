@@ -258,3 +258,55 @@ export const getAllByUserId = async (req, res) => {
         })
     }
 }
+
+
+export const sortByOffers = async (req, res) => {
+    try {
+        const { filter }  = req.params
+        const result = await sql`
+            SELECT * FROM rentads WHERE ${filter} = ANY(offers) ORDER BY created_at DESC
+        `
+
+        res.status(200).json({ success: true, data: result })
+    } catch (err) {
+        console.log("Error in sortedByRecentlyRenovated function in rentadsController", err)
+        res.status(500).json({ 
+            success: false, 
+            message: "Internal server error" 
+        })
+    }
+}
+
+
+export const sortByLowestRent = async (req, res) => {
+    try {
+        const result = await sql`
+            SELECT * FROM rentads ORDER BY rent ASC
+        `
+
+        res.status(200).json({ success: true, data: result })
+    } catch (err) {
+        console.log("Error in sortedByLowestRent function in rentadsController", err)
+        res.status(500).json({ 
+            success: false, 
+            message: "Internal server error" 
+        })
+    }
+}
+
+
+export const getWithoutRieltor = async (req, res) => {
+    try {
+        const result = await sql`
+            SELECT * FROM rentads WHERE user_type != 'Rieltor' ORDER BY created_at DESC
+        `
+
+        res.status(200).json({ success: true, data: result })
+    } catch (err) {
+        console.log("Error in getWithoutRieltor function in rentadsController", err)
+        res.status(500).json({ 
+            success: false, 
+            message: "Internal server error" 
+        })
+    }
+}

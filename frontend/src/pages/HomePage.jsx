@@ -8,25 +8,11 @@ import { useLocationStore } from '../stores/useLocationStore.js'
 
 
 const HomePage = () => {
-  const { fetchRentads, rentads, loading } = useRentadStore()
+  const { fetchRentads, rentads, loading, sortByOffers, sortByRents, getWithoutRieltor } = useRentadStore()
   const { getLocation, currentLocation } = useLocationStore()
   const [displayRentads, setDisplayRentads] = useState()
+  const [sortOption, setSortOption] = useState('')
 
-  const [sortOptions, setSortOptions] = useState([
-    { id: 1, name: "New", state: false },
-    { id: 2, name: "Recently renovated", state: false },
-    { id: 3, name: "Lowest rents", state: false },
-    { id: 4, name: "Nearby", state: false },
-    { id: 5, name: "Without rieltor", state: false },
-    { id: 6, name: "Lease agreement", state: false } 
-  ])
-
-  const handleSort = async (id) => {
-    setSortOptions(prevOptions => prevOptions.map(option => ({
-      ...option,
-      state: option.id === id
-    })))
-  }
 
   useEffect(() => {
     fetchRentads()
@@ -39,14 +25,36 @@ const HomePage = () => {
       <div className='flex flex-col gap-4 relative dark:bg-slate-900 h-screen py-8'>
         <div className="flex justify-center items-center">
           <div className='flex flex-row justify-center items-center gap-1'>
-            {sortOptions.map(option => (
-              <p key={option.id}
-                className={`border border-gray-200 py-2 px-4 rounded-xl cursor-pointer
-                ${option.state ? "border-none bg-gray-900 text-gray-50" : ""}`}
-                onClick={() => handleSort(option.id)}>
-                {option.name}
-              </p>
-            ))}
+            <button onClick={() => {fetchRentads(); setSortOption('New')}}
+              className={`border border-gray-200 rounded-xl py-2 px-4 cursor-pointer
+                ${sortOption === 'New' ? "border-none bg-gray-900 text-gray-50" : "" }`}>
+              New
+            </button>
+            <button onClick={() => {sortByOffers('recently renovated'); setSortOption('Recently renovated')}}
+              className={`border border-gray-200 rounded-xl py-2 px-4 cursor-pointer
+                ${sortOption === 'Recently renovated' ? "border-none bg-gray-900 text-gray-50" : "" }`}>
+              Recently renovated
+            </button>
+            <button onClick={() => {setSortOption('Lowest rents'); sortByRents()}}
+              className={`border border-gray-200 rounded-xl py-2 px-4 cursor-pointer
+                ${sortOption === 'Lowest rents' ? "border-none bg-gray-900 text-gray-50" : "" }`}>
+              Lowest rents
+            </button>
+            <button onClick={() => {setSortOption('Nearby');}}
+              className={`border border-gray-200 rounded-xl py-2 px-4 cursor-pointer
+                ${sortOption === 'Nearby' ? "border-none bg-gray-900 text-gray-50" : "" }`}>
+              Nearby
+            </button>
+            <button onClick={() => {setSortOption('Without rieltor'); getWithoutRieltor()}}
+              className={`border border-gray-200 rounded-xl py-2 px-4 cursor-pointer
+                ${sortOption === 'Without rieltor' ? "border-none bg-gray-900 text-gray-50" : "" }`}>
+              Without rieltor
+            </button>
+            <button onClick={() => {setSortOption('Lease agreement'); sortByOffers('lease agreement')}}
+              className={`border border-gray-200 rounded-xl py-2 px-4 cursor-pointer
+                ${sortOption === 'Lease agreement' ? "border-none bg-gray-900 text-gray-50" : "" }`}>
+              Lease agreement
+            </button>
           </div>
         </div>
         <div className='flex flex-wrap justify-start items-center gap-x-2 mx-[130px]'>

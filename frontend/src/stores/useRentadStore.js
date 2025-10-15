@@ -125,5 +125,47 @@ export const useRentadStore = create((set, get) => ({
         } finally {
             set({ loading: false })
         }
+    },
+
+    sortByOffers: async (filter) => {
+        set({ loading: true })
+
+        try {
+            const response = await axios.get(`${BASE_URL}/api/rentads/sort-by-offers/${filter}`)
+            set({ error: null, rentads: response.data.data })
+        } catch (err) {
+            if(err.status === 429) set({ error: "Rate limit exceeded", rentads:[] })
+            else set({ error: "something went wrong", rentads: [] })
+        } finally {
+            set({ loading: false })
+        }
+    },
+
+    sortByRents: async () => {
+        set({ loading: true })
+
+        try {
+            const response = await axios.get(`${BASE_URL}/api/rentads/sort-by-lowest-rents`)
+            set({ error:null, rentads: response.data.data })
+        } catch(err) {
+            if(err.status === 429) set({ error: "Rate limit exceeded", rentads:[] })
+            else set({ error: "something went wrong", rentads: [] })
+        } finally {
+            set({ loading: false })
+        }
+    },
+
+    getWithoutRieltor: async () => {
+        set({ loading: true })
+
+        try {
+            const response = await axios.get(`${BASE_URL}/api/rentads/get-without-rieltor`)
+            set({ error: null, rentads: response.data.data })
+        } catch (err) {
+            if(err.status === 429) set({ error: "Rate limit exceeded", rentads:[] })
+            else set({ error: "something went wrong", rentads: [] })
+        } finally { 
+            set({ loading: false })
+        }
     }
 }))
