@@ -36,23 +36,23 @@ const ProfilePage = () => {
         <div className='flex flex-col items-center gap-8 py-8'>
             <div className="w-[600px] py-4 px-6 space-y-4">
                 <div className="flex flex-col justify-center items-center
-                    border border-slate-200 shadow-xl rounded-xl py-6 gap-2">
+                    border border-gray-200 dark:border-gray-700 shadow-xl rounded-xl py-6 gap-2">
                     <div className="flex flex-row justify-start items-center gap-2 text-xl tracking-wider
-                        dark:text-slate-100">
+                        dark:text-gray-100">
                         <p>{currentUser?.firstname}</p>
                         <p>{currentUser?.lastname}</p>
                     </div>
                     <p className="text-lime-600 dark:text-lime-500 text-xl">@{currentUser?.username}</p>
-                    <div className='flex flex-row justify-center items-center gap-2 dark:text-slate-100
-                        cursor-pointer py-2 px-4 rounded-xl border border-gray-200 dark:border-slate-700'
+                    <div className='flex flex-row justify-center items-center gap-2 dark:text-gray-100
+                        cursor-pointer py-2 px-4 rounded-xl dark:hover:bg-gray-800 hover:bg-gray-100'
                         onClick={copyPhone}>
                         {copied 
                         ? <Check className='w-4 h-4 text-lime-500'/>
                         : <Copy className='w-4 h-4 text-gray-400'/>}
-                        <p>{currentUser?.phone}</p>
+                        <p className="">{currentUser?.phone}</p>
                     </div>
-                    <p className="dark:text-slate-100">
-                        <span className="text-slate-500">since </span>
+                    <p className="dark:text-gray-100">
+                        <span className="text-gray-500 dark:text-gray-400">since </span>
                         {new Date(currentUser?.created_at).toLocaleDateString('en-US', {
                             year: 'numeric',
                             month: 'long',

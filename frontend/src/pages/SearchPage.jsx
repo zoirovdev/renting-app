@@ -32,6 +32,11 @@ const SearchPage = () => {
     const areaRef = useRef(null)
     const bedroomsRef = useRef(null)
 
+
+    useEffect(() => {
+        fetchRentads()
+    }, [])
+
     // Close dropdowns when clicking outside
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -124,24 +129,24 @@ const SearchPage = () => {
     }
     
     return (
-        <div className='flex flex-col gap-8 px-[130px] py-8 bg-white dark:bg-slate-900'>
+        <div className='flex flex-col gap-8 px-[130px] py-8'>
             <div className='flex justify-center items-center gap-2'>
-                <button className="border dark:border-none border-gray-100 dark:bg-slate-800 shadow-xl
-                    hover:bg-gray-100 dark:hover:bg-slate-700 py-3 px-4 rounded-xl cursor-pointer
-                    dark:text-slate-50"
+                <button className="border dark:border-none border-gray-100 dark:bg-gray-800 shadow-xl
+                    hover:bg-gray-100 dark:hover:bg-gray-700 py-3 px-4 rounded-xl cursor-pointer
+                    dark:text-gray-50"
                     onClick={handleClearFilters}>
                     Clear filters
                 </button>
                 <div className='border dark:border-none border-gray-100 rounded-xl p-1 shadow-xl
-                    flex justify-center items-center focus-within:bg-gray-100 dark:focus-within:bg-slate-700
-                    focus-within:text-gray-500 dark:focus-within:text-slate-300
-                    dark:bg-slate-800 dark:text-slate-50'>
+                    flex justify-center items-center focus-within:bg-gray-100 dark:focus-within:bg-gray-700
+                    focus-within:text-gray-500 dark:focus-within:text-gray-300
+                    dark:bg-gray-800 dark:text-gray-50'>
 
                     {/* Property Type Dropdown */}
                     <div className='relative' ref={propertyRef}>
                         <button 
-                            className='outline-none w-full py-2 px-4  cursor-pointer focus:bg-white dark:focus:bg-slate-900 
-                                focus:text-black dark:focus:text-slate-50 
+                            className='outline-none w-full py-2 px-4  cursor-pointer focus:bg-gray-50 dark:focus:bg-gray-900 
+                                focus:text-gray-900 dark:focus:text-gray-50 
                                 focus:rounded-xl focus:shadow-xl flex items-center justify-between gap-2 whitespace-nowrap' 
                             onClick={() => setIsPropertyOpen(!isPropertyOpen)}
                         >
@@ -149,7 +154,7 @@ const SearchPage = () => {
                         </button>
                         
                         {isPropertyOpen && (
-                            <div className="absolute top-full left-0 mt-2 w-[200px] bg-white dark:bg-slate-800 text-black dark:text-slate-50 
+                            <div className="absolute top-full left-0 mt-2 w-[200px] bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-50 
                                 rounded-xl shadow-xl max-h-60 overflow-auto z-[9999]">
                                 {propertyOptions.map(option => (
                                     <div
@@ -158,8 +163,8 @@ const SearchPage = () => {
                                             setSearchTerm({ ...searchTerm, property: option })
                                             setIsPropertyOpen(false)
                                         }}
-                                        className="py-3 px-4 hover:bg-gray-50 dark:hover:bg-slate-700 cursor-pointer
-                                            transition-colors border-b border-gray-200 dark:border-slate-700 last:border-b-0"
+                                        className="py-3 px-4 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer
+                                            transition-colors border-b border-gray-200 dark:border-gray-700 last:border-b-0"
                                     >
                                         {option}
                                     </div>
@@ -171,8 +176,8 @@ const SearchPage = () => {
                     {/* Location Dropdown */}
                     <div className='relative' ref={locationRef}>
                         <button 
-                            className='outline-none w-full py-2 px-4 cursor-pointer focus:text-black dark:focus:text-slate-50
-                                focus:rounded-xl focus:shadow-xl focus:bg-white dark:focus:bg-slate-900 flex items-center justify-between gap-2
+                            className='outline-none w-full py-2 px-4 cursor-pointer focus:text-gray-900 dark:focus:text-gray-50
+                                focus:rounded-xl focus:shadow-xl focus:bg-gray-50 dark:focus:bg-gray-900 flex items-center justify-between gap-2
                                 whitespace-nowrap' 
                             onClick={() => setIsLocationOpen(!isLocationOpen)}
                         >
@@ -180,7 +185,7 @@ const SearchPage = () => {
                         </button>
                         
                         {isLocationOpen && (
-                            <div className="absolute top-full left-0 mt-2 w-[200px] bg-white dark:bg-slate-800 text-black dark:text-slate-50
+                            <div className="absolute top-full left-0 mt-2 w-[200px] bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-50
                                 rounded-xl shadow-xl max-h-60 overflow-auto z-[9999]">
                                 {locationOptions.map(option => (
                                     <div
@@ -189,8 +194,8 @@ const SearchPage = () => {
                                             setSearchTerm({ ...searchTerm, location_display: option })
                                             setIsLocationOpen(false)
                                         }}
-                                        className="py-3 px-4 hover:bg-gray-50 dark:hover:bg-slate-700 cursor-pointer
-                                            transition-colors border-b border-gray-200 dark:border-slate-700 last:border-b-0"
+                                        className="py-3 px-4 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer
+                                            transition-colors border-b border-gray-200 dark:border-gray-700 last:border-b-0"
                                     >
                                         {option}
                                     </div>
@@ -202,8 +207,8 @@ const SearchPage = () => {
                     {/* Rent Range */}
                     <div className='relative' ref={rentRef}>
                         <button 
-                            className='outline-none w-full py-2 px-4 cursor-pointer focus:text-black dark:focus:text-slate-50
-                                focus:rounded-xl focus:shadow-xl focus:bg-white dark:focus:bg-slate-900 flex items-center justify-between 
+                            className='outline-none w-full py-2 px-4 cursor-pointer focus:text-gray-900 dark:focus:text-gray-50
+                                focus:rounded-xl focus:shadow-xl focus:bg-gray-50 dark:focus:bg-gray-900 flex items-center justify-between 
                                 gap-2 whitespace-nowrap' 
                             onClick={() => setShowRentRange(!showRentRange)}
                         >
@@ -215,12 +220,12 @@ const SearchPage = () => {
                         </button>
                         
                         {showRentRange && (
-                            <div className="absolute top-full left-0 mt-2 w-[300px] bg-white dark:bg-slate-800
-                             text-black dark:text-slate-50 rounded-xl shadow-xl
+                            <div className="absolute top-full left-0 mt-2 w-[300px] bg-gray-50 dark:bg-gray-800
+                             text-gray-900 dark:text-gray-50 rounded-xl shadow-xl
                                 p-6 z-[9999]">
                                 <div className="space-y-4">
                                     <div>
-                                        <label className="text-sm text-gray-600 dark:text-slate-50 mb-2 block">
+                                        <label className="text-sm text-gray-600 dark:text-gray-50 mb-2 block">
                                             Min: ${rentRange.min}
                                         </label>
                                         <input 
@@ -236,7 +241,7 @@ const SearchPage = () => {
                                         />
                                     </div>
                                     <div>
-                                        <label className="text-sm text-gray-600 dark:text-slate-50 mb-2 block">
+                                        <label className="text-sm text-gray-600 dark:text-gray-50 mb-2 block">
                                             Max: ${rentRange.max}
                                         </label>
                                         <input 
@@ -253,7 +258,7 @@ const SearchPage = () => {
                                     </div>
                                     <button
                                         onClick={() => setShowRentRange(false)}
-                                        className="w-full py-2 bg-lime-300 hover:bg-lime-400 dark:text-slate-900 rounded-xl transition-colors"
+                                        className="w-full py-2 bg-lime-300 hover:bg-lime-400 dark:text-gray-900 rounded-xl transition-colors"
                                     >
                                         Apply
                                     </button>
@@ -265,8 +270,8 @@ const SearchPage = () => {
                     {/* Area Range */}
                     <div className='relative' ref={areaRef}>
                         <button 
-                            className='outline-none w-full py-2 px-4 cursor-pointer focus:text-black dark:focus:text-slate-50
-                                focus:rounded-xl focus:shadow-lg focus:bg-white dark:focus:bg-slate-900 flex items-center 
+                            className='outline-none w-full py-2 px-4 cursor-pointer focus:text-gray-900 dark:focus:text-gray-50
+                                focus:rounded-xl focus:shadow-lg focus:bg-gray-50 dark:focus:bg-gray-900 flex items-center 
                                 justify-between gap-2 whitespace-nowrap' 
                             onClick={() => setShowAreaRange(!showAreaRange)}
                         >
@@ -278,11 +283,11 @@ const SearchPage = () => {
                         </button>
                         
                         {showAreaRange && (
-                            <div className="absolute top-full left-0 mt-2 w-[300px] bg-white dark:bg-slate-800 text-black 
-                            dark:text-slate-50 rounded-xl shadow-xl p-6 z-[9999]">
+                            <div className="absolute top-full left-0 mt-2 w-[300px] bg-gray-50 dark:bg-gray-800 text-gray-900
+                            dark:text-gray-50 rounded-xl shadow-xl p-6 z-[9999]">
                                 <div className="space-y-4">
                                     <div>
-                                        <label className="text-sm text-gray-600 dark:text-slate-50 mb-2 block">
+                                        <label className="text-sm text-gray-600 dark:text-gray-50 mb-2 block">
                                             Min: {areaRange.min} sqm
                                         </label>
                                         <input 
@@ -299,7 +304,7 @@ const SearchPage = () => {
                                         />
                                     </div>
                                     <div>
-                                        <label className="text-sm text-gray-600 dark:text-slate-50 mb-2 block">
+                                        <label className="text-sm text-gray-600 dark:text-gray-50 mb-2 block">
                                             Max: {areaRange.max} sqm
                                         </label>
                                         <input 
@@ -317,7 +322,7 @@ const SearchPage = () => {
                                     </div>
                                     <button
                                         onClick={() => setShowAreaRange(false)}
-                                        className="w-full py-2 bg-lime-300 hover:bg-lime-400 dark:text-slate-900 rounded-xl transition-colors"
+                                        className="w-full py-2 bg-lime-300 hover:bg-lime-400 dark:text-gray-900 rounded-xl transition-colors"
                                     >
                                         Apply
                                     </button>
@@ -329,8 +334,8 @@ const SearchPage = () => {
                     {/* Bedrooms Dropdown */}
                     <div className='relative' ref={bedroomsRef}>
                         <button 
-                            className='outline-none w-full py-2 px-4 cursor-pointer focus:text-black dark:focus:text-slate-50
-                                focus:rounded-xl focus:shadow-xl focus:bg-white dark:focus:bg-slate-900 flex items-center 
+                            className='outline-none w-full py-2 px-4 cursor-pointer focus:text-gray-900 dark:focus:text-gray-50
+                                focus:rounded-xl focus:shadow-xl focus:bg-gray-50 dark:focus:bg-gray-900 flex items-center 
                                 justify-between gap-2 whitespace-nowrap' 
                             onClick={() => setIsBedroomsOpen(!isBedroomsOpen)}
                         >
@@ -338,8 +343,8 @@ const SearchPage = () => {
                         </button>
                         
                         {isBedroomsOpen && (
-                            <div className="absolute top-full left-0 mt-2 w-[200px] bg-white dark:bg-slate-800 
-                                text-black dark:text-slate-50 rounded-xl shadow-xl max-h-60 overflow-auto z-[9999]">
+                            <div className="absolute top-full left-0 mt-2 w-[200px] bg-gray-50 dark:bg-gray-800 
+                                text-gray-900 dark:text-gray-50 rounded-xl shadow-xl max-h-60 overflow-auto z-[9999]">
                                 {bedroomOptions.map(option => (
                                     <div
                                         key={option}
@@ -347,8 +352,8 @@ const SearchPage = () => {
                                             setSearchTerm({ ...searchTerm, bedrooms: option })
                                             setIsBedroomsOpen(false)
                                         }}
-                                        className="py-3 px-4 hover:bg-lime-50 dark:hover:bg-slate-700 cursor-pointer
-                                            transition-colors border-b border-gray-200 dark:border-slate-700 last:border-b-0"
+                                        className="py-3 px-4 hover:bg-lime-50 dark:hover:bg-gray-700 cursor-pointer
+                                            transition-colors border-b border-gray-200 dark:border-gray-700 last:border-b-0"
                                     >
                                         {option} {option === '1' ? 'Bedroom' : 'Bedrooms'}
                                     </div>
@@ -360,7 +365,7 @@ const SearchPage = () => {
                     </div>
 
                     <button 
-                        className='cursor-pointer py-2 px-4 bg-lime-300 opacity-100 text-black
+                        className='cursor-pointer py-2 px-4 bg-lime-300 opacity-100 text-gray-900
                             hover:bg-lime-400 rounded-xl shadow-xl
                             transition-colors whitespace-nowrap ml-1' 
                         onClick={(e) => handleSearch(e)}>
@@ -383,29 +388,29 @@ const SearchPage = () => {
                     <div className='grid grid-cols-1 py-2 px-4 gap-2'>
                     <div className='flex justify-between items-center'>
                         <div className='flex flex-col'>
-                        <p className='font-semibold tracking-wider dark:text-slate-50'>{rentad.property}</p>
-                        <p className='dark:text-slate-50'>{rentad.bedrooms} <span className='text-gray-500 dark:text-slate-300'>{rentad.bedrooms > 1 ? "rooms" : "room"}</span> • {rentad.bathrooms} <span className='text-gray-500 dark:text-slate-300'>{rentad.bathrooms > 1 ? "baths" : "bath"}</span></p>
+                        <p className='font-semibold tracking-wider dark:text-gray-50'>{rentad.property}</p>
+                        <p className='dark:text-gray-50'>{rentad.bedrooms} <span className='text-gray-500 dark:text-gray-300'>{rentad.bedrooms > 1 ? "rooms" : "room"}</span> • {rentad.bathrooms} <span className='text-gray-500 dark:text-gray-300'>{rentad.bathrooms > 1 ? "baths" : "bath"}</span></p>
                         </div>
-                        <div className='flex flex-col dark:text-slate-50'>
+                        <div className='flex flex-col dark:text-gray-50'>
                         <p className='text-lime-500'>{rentad.rent_currency}{(rentad.rent).toString().split('.')[0]}</p>
-                        <p className='dark:text-slate-300'>{rentad.rent_period}</p>
+                        <p className='dark:text-gray-300'>{rentad.rent_period}</p>
                         </div>
                     </div>
                     <div className="flex flex-row justify-start items-center gap-2 w-full">
                         <MapPin className='w-4 h-4 text-orange-600'/>
-                        <p className='dark:text-slate-50'>{rentad.location_display}</p>
+                        <p className='dark:text-gray-50'>{rentad.location_display}</p>
                     </div>
                     <div className='flex flex-wrap gap-1'>
                         {rentad.offers && rentad.offers.slice(0, 4).map(offer => (
                             <p key={offer} 
                                 className="border border-blue-400 rounded-xl px-2 text-sm text-gray-600
-                                dark:text-slate-300">
+                                dark:text-gray-300">
                                 {offer}
                             </p>
                         ))}
                         {rentad.offers.length > 4 && (
                             <p className="border border-blue-400 rounded-xl px-2 text-sm text-gray-600
-                            dark:text-slate-300">
+                            dark:text-gray-300">
                             +{rentad.offers.length - 4} more
                             </p>
                         )}

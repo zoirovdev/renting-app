@@ -18,43 +18,49 @@ const SignupPage = () => {
 
     return (
         <div className="flex justify-center items-center pt-[100px]">
-            <div className="w-[600px] shadow-md border border-gray-100 rounded-xl py-4 px-6 space-y-4 ">
+            <div className="w-[600px] shadow-md border border-gray-100 dark:border-gray-700 
+                rounded-xl py-4 px-6 space-y-4 ">
                 <div className="flex justify-center items-center">
-                    <p className="text-lg font-semibold tracking-widest">Sign up</p>
+                    <p className="text-lg font-semibold tracking-widest dark:text-gray-50">Sign up</p>
                 </div>
                 <div className="flex flex-col">
-                    <label htmlFor="username" className="text-gray-500">Username</label>
+                    <label htmlFor="username" className="text-gray-500 dark:text-gray-300">Username</label>
                     <input type="text"
-                        className="focus:outline-1 focus:outline-lime-500 border border-gray-200 py-2 px-4 rounded-xl "
+                        className="focus:outline-1 focus:outline-lime-500 border border-gray-200 dark:border-gray-700
+                        py-2 px-4 rounded-xl dark:text-gray-50"
                         id="username" name="username"
                         onChange={(e) => setSignupForm({ ...signupForm, username: e.target.value })}/>
                 </div>
                 <div className="flex flex-col">
-                    <label htmlFor="firstname" className="text-gray-500">Firstname</label>
+                    <label htmlFor="firstname" className="text-gray-500 dark:text-gray-300">Firstname</label>
                     <input type="text"
                         id="firstname" name="lastname"
-                        className="focus:outline-1 focus:outline-lime-500 border border-gray-200 py-2 px-4 rounded-xl "
+                        className="focus:outline-1 focus:outline-lime-500 border border-gray-200 dark:border-gray-700
+                        py-2 px-4 rounded-xl dark:text-gray-50"
                         onChange={(e) => setSignupForm({ ...signupForm, firstname: e.target.value })}/>
                 </div>
                 <div className="flex flex-col">
-                    <label htmlFor="lastname" className="text-gray-500">Lastname</label>
+                    <label htmlFor="lastname" className="text-gray-500 dark:text-gray-300">Lastname</label>
                     <input type="text"
                         id="lastname" name="lastname"
-                        className="focus:outline-1 focus:outline-lime-500 border border-gray-200 py-2 px-4 rounded-xl"
+                        className="focus:outline-1 focus:outline-lime-500 border border-gray-200 dark:border-gray-700
+                        py-2 px-4 rounded-xl dark:text-gray-50"
                         onChange={(e) => setSignupForm({ ...signupForm, lastname: e.target.value })}/>
                 </div>
                 <div className="flex flex-col">
-                    <label htmlFor="phone" className="text-gray-500">Phone</label>
+                    <label htmlFor="phone" className="text-gray-500 dark:text-gray-300">Phone</label>
                     <input type="text"
                         id="phone" name="phone"
-                        className="focus:outline-1 focus:outline-lime-500 border border-gray-200 py-2 px-4 rounded-xl"
+                        className="focus:outline-1 focus:outline-lime-500 border border-gray-200 dark:border-gray-700
+                        py-2 px-4 rounded-xl dark:text-gray-50"
                         onChange={(e) => setSignupForm({ ...signupForm, phone: e.target.value })}/>
                 </div>
                 <div className="flex flex-col">
-                    <label htmlFor="password" className="text-gray-500">Password</label>
+                    <label htmlFor="password" className="text-gray-500 dark:text-gray-300">Password</label>
                     <input type="password" 
                         id="password" name="password"
-                        className="focus:outline-1 focus:outline-lime-500 border border-gray-200 py-2 px-4 rounded-xl"
+                        className="focus:outline-1 focus:outline-lime-500 border border-gray-200 dark:border-gray-700
+                        py-2 px-4 rounded-xl dark:text-gray-50"
                         onChange={(e) => setSignupForm({ ...signupForm, password: e.target.value })}/> 
                 </div>
                 <div className="flex justify-between items-center">

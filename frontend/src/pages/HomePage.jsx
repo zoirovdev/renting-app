@@ -77,37 +77,43 @@ const HomePage = () => {
   if(loading) return <div>Loading...</div>
 
   return (
-      <div className='flex flex-col gap-4 relative dark:bg-slate-900 h-screen py-8'>
+      <div className='flex flex-col gap-4 relative h-screen py-8'>
         <div className="flex justify-center items-center">
           <div className='flex flex-row justify-center items-center gap-1'>
             <button onClick={() => {fetchRentads(); setSortOption('New')}}
-              className={`border border-gray-200 rounded-xl py-2 px-4 cursor-pointer
-                ${sortOption === 'New' ? "border-none bg-gray-900 text-gray-50" : "" }`}>
+              className={`border border-gray-200 dark:border-gray-700 rounded-xl py-2 px-4 cursor-pointer
+                ${sortOption === 'New' ? "border-none bg-gray-900 dark:bg-gray-50 text-gray-50 dark:text-gray-900" 
+                : "dark:text-gray-50" }`}>
               New
             </button>
             <button onClick={() => {sortByOffers('recently renovated'); setSortOption('Recently renovated')}}
-              className={`border border-gray-200 rounded-xl py-2 px-4 cursor-pointer
-                ${sortOption === 'Recently renovated' ? "border-none bg-gray-900 text-gray-50" : "" }`}>
+              className={`border border-gray-200 dark:border-gray-700 rounded-xl py-2 px-4 cursor-pointer
+                ${sortOption === 'Recently renovated' ? "border-none bg-gray-900 dark:bg-gray-50 text-gray-50 dark:text-gray-900" 
+                : "dark:text-gray-50" }`}>
               Recently renovated
             </button>
             <button onClick={() => {setSortOption('Lowest rents'); sortByRents()}}
-              className={`border border-gray-200 rounded-xl py-2 px-4 cursor-pointer
-                ${sortOption === 'Lowest rents' ? "border-none bg-gray-900 text-gray-50" : "" }`}>
+              className={`border border-gray-200 dark:border-gray-700 rounded-xl py-2 px-4 cursor-pointer
+                ${sortOption === 'Lowest rents' ? "border-none bg-gray-900 dark:bg-gray-50 text-gray-50 dark:text-gray-900"
+                : "dark:text-gray-50" }`}>
               Lowest rents
             </button>
             <button onClick={() => {setSortOption('Nearby'); getLocation()}}
-              className={`border border-gray-200 rounded-xl py-2 px-4 cursor-pointer
-                ${sortOption === 'Nearby' ? "border-none bg-gray-900 text-gray-50" : "" }`}>
+              className={`border border-gray-200 dark:border-gray-700 rounded-xl py-2 px-4 cursor-pointer
+                ${sortOption === 'Nearby' ? "border-none bg-gray-900 dark:bg-gray-50 text-gray-50 dark:text-gray-900" 
+                : "dark:text-gray-50" }`}>
               Nearby
             </button>
             <button onClick={() => {setSortOption('Without rieltor'); getWithoutRieltor()}}
-              className={`border border-gray-200 rounded-xl py-2 px-4 cursor-pointer
-                ${sortOption === 'Without rieltor' ? "border-none bg-gray-900 text-gray-50" : "" }`}>
+              className={`border border-gray-200 dark:border-gray-700 rounded-xl py-2 px-4 cursor-pointer
+                ${sortOption === 'Without rieltor' ? "border-none bg-gray-900 dark:bg-gray-50 text-gray-50 dark:text-gray-900"
+                : "dark:text-gray-50" }`}>
               Without rieltor
             </button>
             <button onClick={() => {setSortOption('Lease agreement'); sortByOffers('lease agreement')}}
-              className={`border border-gray-200 rounded-xl py-2 px-4 cursor-pointer
-                ${sortOption === 'Lease agreement' ? "border-none bg-gray-900 text-gray-50" : "" }`}>
+              className={`border border-gray-200 dark:border-gray-700 rounded-xl py-2 px-4 cursor-pointer
+                ${sortOption === 'Lease agreement' ? "border-none bg-gray-900 dark:bg-gray-50 text-gray-50 dark:text-gray-900"
+                : "dark:text-gray-50" }`}>
               Lease agreement
             </button>
           </div>

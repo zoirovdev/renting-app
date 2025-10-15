@@ -88,29 +88,29 @@ const DetailPage = () => {
                     </button>
                 </div>
                 <div className='flex justify-between items-center mt-8 mb-1'>
-                    <p className='text-lg font-bold tracking-wider'>Details</p>
+                    <p className='text-lg font-bold tracking-wider dark:text-gray-50'>Details</p>
                     <button className='flex justify-center items-center gap-2 ml-2 border border-gray-200 
-                        rounded-xl px-3 py-1 cursor-pointer'
+                        dark:border-gray-700 rounded-xl px-3 py-1 cursor-pointer'
                         onClick={handleShare}>
                         {shareCopied 
-                        ? <Check className='w-4 h-4'/>
-                        : <Share className='w-4 h-4'/>}
-                        <p>Share</p>
+                        ? <Check className='w-4 h-4 dark:text-gray-50'/>
+                        : <Share className='w-4 h-4 dark:text-gray-50'/>}
+                        <p className="dark:text-gray-50">Share</p>
                     </button>
                 </div>
-                <div className="flex flex-col pl-4 pr-2 pb-4 border border-gray-200 rounded-xl mb-8">
+                <div className="flex flex-col pl-4 pr-2 pb-4 border border-gray-200 dark:border-gray-700 rounded-xl mb-8">
                     <div className='flex justify-between items-center'>
                         <div className='flex flex-col'>
                             <div className='flex justify-start items-center gap-2'>
-                                <p className='font-semibold tracking-wider'>
+                                <p className='font-semibold tracking-wider dark:text-gray-50'>
                                     {currentRentad?.property}
                                 </p>
-                                <p className='text-gray-500'>{Math.floor((new Date() - new Date(currentRentad?.created_at)) / (1000 * 60 * 60 * 24))===0 ? 'Today' : 
+                                <p className='text-gray-500 dark:text-gray-400'>{Math.floor((new Date() - new Date(currentRentad?.created_at)) / (1000 * 60 * 60 * 24))===0 ? 'Today' : 
                                     Math.floor((new Date() - new Date(currentRentad?.created_at)) / (1000 * 60 * 60 * 24))===1 ? 'Yesterday' : 
                                     `${Math.floor((new Date() - new Date(currentRentad?.created_at)) / (1000 * 60 * 60 * 24))} days ago` }
                                 </p>
                             </div>
-                            <div className='flex flex-row justify-start items-center gap-2'>
+                            <div className='flex flex-row justify-start items-center gap-2 dark:text-gray-50'>
                                 <p>{currentRentad?.area} {currentRentad?.area_unit}</p>
                                 <span>•</span>
                                 <p>{currentRentad?.bedrooms} bedrooms</p>
@@ -118,7 +118,8 @@ const DetailPage = () => {
                                 <p>{currentRentad?.bathrooms} bathrooms</p>
                             </div>
                         </div>
-                        <div className='flex flex-col justify-center items-center border border-lime-500 rounded-xl py-2 px-4 mt-2'>
+                        <div className='flex flex-col justify-center items-center dark:text-gray-50 
+                            border border-lime-500 rounded-xl py-2 px-4 mt-2'>
                             <p className=''>{currentRentad?.rent_currency} {currentRentad?.rent}</p>
                             <p>{currentRentad?.rent_period}</p>
                         </div>
@@ -129,29 +130,32 @@ const DetailPage = () => {
                             <div key={offer} className='flex justify-center items-center gap-1'>
                                 <CircleCheck className="w-4 h-4 text-lime-600"/>
                                 <p  
-                                    className="">
+                                    className="dark:text-gray-50">
                                     {offer}
                                 </p>
                             </div>
                         ))}
                     </div>
                 </div>
-                <div className='flex flex-row gap-1 text-lg font-bold tracking-wider mb-1'>
+                <div className='flex flex-row gap-1 text-lg font-bold tracking-wider mb-1 dark:text-gray-50'>
                     <p>in</p>
                     <p>{currentLocation?.county}</p>,
                     <p>{currentLocation?.city}</p>
                 </div>
                 <DetailMap lat={currentLocation?.lat} lon={currentLocation?.lon} wth={"800px"}/>
-                <p className='mt-8 text-lg font-bold tracking-wider'>Contact {currentRentad?.user_type}</p>
-                <div className='py-2 px-4 border border-gray-200 rounded-xl mb-8 flex justify-between items-center'>
-                    <p>{currentRentad?.user_name}</p>
+                <p className='mt-8 text-lg font-bold tracking-wider dark:text-gray-50'>Contact {currentRentad?.user_type}</p>
+                <div className='py-2 px-4 border border-gray-200 dark:border-gray-700 rounded-xl mb-8 flex justify-between items-center'>
+                    <p className='dark:text-gray-50 cursor-pointer'
+                        onClick={() => navigate(`/profile`)}>
+                        {currentRentad?.user_name}
+                    </p>
                     <div className='flex flex-row justify-center items-center gap-2
-                        cursor-pointer py-2 px-4 rounded-xl shadow-inner bg-gray-100'
-                        onClick={handleCopy}>
+                        cursor-pointer py-2 px-4 rounded-xl shadow-inner dark:hover:bg-gray-800 hover:bg-gray-100'
+                        onClick={() => {handleCopy();}}>
                         {copied 
                         ? <Check className='w-4 h-4 text-lime-500'/>
                         : <Copy className='w-4 h-4 text-gray-400'/>}
-                        <p>{currentRentad?.user_phone}</p>
+                        <p className="dark:text-gray-50">{currentRentad?.user_phone}</p>
                     </div>
                 </div>
             </div>
