@@ -310,3 +310,47 @@ export const getWithoutRieltor = async (req, res) => {
         })
     }
 }
+
+
+export const getNearby = async (req, res) => {
+    try {
+        const { user_lat, user_lon } = req.query
+        const userLat = parseFloat(user_lat)
+        const userLon = parseFloat(user_lon)
+        const distance_km = 5
+
+        const result = await sql`
+            SELECT rentads.*, 
+                   locations.lat AS latitude, 
+                   locations.lon AS longitude,
+                   (
+                     6371 * acos(
+                       cos(radians(${userLat})) * cos(radians(locations.lat)) * 
+                       cos(radians(locations.lon) - radians(${userLon})) + 
+                       sin(radians(${userLat})) * sin(radians(locations.lat))
+                     )
+                   ) AS distance_km
+            FROM rentads
+            INNER JOIN locations ON rentads.location_id = locations.id
+            WHERE 
+                locations.lat BETWEEN ${userLat - 0.045} AND ${userLat + 0.045}
+                AND locations.lon BETWEEN ${userLon - 0.045} AND ${userLon + 0.045}
+                AND (
+                  6371 * acos(
+                    cos(radians(${userLat})) * cos(radians(locations.lat)) * 
+                    cos(radians(locations.lon) - radians(${userLon})) + 
+                    sin(radians(${userLat})) * sin(radians(locations.lat))
+                  )
+                ) < ${distance_km}
+            ORDER BY distance_km ASC
+        `
+
+        res.status(200).json({ success: true, data: result })
+    } catch (err) {
+        console.log("Error in getNearby function in rentadsController", err)
+        res.status(500).json({ 
+            success: false, 
+            message: "Internal server error" 
+        })
+    }
+}

@@ -13,8 +13,8 @@ export const useLocationStore = create((set, get) => ({
     currentLocation: null,
 
     formLocation: {
-        lat: "",
-        lon: "",
+        lat: 0,
+        lon: 0,
         display_name: "",
         city: "",
         country: "",

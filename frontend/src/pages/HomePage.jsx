@@ -8,10 +8,65 @@ import { useLocationStore } from '../stores/useLocationStore.js'
 
 
 const HomePage = () => {
-  const { fetchRentads, rentads, loading, sortByOffers, sortByRents, getWithoutRieltor } = useRentadStore()
-  const { getLocation, currentLocation } = useLocationStore()
+  const { fetchRentads, rentads, loading, sortByOffers, sortByRents, getWithoutRieltor, getNearby } = useRentadStore()
   const [displayRentads, setDisplayRentads] = useState()
   const [sortOption, setSortOption] = useState('')
+  const [locationLoading, setLocationLoading] = useState(false)
+  const [error, setError] = useState(null)
+
+
+
+  const success = async (position) => {
+    const { latitude, longitude } = position.coords;
+    const accuracy = position.coords.accuracy
+    
+    console.log(`Lat: ${latitude}, Lon: ${longitude}, Accuracy: ${accuracy}`)
+    await getNearby(latitude, longitude)
+  };
+
+  
+  // Error callback
+  const handleError = (error) => {
+      let errorMessage = 'An unknown error occurred.';
+      
+      switch(error.code) {
+          case error.PERMISSION_DENIED:
+              errorMessage = 'User denied the request for Geolocation.';
+              break;
+          case error.POSITION_UNAVAILABLE:
+              errorMessage = 'Location information is unavailable.';
+              break;
+          case error.TIMEOUT:
+              errorMessage = 'The request to get user location timed out.';
+              break;
+          default:
+              errorMessage = 'An unknown error occurred.';
+              break;
+      }
+      
+      setError(errorMessage);
+      setLocationLoading(false);
+  }
+
+  const getLocation = () => {
+      setLocationLoading(true);
+      setError(null);
+      
+      // Check if geolocation is supported
+      if (!navigator.geolocation) {
+          setError('Geolocation is not supported by this browser.');
+          setLocationLoading(false);
+          return;
+      }
+
+      const options = {
+          enableHighAccuracy: true,
+          timeout: 5000,
+          maximumAge: 0
+      };
+
+      navigator.geolocation.getCurrentPosition(success, handleError, options);
+  }
 
 
   useEffect(() => {
@@ -40,7 +95,7 @@ const HomePage = () => {
                 ${sortOption === 'Lowest rents' ? "border-none bg-gray-900 text-gray-50" : "" }`}>
               Lowest rents
             </button>
-            <button onClick={() => {setSortOption('Nearby');}}
+            <button onClick={() => {setSortOption('Nearby'); getLocation()}}
               className={`border border-gray-200 rounded-xl py-2 px-4 cursor-pointer
                 ${sortOption === 'Nearby' ? "border-none bg-gray-900 text-gray-50" : "" }`}>
               Nearby

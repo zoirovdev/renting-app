@@ -1,5 +1,5 @@
 import express from "express"
-import { getAll, create, getRentad, uploadImage, searchRentad, getRentadsWithLocations, getAllByUserId, sortByOffers, sortByLowestRent, getWithoutRieltor } from "../controllers/rentadControllers.js"
+import { getAll, create, getRentad, uploadImage, searchRentad, getRentadsWithLocations, getAllByUserId, sortByOffers, sortByLowestRent, getWithoutRieltor, getNearby } from "../controllers/rentadControllers.js"
 
 const router = express.Router()
 
@@ -15,6 +15,8 @@ router.get("/getWithLocations", getRentadsWithLocations)
 router.get("/sort-by-lowest-rents", sortByLowestRent)
 
 router.get("/get-without-rieltor", getWithoutRieltor)
+
+router.get("/get-nearby", getNearby)
 
 router.get("/sort-by-offers/:filter", sortByOffers)
 

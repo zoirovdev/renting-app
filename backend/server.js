@@ -77,6 +77,12 @@ async function initDB(){
         // await sql`DROP TABLE IF EXISTS rentads CASCADE`
         // await sql`DROP TABLE IF EXISTS users CASCADE`
         // await sql`DROP TABLE IF EXISTS locations CASCADE`
+
+        // await sql`
+        //     ALTER TABLE locations 
+        //         ALTER COLUMN lat TYPE DOUBLE PRECISION USING lat::DOUBLE PRECISION,
+        //         ALTER COLUMN lon TYPE DOUBLE PRECISION USING lon::DOUBLE PRECISION;`
+
         await sql`
             CREATE TABLE IF NOT EXISTS users(
                 id SERIAL PRIMARY KEY,
@@ -95,8 +101,8 @@ async function initDB(){
         await sql`
             CREATE TABLE IF NOT EXISTS locations(
                 id SERIAL PRIMARY KEY,
-                lat VARCHAR(255) NOT NULL,
-                lon VARCHAR(255) NOT NULL,
+                lat DOUBLE PRECISION NOT NULL,
+                lon DOUBLE PRECISION NOT NULL,
                 display_name VARCHAR(255) NOT NULL,
                 city VARCHAR(255) NOT NULL,
                 country VARCHAR(255) NOT NULL,

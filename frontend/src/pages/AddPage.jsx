@@ -92,8 +92,8 @@ const AddPage = () => {
             if (data && data.address) {
                 // Create location object with all data at once
                 const locationData = {
-                    lat: latitude.toString(),
-                    lon: longitude.toString(),
+                    lat: latitude,
+                    lon: longitude,
                     accuracy: position.coords.accuracy,
                     city: data?.address?.city || '',
                     country: data?.address?.country || '',
