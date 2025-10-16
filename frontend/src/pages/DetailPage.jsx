@@ -9,7 +9,7 @@ import { useUserStore } from '../stores/useUserStore'
 
 
 const DetailPage = () => {
-    const { fetchRentad, currentRentad } = useRentadStore()
+    const { fetchRentad, currentRentad, loading } = useRentadStore()
     const { id } = useParams()
     const { getLocation, currentLocation, setCurrentLocation } = useLocationStore()
     const navigate = useNavigate()
@@ -74,7 +74,77 @@ const DetailPage = () => {
    
     return (
         <div className="flex justify-center items-center">
-            <div className={`${imagesModal ? "hidden" : ""}`}>
+            
+        { loading
+            ?   <div className={`${imagesModal ? "hidden" : ""} animate-pulse`}>
+                {/* Image skeleton */}
+                <div className="flex flex-col justify-center w-[800px] h-[500px] relative">
+                    <div className='bg-gray-300 dark:bg-gray-700 w-[100%] h-[100%] rounded-xl'></div>
+                    <div className='absolute bottom-2 right-2 bg-gray-300 dark:bg-gray-700 py-2 px-4 
+                        rounded-xl z-20 w-32 h-10'>
+                    </div>
+                </div>
+
+                {/* Details header skeleton */}
+                <div className='flex justify-between items-center mt-8 mb-1'>
+                    <div className='h-7 w-24 bg-gray-300 dark:bg-gray-700 rounded'></div>
+                    <div className='h-9 w-24 bg-gray-300 dark:bg-gray-700 rounded-xl'></div>
+                </div>
+
+                {/* Details card skeleton */}
+                <div className="flex flex-col pl-4 pr-2 pb-4 border border-gray-200 dark:border-gray-700 rounded-xl mb-8">
+                    <div className='flex justify-between items-center'>
+                        <div className='flex flex-col gap-2 py-4'>
+                            <div className='flex justify-start items-center gap-2'>
+                                <div className='h-6 w-40 bg-gray-300 dark:bg-gray-700 rounded'></div>
+                                <div className='h-5 w-20 bg-gray-300 dark:bg-gray-700 rounded'></div>
+                            </div>
+                            <div className='flex flex-row justify-start items-center gap-2'>
+                                <div className='h-5 w-16 bg-gray-300 dark:bg-gray-700 rounded'></div>
+                                <div className='h-5 w-3 bg-gray-300 dark:bg-gray-700 rounded-full'></div>
+                                <div className='h-5 w-24 bg-gray-300 dark:bg-gray-700 rounded'></div>
+                                <div className='h-5 w-3 bg-gray-300 dark:bg-gray-700 rounded-full'></div>
+                                <div className='h-5 w-24 bg-gray-300 dark:bg-gray-700 rounded'></div>
+                            </div>
+                        </div>
+                        <div className='h-20 w-32 bg-gray-300 dark:bg-gray-700 rounded-xl mt-2'></div>
+                    </div>
+                    
+                    {/* Offers skeleton */}
+                    <div className='flex justify-start items-center gap-2 pt-2'>
+                        <div className='flex justify-center items-center gap-1'>
+                            <div className='w-4 h-4 bg-gray-300 dark:bg-gray-700 rounded-full'></div>
+                            <div className='h-4 w-16 bg-gray-300 dark:bg-gray-700 rounded'></div>
+                        </div>
+                        <div className='flex justify-center items-center gap-1'>
+                            <div className='w-4 h-4 bg-gray-300 dark:bg-gray-700 rounded-full'></div>
+                            <div className='h-4 w-20 bg-gray-300 dark:bg-gray-700 rounded'></div>
+                        </div>
+                        <div className='flex justify-center items-center gap-1'>
+                            <div className='w-4 h-4 bg-gray-300 dark:bg-gray-700 rounded-full'></div>
+                            <div className='h-4 w-24 bg-gray-300 dark:bg-gray-700 rounded'></div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Location skeleton */}
+                <div className='flex flex-row gap-1 mb-1'>
+                    <div className='h-7 w-8 bg-gray-300 dark:bg-gray-700 rounded'></div>
+                    <div className='h-7 w-32 bg-gray-300 dark:bg-gray-700 rounded'></div>
+                    <div className='h-7 w-24 bg-gray-300 dark:bg-gray-700 rounded'></div>
+                </div>
+
+                {/* Map skeleton */}
+                <div className='w-[800px] h-[400px] bg-gray-300 dark:bg-gray-700 rounded-xl mb-8'></div>
+
+                {/* Contact section skeleton */}
+                <div className='h-7 w-40 bg-gray-300 dark:bg-gray-700 rounded mt-8 mb-2'></div>
+                <div className='py-4 px-4 border border-gray-200 dark:border-gray-700 rounded-xl mb-8 flex justify-between items-center'>
+                    <div className='h-5 w-32 bg-gray-300 dark:bg-gray-700 rounded'></div>
+                    <div className='h-10 w-40 bg-gray-300 dark:bg-gray-700 rounded-xl'></div>
+                </div>
+            </div>
+            :   <div className={`${imagesModal ? "hidden" : ""}`}>
                 <div className="flex flex-col justify-center w-[800px] h-[500px] relative">
                     <img 
                         src={currentRentad?.images?.[0]|| null} 
@@ -159,6 +229,8 @@ const DetailPage = () => {
                     </div>
                 </div>
             </div>
+            }
+            
 
             {imagesModal && 
                 <div className='fixed inset-0 z-50 bg-black bg-opacity-90'>
