@@ -420,7 +420,15 @@ const SearchPage = () => {
                 </div>
                 ))}
             </div>
-            :  <div className='flex flex-wrap justify-start items-center gap-x-2'>
+            : rentads.length === 0 
+            ? <div className='flex flex-col justify-center items-center mx-[130px] mt-20'>
+                <div className='text-gray-400 dark:text-gray-500 text-center'>
+                <p className='text-6xl mb-4'>🏠</p>
+                <p className='text-xl font-semibold mb-2'>No properties found</p>
+                <p className='text-gray-500 dark:text-gray-400'>Try adjusting your search filters</p>
+                </div>
+            </div>
+            :<div className='flex flex-wrap justify-start items-center gap-x-2'>
                 {rentads.length && rentads.map((rentad) => (
                 <Link to={`/detail/${rentad.id}`} key={rentad.id} 
                     className='flex flex-col justify-start  w-[300px] h-[400px] gap-1 pb-4'>
