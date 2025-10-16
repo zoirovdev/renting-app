@@ -14,6 +14,12 @@ const HomePage = () => {
   const [locationLoading, setLocationLoading] = useState(false)
   const [error, setError] = useState(null)
 
+  const loadingRentads = [
+    { id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 },
+    { id: 6 }, { id: 7 }, { id: 8 }, { id: 9 }, { id: 10 },
+    { id: 11 }, { id: 12 }, { id: 13 }, { id: 14 }, { id: 15 },
+  ]
+
 
 
   const success = async (position) => {
@@ -71,13 +77,15 @@ const HomePage = () => {
 
   useEffect(() => {
     fetchRentads()
+    
   }, [fetchRentads])
 
 
-  if(loading) return <div>Loading...</div>
+  // if(loading) return <div>Loading...</div>
 
   return (
       <div className='flex flex-col gap-4 relative h-screen py-8'>
+        {/* Sort */}
         <div className="flex justify-center items-center">
           <div className='flex flex-row justify-center items-center gap-1'>
             <button onClick={() => {fetchRentads(); setSortOption('New')}}
@@ -118,7 +126,46 @@ const HomePage = () => {
             </button>
           </div>
         </div>
-        <div className='flex flex-wrap justify-start items-center gap-x-2 mx-[130px]'>
+
+        {/* Feed */}
+        {loading 
+        ? <div className='flex flex-wrap justify-start items-center gap-x-2 mx-[130px]'>
+            {loadingRentads.map(load => (
+              <div key={load.id} 
+                className='flex flex-col justify-start w-[300px] h-[400px] gap-1 pb-4 animate-pulse'>
+                {/* Image skeleton */}
+                <div className='w-full h-[200px] bg-gray-300 dark:bg-gray-700 rounded-xl'></div>
+                
+                {/* Content skeleton */}
+                <div className='grid grid-cols-1 py-2 px-4 gap-2'>
+                  <div className='flex justify-between items-center'>
+                    <div className='flex flex-col gap-2'>
+                      <div className='h-5 w-32 bg-gray-300 dark:bg-gray-700 rounded'></div>
+                      <div className='h-4 w-24 bg-gray-300 dark:bg-gray-700 rounded'></div>
+                    </div>
+                    <div className='flex flex-col gap-2'>
+                      <div className='h-5 w-16 bg-gray-300 dark:bg-gray-700 rounded'></div>
+                      <div className='h-4 w-12 bg-gray-300 dark:bg-gray-700 rounded'></div>
+                    </div>
+                  </div>
+                  
+                  {/* Location skeleton */}
+                  <div className="flex flex-row justify-start items-center gap-2 w-full">
+                    <div className='w-4 h-4 bg-gray-300 dark:bg-gray-700 rounded'></div>
+                    <div className='h-4 w-40 bg-gray-300 dark:bg-gray-700 rounded'></div>
+                  </div>
+                  
+                  {/* Offers skeleton */}
+                  <div className='flex flex-wrap gap-1'>
+                    <div className='h-6 w-16 bg-gray-300 dark:bg-gray-700 rounded-xl'></div>
+                    <div className='h-6 w-20 bg-gray-300 dark:bg-gray-700 rounded-xl'></div>
+                    <div className='h-6 w-14 bg-gray-300 dark:bg-gray-700 rounded-xl'></div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        : <div className='flex flex-wrap justify-start items-center gap-x-2 mx-[130px]'>
           {rentads.length && rentads.map((rentad) => (
             <Link to={`/detail/${rentad.id}`} key={rentad.id} 
               className='flex flex-col justify-start  w-[300px] h-[400px] gap-1 pb-4'>
@@ -159,7 +206,7 @@ const HomePage = () => {
               </div>
             </Link>
           ))}
-        </div>
+        </div>}
       </div>
   )
 }
