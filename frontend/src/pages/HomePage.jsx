@@ -84,42 +84,42 @@ const HomePage = () => {
   // if(loading) return <div>Loading...</div>
 
   return (
-      <div className='flex flex-col gap-4 relative h-screen py-8'>
+      <div className='flex flex-col gap-4 relative h-screen py-4 md:py-8 pb-20 md:pb-8'>
         {/* Sort */}
-        <div className="flex justify-center items-center">
-          <div className='flex flex-row justify-center items-center gap-1'>
+        <div className="flex sm:flex-wrap justify-center items-center px-4 md:px-0">
+          <div className='flex flex-row justify-start md:justify-center items-center gap-1 overflow-x-auto pb-2 md:pb-0 w-full md:w-auto'>
             <button onClick={() => {fetchRentads(); setSortOption('New')}}
-              className={`border border-gray-200 dark:border-gray-700 rounded-xl py-2 px-4 cursor-pointer
+              className={`border border-gray-200 dark:border-gray-700 rounded-xl py-2 px-4 cursor-pointer whitespace-nowrap
                 ${sortOption === 'New' ? "border-none bg-gray-900 dark:bg-gray-50 text-gray-50 dark:text-gray-900" 
                 : "dark:text-gray-50" }`}>
               New
             </button>
             <button onClick={() => {sortByOffers('recently renovated'); setSortOption('Recently renovated')}}
-              className={`border border-gray-200 dark:border-gray-700 rounded-xl py-2 px-4 cursor-pointer
+              className={`border border-gray-200 dark:border-gray-700 rounded-xl py-2 px-4 cursor-pointer whitespace-nowrap
                 ${sortOption === 'Recently renovated' ? "border-none bg-gray-900 dark:bg-gray-50 text-gray-50 dark:text-gray-900" 
                 : "dark:text-gray-50" }`}>
               Recently renovated
             </button>
             <button onClick={() => {setSortOption('Lowest rents'); sortByRents()}}
-              className={`border border-gray-200 dark:border-gray-700 rounded-xl py-2 px-4 cursor-pointer
+              className={`border border-gray-200 dark:border-gray-700 rounded-xl py-2 px-4 cursor-pointer whitespace-nowrap
                 ${sortOption === 'Lowest rents' ? "border-none bg-gray-900 dark:bg-gray-50 text-gray-50 dark:text-gray-900"
                 : "dark:text-gray-50" }`}>
               Lowest rents
             </button>
             <button onClick={() => {setSortOption('Nearby'); getLocation()}}
-              className={`border border-gray-200 dark:border-gray-700 rounded-xl py-2 px-4 cursor-pointer
+              className={`border border-gray-200 dark:border-gray-700 rounded-xl py-2 px-4 cursor-pointer whitespace-nowrap
                 ${sortOption === 'Nearby' ? "border-none bg-gray-900 dark:bg-gray-50 text-gray-50 dark:text-gray-900" 
                 : "dark:text-gray-50" }`}>
               Nearby
             </button>
             <button onClick={() => {setSortOption('Without rieltor'); getWithoutRieltor()}}
-              className={`border border-gray-200 dark:border-gray-700 rounded-xl py-2 px-4 cursor-pointer
+              className={`border border-gray-200 dark:border-gray-700 rounded-xl py-2 px-4 cursor-pointer whitespace-nowrap
                 ${sortOption === 'Without rieltor' ? "border-none bg-gray-900 dark:bg-gray-50 text-gray-50 dark:text-gray-900"
                 : "dark:text-gray-50" }`}>
               Without rieltor
             </button>
             <button onClick={() => {setSortOption('Lease agreement'); sortByOffers('lease agreement')}}
-              className={`border border-gray-200 dark:border-gray-700 rounded-xl py-2 px-4 cursor-pointer
+              className={`border border-gray-200 dark:border-gray-700 rounded-xl py-2 px-4 cursor-pointer whitespace-nowrap
                 ${sortOption === 'Lease agreement' ? "border-none bg-gray-900 dark:bg-gray-50 text-gray-50 dark:text-gray-900"
                 : "dark:text-gray-50" }`}>
               Lease agreement
@@ -129,10 +129,10 @@ const HomePage = () => {
 
         {/* Feed */}
         {loading 
-        ? <div className='flex flex-wrap justify-start items-center gap-x-2 mx-[130px]'>
+        ? <div className='flex flex-wrap justify-center md:justify-start items-center gap-4 px-4 md:mx-[130px]'>
             {loadingRentads.map(load => (
               <div key={load.id} 
-                className='flex flex-col justify-start w-[300px] h-[400px] gap-1 pb-4 animate-pulse'>
+                className='flex flex-col justify-start w-full sm:w-[calc(50%-0.5rem)] lg:w-[300px] h-[400px] gap-1 pb-4 animate-pulse'>
                 {/* Image skeleton */}
                 <div className='w-full h-[200px] bg-gray-300 dark:bg-gray-700 rounded-xl'></div>
                 
@@ -166,20 +166,20 @@ const HomePage = () => {
             ))}
           </div>
         : rentads.length === 0 
-        ? <div className='flex flex-col justify-center items-center mx-[130px] mt-20'>
+        ? <div className='flex flex-col justify-center items-center px-4 md:mx-[130px] mt-20'>
             <div className='text-gray-400 dark:text-gray-500 text-center'>
               <p className='text-6xl mb-4'>🏠</p>
               <p className='text-xl font-semibold mb-2'>No properties found</p>
               <p className='text-gray-500 dark:text-gray-400'>Try adjusting your search filters</p>
             </div>
           </div>
-        : <div className='flex flex-wrap justify-start items-center gap-x-2 mx-[130px]'>
+        : <div className='flex flex-wrap justify-center md:justify-start items-center gap-4 px-4 md:mx-[130px]'>
           {rentads.length && rentads.map((rentad) => (
             <Link to={`/detail/${rentad.id}`} key={rentad.id} 
-              className='flex flex-col justify-start  w-[300px] h-[400px] gap-1 pb-4'>
+              className='flex flex-col justify-start w-full sm:w-[calc(50%-0.5rem)] lg:w-[300px] h-[400px] gap-1 pb-4'>
               {rentad.images.length && 
               <div className='w-full'>
-                <img src={rentad.images[0]} alt="" className='object-cover w-[300px] h-[200px] rounded-xl'/>  
+                <img src={rentad.images[0]} alt="" className='object-cover w-full h-[200px] rounded-xl'/>  
               </div>}
               <div className='grid grid-cols-1 py-2 px-4 gap-2'>
                 <div className='flex justify-between items-center'>

@@ -69,16 +69,8 @@ function Map() {
 
   if (loading) {
     return (
-      <div style={{ 
-        height: '500px', 
-        width: '100%', 
-        display: 'flex', 
-        alignItems: 'center', 
-        justifyContent: 'center',
-        background: '#f3f4f6',
-        borderRadius: '12px'
-      }}>
-        <p>Loading map...</p>
+      <div className='h-[300px] md:h-[500px] w-full flex items-center justify-center bg-gray-100 dark:bg-gray-800 rounded-xl'>
+        <p className='dark:text-gray-50'>Loading map...</p>
       </div>
     );
   }
@@ -87,7 +79,7 @@ function Map() {
     <MapContainer 
       center={mapCenter} 
       zoom={12} 
-      style={{ height: '500px', width: '100%', borderRadius: '12px' }}
+      className='h-[300px] md:h-[500px] w-full rounded-xl'
       scrollWheelZoom={true}
     >
       <TileLayer
@@ -104,56 +96,32 @@ function Map() {
             rentad.rent_currency || '$'
           )}
         >
-          <Popup>
-            <div style={{ minWidth: '200px' }}>
+          <Popup maxWidth={250} minWidth={180}>
+            <div className='flex flex-col'>
               {rentad.images?.[0] && (
                 <img 
                   src={rentad.images[0]} 
                   alt={rentad.property}
-                  style={{ 
-                    width: '100%', 
-                    height: '120px', 
-                    objectFit: 'cover',
-                    borderRadius: '8px',
-                    marginBottom: '8px'
-                  }}
+                  className='w-full h-[100px] md:h-[120px] object-cover rounded-lg mb-2'
                 />
               )}
-              <h3 style={{ 
-                margin: '0 0 8px 0', 
-                fontSize: '16px', 
-                fontWeight: 'bold' 
-              }}>
+              <h3 className='m-0 mb-2 text-sm md:text-base font-bold text-gray-900'>
                 {rentad.property}
               </h3>
-              <p style={{ 
-                margin: '4px 0', 
-                color: '#84cc16', 
-                fontSize: '18px', 
-                fontWeight: 'bold' 
-              }}>
+              <p className='my-1 text-lime-500 text-base md:text-lg font-bold'>
                 {rentad.rent_currency}{Math.floor(rentad.rent)} / {rentad.rent_period}
               </p>
-              <p style={{ margin: '4px 0', fontSize: '14px', color: '#666' }}>
+              <p className='my-1 text-xs md:text-sm text-gray-600'>
                 📍 {rentad.location_display}
               </p>
-              <p style={{ margin: '4px 0', fontSize: '14px', color: '#666' }}>
+              <p className='my-1 text-xs md:text-sm text-gray-600'>
                 🛏️ {rentad.bedrooms} bed{rentad.bedrooms > 1 ? 's' : ''} • 
                 🚿 {rentad.bathrooms} bath{rentad.bathrooms > 1 ? 's' : ''}
               </p>
               <Link 
                 to={`/detail/${rentad.id}`}
-                style={{
-                  display: 'inline-block',
-                  marginTop: '8px',
-                  padding: '6px 12px',
-                  background: '#84cc16',
-                  color: 'white',
-                  textDecoration: 'none',
-                  borderRadius: '6px',
-                  fontSize: '14px',
-                  fontWeight: '500'
-                }}
+                className='inline-block mt-2 py-2 px-3 bg-lime-500 hover:bg-lime-600 text-white 
+                  no-underline rounded-lg text-xs md:text-sm font-medium text-center transition-colors'
               >
                 View Details
               </Link>

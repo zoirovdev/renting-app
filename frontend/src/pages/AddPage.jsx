@@ -87,7 +87,6 @@ const AddPage = () => {
                 }
             );
             const data = await response.json();
-            // console.log(data);
             
             if (data && data.address) {
                 // Create location object with all data at once
@@ -218,9 +217,6 @@ const AddPage = () => {
                 imageForm.append('image', imageFile)
 
                 const response = await axios.post(`${import.meta.env.MODE === "development" ? "http://localhost:8000" : ""}/api/rentads/upload`, imageForm)
-
-                // console.log('Response status:', response.status)
-                // console.log('Response data:', response.data)
                 
                 const data = response.data
                 
@@ -230,8 +226,6 @@ const AddPage = () => {
                     ...prev,
                     [imageFile.name]: 'completed'
                 }))
-
-                // console.log('Upload successful:', data)
 
             } catch (error) {
                 console.error('Upload failed:', error)
@@ -260,31 +254,32 @@ const AddPage = () => {
     console.log(currentLocation)
 
     return (
-        <div className='flex justify-center items-center'>
-            <div className='w-[800px] mt-[50px] p-8 space-y-4'>
+        <div className='flex justify-center items-center px-4 md:px-0 pb-20 md:pb-8'>
+            <div className='w-full max-w-[800px] mt-4 md:mt-[50px] p-4 md:p-8 space-y-4'>
                 <div className='flex flex-col justify-center items-center'>
-                    <p className='text-xl font-bold tracking-wider dark:text-gray-50'>List your property</p>
-                    <p className='text-lg text-gray-500 dark:text-gray-400'>Fill details to create your rental listing</p>
+                    <p className='text-lg md:text-xl font-bold tracking-wider dark:text-gray-50'>List your property</p>
+                    <p className='text-sm md:text-lg text-gray-500 dark:text-gray-400 text-center'>Fill details to create your rental listing</p>
                 </div>
+
                 {/* Property */}
-                <div className='flex flex-col justify-center items-center pt-4 pb-6 px-6 gap-2 
+                <div className='flex flex-col justify-center items-center pt-4 pb-6 px-4 md:px-6 gap-2 
                     border dark:border-gray-700 border-gray-200 rounded-xl'>
                     <div className="flex justify-start items-center gap-2 w-full">
                         <House className="w-4 h-4 dark:text-gray-100"/>
-                        <label htmlFor='property' className="text-gray-500 dark:text-gray-100">
+                        <label htmlFor='property' className="text-sm md:text-base text-gray-500 dark:text-gray-100">
                             Property type
                         </label>
                     </div>
                     
-                    <div className='flex flex-row justify-center w-full gap-2'>
+                    <div className='flex flex-col md:flex-row justify-center w-full gap-2'>
                         {propertyOptions && propertyOptions.map(pType => (
-                            <button key={pType} className={`border dark:border-none border-gray-200 rounded-xl py-4 px-8
-                                w-[50%] hover:bg-gray-100 dark:hover:bg-gray-700 dark:bg-gray-800 cursor-pointer 
+                            <button key={pType} className={`border dark:border-none border-gray-200 rounded-xl py-3 md:py-4 px-4 md:px-8
+                                w-full md:w-[50%] hover:bg-gray-100 dark:hover:bg-gray-700 dark:bg-gray-800 cursor-pointer 
                                 flex justify-center items-center gap-2
-                                focus:ring-2 focus:ring-lime-500`}
+                                focus:ring-2 focus:ring-lime-500 text-sm md:text-base`}
                                 onClick={() => { setFormData({ ...formData, property: pType })}}>
                                 <img src={`${pType==="Apartment" ? "apartment-building.svg" : "house-building.svg"}`} alt="home" 
-                                    className='w-10 h-10 object-cover dark:invert'/>
+                                    className='w-8 h-8 md:w-10 md:h-10 object-cover dark:invert'/>
                                 <p className='dark:text-gray-100'>{pType}</p>
                             </button>
                         ))}
@@ -293,14 +288,14 @@ const AddPage = () => {
 
                 {/* Rent and Area */}
                 <div className='flex flex-col border dark:border-gray-700 border-gray-200 rounded-xl'>
-                    <div className='flex flex-col pt-4 pb-6 px-6 gap-2 border-b border-gray-200 dark:border-gray-700'>
+                    <div className='flex flex-col pt-4 pb-6 px-4 md:px-6 gap-2 border-b border-gray-200 dark:border-gray-700'>
                         <div className='flex justify-start items-center gap-2'>
                             <Coins className="w-4 h-4 dark:text-gray-100"/>
-                            <label htmlFor='rent' className='text-gray-500 dark:text-gray-100'>Rent</label>
+                            <label htmlFor='rent' className='text-sm md:text-base text-gray-500 dark:text-gray-100'>Rent</label>
                         </div>
-                        <div className='flex justify-between gap-2'>
+                        <div className='flex flex-col md:flex-row justify-between gap-2'>
                             <select value={formData?.rent_currency} 
-                                className={`border border-gray-200 dark:border-gray-700 dark:text-gray-400 rounded-xl py-2 px-4`}
+                                className={`border border-gray-200 dark:border-gray-700 dark:text-gray-400 rounded-xl py-2 px-4 text-sm md:text-base`}
                                 onChange={(e) => { setFormData({ ...formData, rent_currency: e.target.value }) }}>
                                 {currencyOptions.map(currency => (
                                     <option key={currency} value={currency}>{currency}</option>
@@ -309,8 +304,8 @@ const AddPage = () => {
                             <input 
                                 type="number"
                                 id="rent" name="rent"
-                                className="basis-[80%] border dark:border-gray-700 border-gray-200
-                                    rounded-xl px-4 dark:text-gray-100
+                                className="w-full md:basis-[80%] border dark:border-gray-700 border-gray-200
+                                    rounded-xl px-4 py-2 dark:text-gray-100 text-sm md:text-base
                                     outline-none appearance-none [&::-webkit-outer-spin-button]:appearance-none 
                                     [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 
                                     [&::-webkit-inner-spin-button]:m-0"
@@ -319,7 +314,7 @@ const AddPage = () => {
                                 onChange={(e) => { setFormData({ ...formData, rent: e.target.value })}}
                             />
                             <select value={formData?.rent_period}
-                                className='border border-gray-200 dark:border-gray-700 dark:text-gray-400 rounded-xl py-2 px-4'
+                                className='border border-gray-200 dark:border-gray-700 dark:text-gray-400 rounded-xl py-2 px-4 text-sm md:text-base'
                                 onChange={(e) => setFormData({ ...formData, rent_period: e.target.value })}>
                                 {periodOptions.map(period => (
                                     <option key={period} value={period}>{period}</option>
@@ -327,17 +322,17 @@ const AddPage = () => {
                             </select>
                         </div>
                     </div>
-                    <div className='flex flex-col pt-4 pb-6 px-6 gap-2'>
+                    <div className='flex flex-col pt-4 pb-6 px-4 md:px-6 gap-2'>
                         <div className="flex flex-row justify-start items-center gap-2">
                             <Scan className="w-4 h-4 dark:text-gray-100"/>
-                            <label htmlFor='area' className='text-gray-500 dark:text-gray-100'>Total Area</label>
+                            <label htmlFor='area' className='text-sm md:text-base text-gray-500 dark:text-gray-100'>Total Area</label>
                         </div>
-                        <div className='flex justify-between gap-2'>
+                        <div className='flex flex-col md:flex-row justify-between gap-2'>
                             <input 
                                 type="number"
                                 id="area" name="area"
-                                className="outline-none basis-[90%] border border-gray-200 dark:border-gray-700
-                                    rounded-xl py-2 px-4 dark:text-gray-100
+                                className="outline-none w-full md:basis-[90%] border border-gray-200 dark:border-gray-700
+                                    rounded-xl py-2 px-4 dark:text-gray-100 text-sm md:text-base
                                     appearance-none [&::-webkit-outer-spin-button]:appearance-none 
                                     [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 
                                     [&::-webkit-inner-spin-button]:m-0"
@@ -346,7 +341,7 @@ const AddPage = () => {
                                 onChange={(e) => { setFormData({ ...formData, area: e.target.value })}}
                             />
                             <select value={formData?.area_unit}
-                                className='border border-gray-200 dark:border-gray-700 dark:text-gray-400 rounded-xl py-2 px-4'
+                                className='border border-gray-200 dark:border-gray-700 dark:text-gray-400 rounded-xl py-2 px-4 text-sm md:text-base'
                                 onChange={(e) => setFormData({ ...formData, area_unit: e.target.value})}>
                                 {unitOptions.map(unit => (
                                     <option key={unit} value={unit}>{unit}</option>
@@ -359,47 +354,47 @@ const AddPage = () => {
                 {/* Rooms */}
                 <div className='flex flex-col border dark:border-gray-700 border-gray-200 rounded-xl'>
 
-                    <div className='flex justify-between items-center pt-4 pb-6 px-6 border-b border-gray-200 dark:border-gray-700'>
+                    <div className='flex justify-between items-center pt-4 pb-6 px-4 md:px-6 border-b border-gray-200 dark:border-gray-700'>
                         <div className='flex justify-start items-center gap-2'>
                             <Bed className='w-4 h-4 dark:text-gray-100'/>
-                            <label className='text-gray-500 dark:text-gray-100'>Bedrooms</label>
+                            <label className='text-sm md:text-base text-gray-500 dark:text-gray-100'>Bedrooms</label>
                         </div>
                         <div className='flex flex-row justify-center items-center'>
                             <Minus 
                                 className='border border-gray-200 dark:border-gray-700 dark:text-gray-100
-                                rounded-xl p-2 w-8 h-8 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700' 
+                                rounded-xl p-1.5 md:p-2 w-7 h-7 md:w-8 md:h-8 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700' 
                                 onClick={() => updateBedrooms(-1)}
                             />
-                            <input className="w-[40px] ml-2 text-center dark:text-gray-100"
+                            <input className="w-[30px] md:w-[40px] ml-2 text-center dark:text-gray-100 text-sm md:text-base"
                                 onChange={(e) => setFormData({ ...formData, bedrooms: e.target.value })}
                                 value={formData.bedrooms}
                             />
                             <Plus 
                                 className='border border-gray-200 dark:border-gray-700 dark:text-gray-100
-                                rounded-xl p-2 w-8 h-8 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700' 
+                                rounded-xl p-1.5 md:p-2 w-7 h-7 md:w-8 md:h-8 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700' 
                                 onClick={() => updateBedrooms(+1)}
                             />
                         </div>
                     </div>
 
-                    <div className='flex justify-between items-center pt-4 pb-6 px-6'>
+                    <div className='flex justify-between items-center pt-4 pb-6 px-4 md:px-6'>
                         <div className='flex justify-start items-center gap-2'>
                             <Bath className='w-4 h-4 dark:text-gray-100'/>
-                            <label htmlFor='bathrooms' className='text-gray-500 dark:text-gray-100'>Bathrooms</label>
+                            <label htmlFor='bathrooms' className='text-sm md:text-base text-gray-500 dark:text-gray-100'>Bathrooms</label>
                         </div>
                         <div className='flex flex-row justify-center items-center'>
                             <Minus 
                                 className='border border-gray-200 dark:border-gray-700 dark:text-gray-100
-                                rounded-xl p-2 w-8 h-8 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700' 
+                                rounded-xl p-1.5 md:p-2 w-7 h-7 md:w-8 md:h-8 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700' 
                                 onClick={() => updateBathrooms(-1)}
                             />
-                            <input className="w-[40px] ml-2 text-center dark:text-gray-100"
+                            <input className="w-[30px] md:w-[40px] ml-2 text-center dark:text-gray-100 text-sm md:text-base"
                                 onChange={(e) => setFormData({ ...formData, bathrooms: e.target.value })}
                                 value={formData.bathrooms}
                             />
                             <Plus 
                                 className='border border-gray-200 dark:border-gray-700 dark:text-gray-100
-                                rounded-xl p-2 w-8 h-8 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700' 
+                                rounded-xl p-1.5 md:p-2 w-7 h-7 md:w-8 md:h-8 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700' 
                                 onClick={() => updateBathrooms(+1)}
                             />
                         </div>
@@ -407,22 +402,22 @@ const AddPage = () => {
                 </div>
 
                 {/* Offers */}
-                <div className='flex flex-col justify-center items-center pt-4 pb-6 px-6 gap-2
+                <div className='flex flex-col justify-center items-center pt-4 pb-6 px-4 md:px-6 gap-2
                     border dark:border-gray-700 border-gray-200 rounded-xl'>
                     <div className='flex flex-row justify-start items-center gap-2 w-full'>
                         <HandCoins className='w-4 h-4 dark:text-gray-100'/>    
-                        <label htmlFor="" className="text-gray-500 dark:text-gray-100">Offers</label>
+                        <label htmlFor="" className="text-sm md:text-base text-gray-500 dark:text-gray-100">Offers</label>
                     </div>
-                    <div className='grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 w-full'>
+                    <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 w-full gap-2'>
                         {offerOptions.map(offer => (
-                            <div className='basis-xs space-x-2' key={offer}>
+                            <div className='flex items-center space-x-2' key={offer}>
                                 <input
                                     type="checkbox"
                                     checked={selectedOffers.includes(offer)}
                                     id={offer}
                                     onChange={(e) => handleOffer(offer)}
                                     className='cursor-pointer'/>
-                                <label htmlFor={offer} className='dark:text-gray-100'>{offer}</label>
+                                <label htmlFor={offer} className='dark:text-gray-100 text-sm md:text-base cursor-pointer'>{offer}</label>
                             </div>
                         )) }
                     </div>
@@ -430,46 +425,46 @@ const AddPage = () => {
                 
                 {/* Location */}
                 <div className='flex flex-col justify-center items-center gap-2 
-                    border dark:border-gray-700 border-gray-200 rounded-xl'>
-                    <DetailMap lat={currentLocation?.lat} lon={currentLocation?.lon} wth={"734px"}/>  
-                    <div className='flex flex-row justify-between items-center w-full gap-2 pt-4 pb-6 px-6'>
-                        <div className='flex flex-row justify-start items-center gap-2 basis-3/4'>
-                            <MapPin className="w-4 h-4 dark:text-gray-50"/>
+                    border dark:border-gray-700 border-gray-200 rounded-xl overflow-hidden'>
+                    <DetailMap lat={currentLocation?.lat} lon={currentLocation?.lon}/>  
+                    <div className='flex flex-col md:flex-row justify-between items-stretch md:items-center w-full gap-2 pt-4 pb-6 px-4 md:px-6'>
+                        <div className='flex flex-row justify-start items-center gap-2 flex-1'>
+                            <MapPin className="w-4 h-4 flex-shrink-0 dark:text-gray-50"/>
                             <input 
                                 type='text'
-                                className='outline-none basis-[90%] overflow-scroll 
+                                className='outline-none flex-1 overflow-scroll 
                                 border-b border-gray-200 dark:border-gray-700
-                                py-2 px-4 dark:text-gray-100'
+                                py-2 px-2 md:px-4 dark:text-gray-100 text-sm md:text-base'
                                 value={inputLocation || ''}
                                 readOnly
                                 placeholder='Location will appear here...'
                             />
                         </div>
                         <button 
-                            className='basis-1/4 py-2 px-4 cursor-pointer dark:text-gray-50
+                            className='w-full md:w-auto py-2 px-4 cursor-pointer dark:text-gray-50 text-sm md:text-base whitespace-nowrap
                             border border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl'
                             onClick={getLocation}>
-                            Get location
+                            {loading ? 'Getting...' : 'Get location'}
                         </button>
                     </div>
                 </div>
 
                 {/* User */}
-                <div className='flex flex-col pt-4 pb-6 px-6 gap-2 
+                <div className='flex flex-col pt-4 pb-6 px-4 md:px-6 gap-2 
                     border dark:border-gray-700 border-gray-200 rounded-xl'>
                     <div className='flex justify-start items-center gap-2'>
                         <User className='w-4 h-4 dark:text-gray-100'/>
-                        <label htmlFor='property' className="text-gray-500 dark:text-gray-100">
+                        <label htmlFor='property' className="text-sm md:text-base text-gray-500 dark:text-gray-100">
                         I am
                         </label>
                     </div>
                     
-                    <div className='flex flex-row gap-1'>
+                    <div className='flex flex-col md:flex-row gap-2'>
                         {userTypeOptions.map(userType => (
                             <button key={userType} 
-                                className={`border border-gray-200 dark:border-gray-700 rounded-xl py-2 px-8
-                                w-[50%] hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer dark:text-gray-100
-                                focus:ring-2 focus:ring-lime-500`}
+                                className={`border border-gray-200 dark:border-gray-700 rounded-xl py-2 md:py-2 px-4 md:px-8
+                                w-full md:w-[50%] hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer dark:text-gray-100
+                                focus:ring-2 focus:ring-lime-500 text-sm md:text-base`}
                                 onClick={() => { setFormData({ ...formData, user_type: userType })}}
                             >
                                 {userType}
@@ -479,7 +474,7 @@ const AddPage = () => {
                 </div>
 
                 {/* Images */}
-                <div className='flex justify-between items-center py-2 px-4 my-8 
+                <div className='flex justify-between items-center py-3 md:py-2 px-4 my-4 md:my-8 
                     border dark:border-gray-700 border-gray-200 rounded-xl dark:text-gray-100'>
                     <input type='file' multiple
                         accept='image/*'
@@ -491,10 +486,10 @@ const AddPage = () => {
                         className={`flex justify-center items-center w-full cursor-pointer ${
                             uploading ? 'opacity-50 cursor-not-allowed' : ''
                         }`}>
-                        <div className='flex flex-row justify-center items-center gap-4'>
-                            <Upload className='w-10 h-10 text-gray-500 dark:text-gray-100 p-2 border border-dashed border-gray-200
+                        <div className='flex flex-col md:flex-row justify-center items-center gap-2 md:gap-4'>
+                            <Upload className='w-8 h-8 md:w-10 md:h-10 text-gray-500 dark:text-gray-100 p-2 border border-dashed border-gray-200
                             rounded-xl'/>
-                            <p>{uploading ? 'Uploading...' : 'Upload images(PNG, JPG up to 10 mb)'}</p>
+                            <p className='text-xs md:text-base text-center'>{uploading ? 'Uploading...' : 'Upload images (PNG, JPG up to 10 mb)'}</p>
                         </div>
                     </label>
                 </div>
@@ -505,11 +500,11 @@ const AddPage = () => {
                         {Object.entries(uploadProgress).map(([fileName, status]) => (
                             <div key={fileName} className='flex justify-between items-center py-2 px-4 
                                 border border-gray-200 dark:border-gray-700 dark:text-gray-100 rounded-xl'>
-                                <span className='text-sm truncate'>{fileName}</span>
+                                <span className='text-xs md:text-sm truncate'>{fileName}</span>
                                 <span className={`text-xs px-2 py-1 rounded ${
-                                    status === 'uploading' ? 'bg-blue-100 dark:bg-gray-700 text-blue-800' :
-                                    status === 'completed' ? 'bg-green-100 dark:bg-gray-700 text-green-800' :
-                                    'bg-red-100 dark:bg-gray-700 text-red-800'
+                                    status === 'uploading' ? 'bg-blue-100 dark:bg-gray-700 text-blue-800 dark:text-blue-200' :
+                                    status === 'completed' ? 'bg-green-100 dark:bg-gray-700 text-green-800 dark:text-green-200' :
+                                    'bg-red-100 dark:bg-gray-700 text-red-800 dark:text-red-200'
                                 }`}>
                                     {status}
                                 </span>
@@ -521,22 +516,22 @@ const AddPage = () => {
                 {/* Image Preview Grid */}
                 {buildingImages.length > 0 && (
                     <div className='space-y-4 my-6'>
-                        <h3 className='font-semibold text-gray-500'>Uploaded Images:</h3>
-                        <div className='grid grid-cols-2 md:grid-cols-3 gap-4'>
+                        <h3 className='font-semibold text-gray-500 dark:text-gray-300 text-sm md:text-base'>Uploaded Images:</h3>
+                        <div className='grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-4'>
                             {buildingImages.map((imageUrl, index) => (
                                 <div key={index} className='relative group'>
                                     <img
                                         src={imageUrl}
                                         alt={`Upload ${index + 1}`}
-                                        className='w-full h-32 object-cover rounded-xl border border-gray-200'
+                                        className='w-full h-24 md:h-32 object-cover rounded-xl border border-gray-200 dark:border-gray-700'
                                     />
                                     {/* Remove button */}
                                     <button
                                         onClick={() => removeImage(index)}
-                                        className='absolute top-2 right-2 bg-red-500 text-white p-1 rounded-xl
+                                        className='absolute top-1 right-1 md:top-2 md:right-2 bg-red-500 text-white p-1 rounded-xl
                                         opacity-0 group-hover:opacity-100 transition-opacity'
                                     >
-                                        <X size={16} />
+                                        <X size={14} className='md:w-4 md:h-4' />
                                     </button>
                                 </div>
                             ))}
@@ -546,18 +541,19 @@ const AddPage = () => {
 
                 {/* Error Display */}
                 {error && (
-                    <div className='p-4 bg-red-100 border border-red-400 text-red-700 rounded-xl'>
+                    <div className='p-3 md:p-4 bg-red-100 dark:bg-red-900/20 border border-red-400 dark:border-red-700 
+                        text-red-700 dark:text-red-300 rounded-xl text-sm md:text-base'>
                         {error}
                     </div>
                 )}
 
-                <div className='flex justify-between'>
+                <div className='flex justify-between gap-2'>
                     <button className='border border-gray-200 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-700
-                        rounded-xl py-2 px-4 cursor-pointer dark:text-gray-100'
+                        rounded-xl py-2 px-4 md:px-6 cursor-pointer dark:text-gray-100 text-sm md:text-base'
                         onClick={() => resetFormData()}>
                         Clear
                     </button>
-                    <button className='bg-lime-300 hover:bg-lime-400 rounded-xl py-2 px-4 cursor-pointer'
+                    <button className='bg-lime-300 hover:bg-lime-400 rounded-xl py-2 px-4 md:px-6 cursor-pointer text-sm md:text-base font-medium'
                         onClick={(e) => {handleSubmit(e);navigate("/")}}>
                         Submit
                     </button>

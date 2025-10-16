@@ -32,16 +32,8 @@ const createCustomIcon = () => {
 function DetailMap({lat, lon, wth}) {
     if (!lat || !lon) {
         return (
-        <div style={{ 
-            height: '500px', 
-            width: wth, 
-            display: 'flex', 
-            alignItems: 'center', 
-            justifyContent: 'center',
-            background: '#f3f4f6',
-            borderRadius: '12px'
-        }}>
-            <p>Loading map...</p>
+        <div className='h-[250px] md:h-[400px] w-full flex items-center justify-center bg-gray-100 dark:bg-gray-800 rounded-xl'>
+            <p className='dark:text-gray-50'>Loading map...</p>
         </div>
         );
     }
@@ -52,7 +44,7 @@ function DetailMap({lat, lon, wth}) {
         <MapContainer 
         center={position} 
         zoom={13} 
-        style={{ height: '500px', width: wth, borderRadius: '12px' }}
+        className='h-[250px] md:h-[400px] w-full rounded-xl'
         scrollWheelZoom={true}
         >
             <TileLayer

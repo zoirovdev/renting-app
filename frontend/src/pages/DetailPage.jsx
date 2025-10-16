@@ -73,45 +73,45 @@ const DetailPage = () => {
 
    
     return (
-        <div className="flex justify-center items-center">
+        <div className="flex justify-center items-center px-4 md:px-0 pb-20 md:pb-8">
             
         { loading
-            ?   <div className={`${imagesModal ? "hidden" : ""} animate-pulse`}>
+            ?   <div className={`${imagesModal ? "hidden" : ""} animate-pulse w-full max-w-[800px]`}>
                 {/* Image skeleton */}
-                <div className="flex flex-col justify-center w-[800px] h-[500px] relative">
-                    <div className='bg-gray-300 dark:bg-gray-700 w-[100%] h-[100%] rounded-xl'></div>
+                <div className="flex flex-col justify-center w-full h-[300px] md:h-[500px] relative">
+                    <div className='bg-gray-300 dark:bg-gray-700 w-full h-full rounded-xl'></div>
                     <div className='absolute bottom-2 right-2 bg-gray-300 dark:bg-gray-700 py-2 px-4 
-                        rounded-xl z-20 w-32 h-10'>
+                        rounded-xl z-20 w-24 md:w-32 h-8 md:h-10'>
                     </div>
                 </div>
 
                 {/* Details header skeleton */}
-                <div className='flex justify-between items-center mt-8 mb-1'>
-                    <div className='h-7 w-24 bg-gray-300 dark:bg-gray-700 rounded'></div>
-                    <div className='h-9 w-24 bg-gray-300 dark:bg-gray-700 rounded-xl'></div>
+                <div className='flex justify-between items-center mt-4 md:mt-8 mb-1'>
+                    <div className='h-6 md:h-7 w-20 md:w-24 bg-gray-300 dark:bg-gray-700 rounded'></div>
+                    <div className='h-8 md:h-9 w-20 md:w-24 bg-gray-300 dark:bg-gray-700 rounded-xl'></div>
                 </div>
 
                 {/* Details card skeleton */}
-                <div className="flex flex-col pl-4 pr-2 pb-4 border border-gray-200 dark:border-gray-700 rounded-xl mb-8">
-                    <div className='flex justify-between items-center'>
+                <div className="flex flex-col pl-4 pr-2 pb-4 border border-gray-200 dark:border-gray-700 rounded-xl mb-4 md:mb-8">
+                    <div className='flex flex-col md:flex-row justify-between md:items-center gap-4'>
                         <div className='flex flex-col gap-2 py-4'>
-                            <div className='flex justify-start items-center gap-2'>
-                                <div className='h-6 w-40 bg-gray-300 dark:bg-gray-700 rounded'></div>
-                                <div className='h-5 w-20 bg-gray-300 dark:bg-gray-700 rounded'></div>
+                            <div className='flex flex-col md:flex-row md:items-center gap-2'>
+                                <div className='h-5 md:h-6 w-32 md:w-40 bg-gray-300 dark:bg-gray-700 rounded'></div>
+                                <div className='h-4 md:h-5 w-16 md:w-20 bg-gray-300 dark:bg-gray-700 rounded'></div>
                             </div>
-                            <div className='flex flex-row justify-start items-center gap-2'>
-                                <div className='h-5 w-16 bg-gray-300 dark:bg-gray-700 rounded'></div>
-                                <div className='h-5 w-3 bg-gray-300 dark:bg-gray-700 rounded-full'></div>
-                                <div className='h-5 w-24 bg-gray-300 dark:bg-gray-700 rounded'></div>
-                                <div className='h-5 w-3 bg-gray-300 dark:bg-gray-700 rounded-full'></div>
-                                <div className='h-5 w-24 bg-gray-300 dark:bg-gray-700 rounded'></div>
+                            <div className='flex flex-col md:flex-row gap-2'>
+                                <div className='h-4 md:h-5 w-16 bg-gray-300 dark:bg-gray-700 rounded'></div>
+                                <div className='hidden md:block h-5 w-3 bg-gray-300 dark:bg-gray-700 rounded-full'></div>
+                                <div className='h-4 md:h-5 w-24 bg-gray-300 dark:bg-gray-700 rounded'></div>
+                                <div className='hidden md:block h-5 w-3 bg-gray-300 dark:bg-gray-700 rounded-full'></div>
+                                <div className='h-4 md:h-5 w-24 bg-gray-300 dark:bg-gray-700 rounded'></div>
                             </div>
                         </div>
-                        <div className='h-20 w-32 bg-gray-300 dark:bg-gray-700 rounded-xl mt-2'></div>
+                        <div className='h-16 md:h-20 w-28 md:w-32 bg-gray-300 dark:bg-gray-700 rounded-xl'></div>
                     </div>
                     
                     {/* Offers skeleton */}
-                    <div className='flex justify-start items-center gap-2 pt-2'>
+                    <div className='flex flex-wrap gap-2 pt-2'>
                         <div className='flex justify-center items-center gap-1'>
                             <div className='w-4 h-4 bg-gray-300 dark:bg-gray-700 rounded-full'></div>
                             <div className='h-4 w-16 bg-gray-300 dark:bg-gray-700 rounded'></div>
@@ -128,39 +128,39 @@ const DetailPage = () => {
                 </div>
 
                 {/* Location skeleton */}
-                <div className='flex flex-row gap-1 mb-1'>
-                    <div className='h-7 w-8 bg-gray-300 dark:bg-gray-700 rounded'></div>
-                    <div className='h-7 w-32 bg-gray-300 dark:bg-gray-700 rounded'></div>
-                    <div className='h-7 w-24 bg-gray-300 dark:bg-gray-700 rounded'></div>
+                <div className='flex flex-row flex-wrap gap-1 mb-1'>
+                    <div className='h-6 md:h-7 w-6 md:w-8 bg-gray-300 dark:bg-gray-700 rounded'></div>
+                    <div className='h-6 md:h-7 w-24 md:w-32 bg-gray-300 dark:bg-gray-700 rounded'></div>
+                    <div className='h-6 md:h-7 w-20 md:w-24 bg-gray-300 dark:bg-gray-700 rounded'></div>
                 </div>
 
                 {/* Map skeleton */}
-                <div className='w-[800px] h-[400px] bg-gray-300 dark:bg-gray-700 rounded-xl mb-8'></div>
+                <div className='w-full h-[250px] md:h-[400px] bg-gray-300 dark:bg-gray-700 rounded-xl mb-4 md:mb-8'></div>
 
                 {/* Contact section skeleton */}
-                <div className='h-7 w-40 bg-gray-300 dark:bg-gray-700 rounded mt-8 mb-2'></div>
-                <div className='py-4 px-4 border border-gray-200 dark:border-gray-700 rounded-xl mb-8 flex justify-between items-center'>
-                    <div className='h-5 w-32 bg-gray-300 dark:bg-gray-700 rounded'></div>
-                    <div className='h-10 w-40 bg-gray-300 dark:bg-gray-700 rounded-xl'></div>
+                <div className='h-6 md:h-7 w-32 md:w-40 bg-gray-300 dark:bg-gray-700 rounded mt-4 md:mt-8 mb-2'></div>
+                <div className='py-4 px-4 border border-gray-200 dark:border-gray-700 rounded-xl mb-8 flex flex-col md:flex-row justify-between md:items-center gap-3'>
+                    <div className='h-5 w-28 md:w-32 bg-gray-300 dark:bg-gray-700 rounded'></div>
+                    <div className='h-10 w-full md:w-40 bg-gray-300 dark:bg-gray-700 rounded-xl'></div>
                 </div>
             </div>
-            :   <div className={`${imagesModal ? "hidden" : ""}`}>
-                <div className="flex flex-col justify-center w-[800px] h-[500px] relative">
+            :   <div className={`${imagesModal ? "hidden" : ""} w-full max-w-[800px]`}>
+                <div className="flex flex-col justify-center w-full h-[300px] md:h-[500px] relative">
                     <img 
                         src={currentRentad?.images?.[0]|| null} 
                         alt="image" 
-                        className='object-cover w-[100%] h-[100%] rounded-xl'
+                        className='object-cover w-full h-full rounded-xl'
                     />
-                    <button className='absolute bottom-2 right-2 bg-gray-100 py-2 px-4 
+                    <button className='absolute bottom-2 right-2 bg-gray-100 py-2 px-3 md:px-4 text-sm md:text-base
                         cursor-pointer rounded-xl z-20'
                         onClick={() => setImagesModal(true)}>
                         Show all pics
                     </button>
                 </div>
-                <div className='flex justify-between items-center mt-8 mb-1'>
-                    <p className='text-lg font-bold tracking-wider dark:text-gray-50'>Details</p>
-                    <button className='flex justify-center items-center gap-2 ml-2 border border-gray-200 
-                        dark:border-gray-700 rounded-xl px-3 py-1 cursor-pointer'
+                <div className='flex justify-between items-center mt-4 md:mt-8 mb-1'>
+                    <p className='text-base md:text-lg font-bold tracking-wider dark:text-gray-50'>Details</p>
+                    <button className='flex justify-center items-center gap-2 border border-gray-200 
+                        dark:border-gray-700 rounded-xl px-3 py-1 cursor-pointer text-sm md:text-base'
                         onClick={handleShare}>
                         {shareCopied 
                         ? <Check className='w-4 h-4 dark:text-gray-50'/>
@@ -168,59 +168,58 @@ const DetailPage = () => {
                         <p className="dark:text-gray-50">Share</p>
                     </button>
                 </div>
-                <div className="flex flex-col pl-4 pr-2 pb-4 border border-gray-200 dark:border-gray-700 rounded-xl mb-8">
-                    <div className='flex justify-between items-center'>
-                        <div className='flex flex-col'>
-                            <div className='flex justify-start items-center gap-2'>
-                                <p className='font-semibold tracking-wider dark:text-gray-50'>
+                <div className="flex flex-col pl-4 pr-2 pb-4 border border-gray-200 dark:border-gray-700 rounded-xl mb-4 md:mb-8">
+                    <div className='flex flex-col md:flex-row justify-between md:items-center gap-4'>
+                        <div className='flex flex-col py-2 md:py-0'>
+                            <div className='flex flex-col md:flex-row md:items-center gap-2'>
+                                <p className='font-semibold tracking-wider dark:text-gray-50 text-sm md:text-base'>
                                     {currentRentad?.property}
                                 </p>
-                                <p className='text-gray-500 dark:text-gray-400'>{Math.floor((new Date() - new Date(currentRentad?.created_at)) / (1000 * 60 * 60 * 24))===0 ? 'Today' : 
+                                <p className='text-xs md:text-sm text-gray-500 dark:text-gray-400'>{Math.floor((new Date() - new Date(currentRentad?.created_at)) / (1000 * 60 * 60 * 24))===0 ? 'Today' : 
                                     Math.floor((new Date() - new Date(currentRentad?.created_at)) / (1000 * 60 * 60 * 24))===1 ? 'Yesterday' : 
                                     `${Math.floor((new Date() - new Date(currentRentad?.created_at)) / (1000 * 60 * 60 * 24))} days ago` }
                                 </p>
                             </div>
-                            <div className='flex flex-row justify-start items-center gap-2 dark:text-gray-50'>
+                            <div className='flex flex-col md:flex-row gap-1 md:gap-2 dark:text-gray-50 text-sm md:text-base'>
                                 <p>{currentRentad?.area} {currentRentad?.area_unit}</p>
-                                <span>•</span>
+                                <span className='hidden md:inline'>•</span>
                                 <p>{currentRentad?.bedrooms} bedrooms</p>
-                                <span>•</span>
+                                <span className='hidden md:inline'>•</span>
                                 <p>{currentRentad?.bathrooms} bathrooms</p>
                             </div>
                         </div>
                         <div className='flex flex-col justify-center items-center dark:text-gray-50 
-                            border border-lime-500 rounded-xl py-2 px-4 mt-2'>
-                            <p className=''>{currentRentad?.rent_currency} {currentRentad?.rent}</p>
-                            <p>{currentRentad?.rent_period}</p>
+                            border border-lime-500 rounded-xl py-2 px-4 self-start md:self-auto md:mt-2'>
+                            <p className='text-sm md:text-base'>{currentRentad?.rent_currency} {currentRentad?.rent}</p>
+                            <p className='text-xs md:text-sm'>{currentRentad?.rent_period}</p>
                         </div>
                     </div>
                     
-                    <div className='flex justify-start items-center gap-2 pt-2'>
+                    <div className='flex flex-wrap gap-2 pt-2 text-sm md:text-base'>
                         {currentRentad?.offers && currentRentad?.offers.map(offer => (
                             <div key={offer} className='flex justify-center items-center gap-1'>
                                 <CircleCheck className="w-4 h-4 text-lime-600"/>
-                                <p  
-                                    className="dark:text-gray-50">
+                                <p className="dark:text-gray-50">
                                     {offer}
                                 </p>
                             </div>
                         ))}
                     </div>
                 </div>
-                <div className='flex flex-row gap-1 text-lg font-bold tracking-wider mb-1 dark:text-gray-50'>
+                <div className='flex flex-row flex-wrap gap-1 text-base md:text-lg font-bold tracking-wider mb-1 dark:text-gray-50'>
                     <p>in</p>
                     <p>{currentLocation?.county}</p>,
                     <p>{currentLocation?.city}</p>
                 </div>
-                <DetailMap lat={currentLocation?.lat} lon={currentLocation?.lon} wth={"800px"}/>
-                <p className='mt-8 text-lg font-bold tracking-wider dark:text-gray-50'>Contact {currentRentad?.user_type}</p>
-                <div className='py-2 px-4 border border-gray-200 dark:border-gray-700 rounded-xl mb-8 flex justify-between items-center'>
-                    <p className='dark:text-gray-50 cursor-pointer'
+                <DetailMap lat={currentLocation?.lat} lon={currentLocation?.lon} wth={"100%"}/>
+                <p className='mt-4 md:mt-8 text-base md:text-lg font-bold tracking-wider dark:text-gray-50'>Contact {currentRentad?.user_type}</p>
+                <div className='py-2 px-4 border border-gray-200 dark:border-gray-700 rounded-xl mb-8 flex flex-col md:flex-row justify-between md:items-center gap-3'>
+                    <p className='dark:text-gray-50 cursor-pointer text-sm md:text-base'
                         onClick={() => navigate(`/profile`)}>
                         {currentRentad?.user_name}
                     </p>
                     <div className='flex flex-row justify-center items-center gap-2
-                        cursor-pointer py-2 px-4 rounded-xl shadow-inner dark:hover:bg-gray-800 hover:bg-gray-100'
+                        cursor-pointer py-2 px-4 rounded-xl shadow-inner dark:hover:bg-gray-800 hover:bg-gray-100 text-sm md:text-base'
                         onClick={() => {handleCopy();}}>
                         {copied 
                         ? <Check className='w-4 h-4 text-lime-500'/>
@@ -235,14 +234,14 @@ const DetailPage = () => {
             {imagesModal && 
                 <div className='fixed inset-0 z-50 bg-black bg-opacity-90'>
                     <button onClick={() => {setImagesModal(false);}}
-                            className='absolute top-4 right-[200px] text-white hover:bg-gray-600 rounded-xl py-2 px-4 cursor-pointer'>
+                            className='absolute top-4 right-4 md:right-[200px] text-white hover:bg-gray-600 rounded-xl py-2 px-4 cursor-pointer z-50'>
                             <X />
                     </button> 
-                    <div className="flex items-center justify-evenly mt-[100px]">
-                        <ChevronLeft className={`${currentIndex===0 ? "text-black" : "text-white hover:bg-gray-500"}  w-12 h-12 rounded-xl p-2`}
+                    <div className="flex items-center justify-center md:justify-evenly h-full px-4 md:px-0">
+                        <ChevronLeft className={`${currentIndex===0 ? "invisible" : "text-white hover:bg-gray-500"} w-8 h-8 md:w-12 md:h-12 rounded-xl p-2 cursor-pointer flex-shrink-0`}
                         onClick={() => {goPrev()}}/>
-                        <img src={currentRentad.images[currentIndex]} alt="image" className='w-[800px] h-[600px] object-cover transition-transform duration-300'/>
-                        <ChevronRight className={`${currentIndex===currentRentad.images.length-1 ? "text-black" : "text-white hover:bg-gray-500"} w-12 h-12 rounded-xl p-2`}
+                        <img src={currentRentad.images[currentIndex]} alt="image" className='w-full max-w-[800px] h-auto max-h-[80vh] object-contain transition-transform duration-300 mx-2 md:mx-4'/>
+                        <ChevronRight className={`${currentIndex===currentRentad.images.length-1 ? "invisible" : "text-white hover:bg-gray-500"} w-8 h-8 md:w-12 md:h-12 rounded-xl p-2 cursor-pointer flex-shrink-0`}
                         onClick={() => {goNext()}}/>
                     </div>
                 </div>

@@ -1,5 +1,5 @@
 import { Routes, Route, useLocation } from "react-router-dom"
-import Sidebar from "./components/Sidebar.jsx"
+import Bar from "./components/Bar.jsx"
 import HomePage from "./pages/HomePage.jsx"
 import DetailPage from "./pages/DetailPage.jsx"
 import AddPage from "./pages/AddPage.jsx"
@@ -19,14 +19,14 @@ import 'leaflet/dist/leaflet.css';
 
 function App() {
   const location = useLocation()
-  const showSidebar = location.pathname !== "/login" && location.pathname !== "/signup"
+  const showBar = location.pathname !== "/login" && location.pathname !== "/signup"
 
   return (
     <ThemeProvider>
     <div className="dark:bg-gray-900 min-h-screen">
-      {showSidebar && <Sidebar />}
+      {showBar && <Bar />}
        
-      <div className={showSidebar ? "mt-[100px]" : ""}>
+      <div className={showBar ? "mt-[100px]" : ""}>
         <Routes>
           <Route path="/" element={
             <ProtectedRoute>
