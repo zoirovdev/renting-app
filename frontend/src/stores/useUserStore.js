@@ -168,8 +168,8 @@ export const useUserStore = create((set, get) => ({
                 }
             })
 
-            // console.log(response.data.data.user)
-            set({ error: null, randomUser: response.data.data.user })
+            console.log(response.data.data.user)
+            set({ error: null, randomUser: response.data.data })
         } catch (err) {
             if(err.status === 429) {
                  set({ error: "Rate limit exceeded", randomUser: null }) 

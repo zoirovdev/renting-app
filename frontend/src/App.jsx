@@ -4,7 +4,8 @@ import HomePage from "./pages/HomePage.jsx"
 import DetailPage from "./pages/DetailPage.jsx"
 import AddPage from "./pages/AddPage.jsx"
 import SearchPage from "./pages/SearchPage.jsx"
-import ProfilePage from "./pages/ProfilePage.jsx"
+import ProfileEditPage from "./pages/ProfileEditPage.jsx"
+import RandomProfilePage from "./pages/RandomProfilePage.jsx"
 import SettingsPage from "./pages/SettingsPage.jsx"
 import LoginPage from "./pages/LoginPage.jsx"
 import SignupPage from "./pages/SignupPage.jsx"
@@ -50,12 +51,17 @@ function App() {
           }/>
           <Route path="/profile" element={
             <ProtectedRoute>
-              <ProfilePage/>
+              <ProfileEditPage/>
             </ProtectedRoute>
           }/>
           <Route path="/settings" element={
             <ProtectedRoute>
               <SettingsPage/>
+            </ProtectedRoute>
+          }/>
+          <Route path="/random-profile/:id" element={
+            <ProtectedRoute>
+              <RandomProfilePage/>
             </ProtectedRoute>
           }/>
 

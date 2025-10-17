@@ -179,6 +179,9 @@ export const getProfile = async (req, res) => {
             return res.status(404).json({ success: false, message: 'User not found' })
         }
 
+        console.log('It is here...')
+        console.log(id)
+
         res.json({
             success: true,
             data: users[0]

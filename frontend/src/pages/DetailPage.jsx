@@ -212,7 +212,7 @@ const DetailPage = () => {
                 <p className='mt-4 md:mt-8 text-base md:text-lg font-bold tracking-wider dark:text-gray-50'>Contact {currentRentad?.user_type}</p>
                 <div className='py-2 px-4 border border-gray-200 dark:border-gray-700 rounded-xl mb-8 flex flex-col md:flex-row justify-between md:items-center gap-3'>
                     <p className='dark:text-gray-50 cursor-pointer text-sm md:text-base'
-                        onClick={() => navigate(`/profile`)}>
+                        onClick={() => navigate(`/random-profile/${currentRentad?.user_id}`)}>
                         {currentRentad?.user_name}
                     </p>
                     <div className='flex flex-row justify-center items-center gap-2

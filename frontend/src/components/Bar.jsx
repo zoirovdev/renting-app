@@ -41,7 +41,7 @@ const Bar = () => {
                         </div>
                     </div>
                     <div className='absolute right-8 flex justify-center items-center p-1 gap-1'>
-                        <Link to={"/profile"} className={`rounded-xl py-2 px-3.5 bg-black dark:bg-gray-700 text-gray-50 place-content-center`}>
+                        <Link to={`/profile`} className={`rounded-xl py-2 px-3.5 bg-black dark:bg-gray-700 text-gray-50 place-content-center`}>
                             <span className=''>{currentUser?.firstname[0].toUpperCase()}</span>
                         </Link>
                         <Link to={'/settings'} className={`rounded-xl p-2.5 border border-gray-200 dark:border-none dark:bg-gray-800`}>

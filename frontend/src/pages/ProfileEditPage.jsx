@@ -2,13 +2,14 @@ import { useEffect, useState } from "react"
 import { useUserStore } from "../stores/useUserStore.js"
 import { useRentadStore } from "../stores/useRentadStore.js"
 import { MapPin, Wallet, DollarSign, BedDouble, Copy, Check } from "lucide-react"
-import { Link } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 
 
-const ProfilePage = () => {
+const ProfileEditPage = () => {
     const { currentUser } = useUserStore()
     const { rentads, getByUserId, loading } = useRentadStore()
     const [copied, setCopied] = useState(false)
+
 
     const loadingRentads = [
         { id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 },
@@ -165,4 +166,4 @@ const ProfilePage = () => {
     )
 }
 
-export default ProfilePage
+export default ProfileEditPage
