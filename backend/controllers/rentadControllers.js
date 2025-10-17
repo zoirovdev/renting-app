@@ -354,3 +354,21 @@ export const getNearby = async (req, res) => {
         })
     }
 }
+
+
+export const deleteById = async (req, res) => {
+    try {
+        const { id } = req.params
+
+        const result = await sql`
+            DELETE FROM rentads WHERE id = ${id} RETURNING *
+        `
+        res.status(200).json({ success: true, data: result[0], message: "deleted successfully" })
+    } catch (err) {
+        console.log("Error in deleteById function in rentadsController", err)
+        res.status(500).json({ 
+            success: false, 
+            message: "Internal server error" 
+        })
+    }
+}

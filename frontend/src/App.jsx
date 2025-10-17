@@ -2,6 +2,7 @@ import { Routes, Route, useLocation } from "react-router-dom"
 import Bar from "./components/Bar.jsx"
 import HomePage from "./pages/HomePage.jsx"
 import DetailPage from "./pages/DetailPage.jsx"
+import DetailEditPage from "./pages/DetailEditPage.jsx"
 import AddPage from "./pages/AddPage.jsx"
 import SearchPage from "./pages/SearchPage.jsx"
 import ProfileEditPage from "./pages/ProfileEditPage.jsx"
@@ -37,6 +38,11 @@ function App() {
           <Route path="/detail/:id" element={
             <ProtectedRoute>
               <DetailPage/>
+            </ProtectedRoute>
+          }/>
+          <Route path="/edit-detail/:id" element={
+            <ProtectedRoute>
+              <DetailEditPage/>
             </ProtectedRoute>
           }/>
           <Route path="/add" element={

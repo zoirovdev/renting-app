@@ -181,5 +181,19 @@ export const useRentadStore = create((set, get) => ({
         } finally {
             set({ loading: false })
         }
+    },
+
+    deleteById: async (id) => {
+        set({ loading: true })
+
+        try {
+            const response = await axios.delete(`${BASE_URL}/api/rentads/${id}`)
+            set({ error: null, currentRentad: response.data.data })
+        } catch (err) {
+            if(err.status === 429) set({ error: "Rate limit exceeded", rentads:[] })
+            else set({ error: "something went wrong", rentads: [] })
+        } finally { 
+            set({ loading: false })
+        }
     }
 }))

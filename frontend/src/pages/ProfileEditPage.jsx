@@ -121,7 +121,7 @@ const ProfileEditPage = () => {
                     </div>
                     : <div className='flex flex-wrap justify-center md:justify-start items-center gap-4 md:px-[110px]'>
                         {rentads.length && rentads.map((rentad) => (
-                        <Link to={`/detail/${rentad.id}`} key={rentad.id} 
+                        <Link to={`/edit-detail/${rentad.id}`} key={rentad.id} 
                             className='flex flex-col justify-start w-full sm:w-[calc(50%-0.5rem)] lg:w-[300px] h-[400px] gap-1 pb-4'>
                             {rentad.images.length && 
                             <div className='w-full'>

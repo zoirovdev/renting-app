@@ -1,15 +1,15 @@
 import { useRentadStore } from '../stores/useRentadStore'
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { ArrowLeft, ChevronLeft, ChevronRight, X, CircleCheck, Copy, Check, Share } from 'lucide-react'
+import { ArrowLeft, ChevronLeft, ChevronRight, X, CircleCheck, Copy, Check, Share, PencilLine, Trash2 } from 'lucide-react'
 import { useLocationStore } from '../stores/useLocationStore'
 import DetailMap from '../components/DetailMap'
 import { useUserStore } from '../stores/useUserStore'
 
 
 
-const DetailPage = () => {
-    const { fetchRentad, currentRentad, loading } = useRentadStore()
+const DetailEditPage = () => {
+    const { fetchRentad, currentRentad, loading, deleteById } = useRentadStore()
     const { id } = useParams()
     const { getLocation, currentLocation, setCurrentLocation } = useLocationStore()
     const navigate = useNavigate()
@@ -18,7 +18,13 @@ const DetailPage = () => {
     const [currentIndex, setCurrentIndex] = useState(0)
     const [copied, setCopied] = useState(false)
     const [shareCopied, setShareCopied] = useState(false)
+    const [isOpenDelete, setIsOpenDelete] = useState(false)
 
+
+    const handleDelete = async () => {
+        await deleteById(currentRentad?.id)
+        navigate(-1)
+    }
 
 
     const handleShare = async () => {
@@ -157,16 +163,30 @@ const DetailPage = () => {
                         view pics
                     </button>
                 </div>
+                
                 <div className='flex justify-between items-center mt-4 md:mt-8 mb-1'>
                     <p className='text-base md:text-lg font-bold tracking-wider dark:text-gray-50'>Details</p>
-                    <button className='flex justify-center items-center gap-2 border border-gray-200 
-                        dark:border-gray-700 rounded-xl px-3 py-1 cursor-pointer text-sm md:text-base'
-                        onClick={handleShare}>
-                        {shareCopied 
-                        ? <Check className='w-4 h-4 dark:text-gray-50'/>
-                        : <Share className='w-4 h-4 dark:text-gray-50'/>}
-                        <p className="dark:text-gray-50">Share</p>
-                    </button>
+                    <div className='flex gap-1'>
+                        <button className='flex justify-center items-center gap-2 border border-gray-200 
+                            dark:border-gray-700 rounded-xl px-3 py-1 cursor-pointer text-sm md:text-base'
+                            onClick={() => setIsOpenDelete(true)}>
+                            <Trash2 className='w-4 h-4 dark:text-gray-50'/>
+                            <p className="dark:text-gray-50">Delete</p>
+                        </button>
+                        <button className='flex justify-center items-center gap-2 border border-gray-200 
+                            dark:border-gray-700 rounded-xl px-3 py-1 cursor-pointer text-sm md:text-base'>
+                            <PencilLine className='w-4 h-4 dark:text-gray-50'/>
+                            <p className="dark:text-gray-50">Edit</p>
+                        </button>
+                        <button className='flex justify-center items-center gap-2 border border-gray-200 
+                            dark:border-gray-700 rounded-xl px-3 py-1 cursor-pointer text-sm md:text-base'
+                            onClick={handleShare}>
+                            {shareCopied 
+                            ? <Check className='w-4 h-4 dark:text-gray-50'/>
+                            : <Share className='w-4 h-4 dark:text-gray-50'/>}
+                            <p className="dark:text-gray-50">Share</p>
+                        </button>
+                    </div>
                 </div>
                 <div className="flex flex-col pt-2 px-4 pb-4 border border-gray-200 dark:border-gray-700 rounded-xl mb-4 md:mb-8">
                     <div className='flex flex-col py-2 md:py-0'>
@@ -200,8 +220,6 @@ const DetailPage = () => {
                             ))}
                         </div>
                     </div>
-                    
-                    
                 </div>
                 <div className='flex flex-row flex-wrap gap-1 text-base md:text-lg font-bold tracking-wider mb-1 dark:text-gray-50'>
                     <p>in</p>
@@ -211,10 +229,11 @@ const DetailPage = () => {
                 <DetailMap lat={currentLocation?.lat} lon={currentLocation?.lon} wth={"100%"}/>
                 <p className='mt-4 md:mt-8 text-base md:text-lg font-bold tracking-wider dark:text-gray-50'>Contact</p>
                 <div className='py-2 px-4 border border-gray-200 dark:border-gray-700 rounded-xl mb-8 flex flex-col md:flex-row justify-between md:items-center gap-3'>
-                    <p className='dark:text-gray-50 cursor-pointer text-sm md:text-base'
+                    <div className='dark:text-gray-50 cursor-pointer text-sm md:text-base'
                         onClick={() => navigate(`/random-profile/${currentRentad?.user_id}`)}>
-                        {currentRentad?.user_type} {currentRentad?.user_name}
-                    </p>
+                        <p className='text-lg'>{currentRentad?.user_name}</p>
+                        <p className='text-gray-700'>{currentRentad?.user_type}</p> 
+                    </div>
                     <div className='flex flex-row justify-center items-center gap-2
                         cursor-pointer py-2 px-4 rounded-xl shadow-inner dark:hover:bg-gray-800 hover:bg-gray-100 text-sm md:text-base'
                         onClick={() => {handleCopy();}}>
@@ -227,6 +246,25 @@ const DetailPage = () => {
             </div>
             }
             
+            {isOpenDelete && (
+                <div className='flex flex-col justify-between fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
+                    z-50 bg-gray-50 rounded-xl shadow-xl p-2 gap-2'>
+                    <div className='flex flex-col justify-center items-center'>
+                        <p className='self-center'>Are you sure?</p>
+                        <p className='px-2'>Do you want to delete this listing?</p>
+                    </div>
+                    <div className='flex gap-1 w-full'>
+                        <button onClick={() => setIsOpenDelete(false)}
+                            className='basis-1/2 bg-gray-500 text-gray-50 py-1 px-2 rounded-xl'>
+                            Cancel
+                        </button>
+                        <button className='basis-1/2 bg-red-500 text-gray-50 py-1 px-2 rounded-xl'
+                            onClick={handleDelete}>
+                            Delete
+                        </button>
+                    </div>
+                </div>
+            )}
 
             {imagesModal && 
                 <div className='fixed inset-0 z-50 bg-black bg-opacity-90'>
@@ -235,10 +273,10 @@ const DetailPage = () => {
                             <X />
                     </button> 
                     <div className="flex items-center justify-center md:justify-evenly h-full px-4 md:px-0">
-                        <ChevronLeft className={`${currentIndex===0 ? "invisible" : "text-white hover:bg-gray-500"} w-8 h-8 md:w-12 md:h-12 rounded-xl p-2 cursor-pointer flex-shrink-0`}
+                        <ChevronLeft className={`${currentIndex===0 ? "invisible" : "text-white hover:bg-gray-500"} w-8 h-8 md:w-12 md:h-12 rounded-xl p-2 cursor-pointer absolute left-4 md:left-16`}
                         onClick={() => {goPrev()}}/>
                         <img src={currentRentad.images[currentIndex]} alt="image" className='w-full max-w-[800px] h-auto max-h-[80vh] object-contain transition-transform duration-300 mx-2 md:mx-4'/>
-                        <ChevronRight className={`${currentIndex===currentRentad.images.length-1 ? "invisible" : "text-white hover:bg-gray-500"} w-8 h-8 md:w-12 md:h-12 rounded-xl p-2 cursor-pointer flex-shrink-0`}
+                        <ChevronRight className={`${currentIndex===currentRentad.images.length-1 ? "invisible" : "text-white hover:bg-gray-500"} w-8 h-8 md:w-12 md:h-12 rounded-xl p-2 cursor-pointer absolute right-4 md:right-16`}
                         onClick={() => {goNext()}}/>
                     </div>
                 </div>
@@ -247,4 +285,4 @@ const DetailPage = () => {
     )
 }
 
-export default DetailPage
+export default DetailEditPage
