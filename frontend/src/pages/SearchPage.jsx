@@ -132,7 +132,7 @@ const SearchPage = () => {
     }
     
     return (
-        <div className='flex flex-col gap-4 md:gap-8 px-4 md:px-[130px] py-4 md:py-8 pb-20 md:pb-8'>
+        <div className='flex flex-col gap-4 md:gap-8 px-4 md:px-[110px] py-4 md:py-8 pb-20 md:pb-8'>
             {/* Filters Section */}
             <div className='flex flex-col gap-2'>
                 {/* Clear Filters Button */}
@@ -537,7 +537,7 @@ const SearchPage = () => {
                     <p className='text-gray-500 dark:text-gray-400'>Try adjusting your search filters</p>
                 </div>
             </div>
-            : <div className='flex flex-wrap justify-center md:justify-start items-center gap-4'>
+            : <div className='flex flex-wrap justify-center md:justify-start items-center gap-4 px-1'>
                 {rentads.map((rentad) => (
                 <Link to={`/detail/${rentad.id}`} key={rentad.id} 
                     className='flex flex-col justify-start w-full sm:w-[calc(50%-0.5rem)] lg:w-[300px] h-[400px] gap-1 pb-4'>
