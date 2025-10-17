@@ -83,6 +83,9 @@ async function initDB(){
         //         ALTER COLUMN lat TYPE DOUBLE PRECISION USING lat::DOUBLE PRECISION,
         //         ALTER COLUMN lon TYPE DOUBLE PRECISION USING lon::DOUBLE PRECISION;`
 
+        // await sql`ALTER TABLE rentads ALTER COLUMN area TYPE INTEGER USING area::INTEGER`
+        // await sql`ALTER TABLE rentads ALTER COLUMN rent TYPE INTEGER USING rent::INTEGER`
+
         await sql`
             CREATE TABLE IF NOT EXISTS users(
                 id SERIAL PRIMARY KEY,
@@ -128,9 +131,9 @@ async function initDB(){
                 location_id INTEGER NOT NULL,
                 location_display VARCHAR(255) NOT NULL,
                 property VARCHAR(255) NOT NULL,
-                area DECIMAL(10, 2) NOT NULL,
+                area INTEGER NOT NULL,
                 area_unit VARCHAR(255) NOT NULL,
-                rent DECIMAL(10, 2) NOT NULL,
+                rent INTEGER NOT NULL,
                 rent_currency VARCHAR(255) NOT NULL,
                 rent_period VARCHAR(255) NOT NULL,
                 bedrooms INTEGER NOT NULL,

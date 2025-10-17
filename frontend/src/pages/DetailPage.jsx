@@ -168,43 +168,40 @@ const DetailPage = () => {
                         <p className="dark:text-gray-50">Share</p>
                     </button>
                 </div>
-                <div className="flex flex-col pl-4 pr-2 pb-4 border border-gray-200 dark:border-gray-700 rounded-xl mb-4 md:mb-8">
-                    <div className='flex flex-col md:flex-row justify-between md:items-center gap-4'>
-                        <div className='flex flex-col py-2 md:py-0'>
-                            <div className='flex flex-col md:flex-row md:items-center gap-2'>
+                <div className="flex flex-col pt-2 px-4 pb-4 border border-gray-200 dark:border-gray-700 rounded-xl mb-4 md:mb-8">
+                    <div className='flex flex-col py-2 md:py-0'>
+                        <div className='flex flex-row justify-between md:items-center w-full'>
+                            <div className='flex gap-4'>
                                 <p className='font-semibold tracking-wider dark:text-gray-50 text-sm md:text-base'>
                                     {currentRentad?.property}
                                 </p>
-                                <p className='text-xs md:text-sm text-gray-500 dark:text-gray-400'>{Math.floor((new Date() - new Date(currentRentad?.created_at)) / (1000 * 60 * 60 * 24))===0 ? 'Today' : 
-                                    Math.floor((new Date() - new Date(currentRentad?.created_at)) / (1000 * 60 * 60 * 24))===1 ? 'Yesterday' : 
-                                    `${Math.floor((new Date() - new Date(currentRentad?.created_at)) / (1000 * 60 * 60 * 24))} days ago` }
-                                </p>
+                                <p className='text-sm md:text-base '><span className="text-lime-400">{currentRentad?.rent_currency}</span> {currentRentad?.rent} / {currentRentad?.rent_period}</p>
                             </div>
-                            <div className='flex flex-col md:flex-row gap-1 md:gap-2 dark:text-gray-50 text-sm md:text-base'>
-                                <p>{currentRentad?.area} {currentRentad?.area_unit}</p>
-                                <span className='hidden md:inline'>•</span>
-                                <p>{currentRentad?.bedrooms} bedrooms</p>
-                                <span className='hidden md:inline'>•</span>
-                                <p>{currentRentad?.bathrooms} bathrooms</p>
-                            </div>
+                            <p className='text-xs md:text-sm text-gray-500 dark:text-gray-400'>{Math.floor((new Date() - new Date(currentRentad?.created_at)) / (1000 * 60 * 60 * 24))===0 ? 'Today' : 
+                                Math.floor((new Date() - new Date(currentRentad?.created_at)) / (1000 * 60 * 60 * 24))===1 ? 'Yesterday' : 
+                                `${Math.floor((new Date() - new Date(currentRentad?.created_at)) / (1000 * 60 * 60 * 24))} days ago` }
+                            </p>
                         </div>
-                        <div className='flex flex-col justify-center items-center dark:text-gray-50 
-                            border border-lime-500 rounded-xl py-2 px-4 self-start md:self-auto md:mt-2'>
-                            <p className='text-sm md:text-base'>{currentRentad?.rent_currency} {currentRentad?.rent}</p>
-                            <p className='text-xs md:text-sm'>{currentRentad?.rent_period}</p>
+                        <div className='flex flex-row gap-1 md:gap-2 dark:text-gray-50 text-sm md:text-base'>
+                            <p>{currentRentad?.area} {currentRentad?.area_unit}</p>
+                            <span className=''>•</span>
+                            <p>{currentRentad?.bedrooms} bedrooms</p>
+                            <span className=''>•</span>
+                            <p>{currentRentad?.bathrooms} bathrooms</p>
+                        </div>
+                        <div className='flex flex-wrap gap-2 pt-2 text-sm md:text-base'>
+                            {currentRentad?.offers && currentRentad?.offers.map(offer => (
+                                <div key={offer} className='flex justify-center items-center gap-1'>
+                                    <CircleCheck className="w-4 h-4 text-lime-600"/>
+                                    <p className="dark:text-gray-50">
+                                        {offer}
+                                    </p>
+                                </div>
+                            ))}
                         </div>
                     </div>
                     
-                    <div className='flex flex-wrap gap-2 pt-2 text-sm md:text-base'>
-                        {currentRentad?.offers && currentRentad?.offers.map(offer => (
-                            <div key={offer} className='flex justify-center items-center gap-1'>
-                                <CircleCheck className="w-4 h-4 text-lime-600"/>
-                                <p className="dark:text-gray-50">
-                                    {offer}
-                                </p>
-                            </div>
-                        ))}
-                    </div>
+                    
                 </div>
                 <div className='flex flex-row flex-wrap gap-1 text-base md:text-lg font-bold tracking-wider mb-1 dark:text-gray-50'>
                     <p>in</p>
