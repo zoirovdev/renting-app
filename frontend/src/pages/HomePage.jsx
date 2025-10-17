@@ -129,7 +129,7 @@ const HomePage = () => {
 
         {/* Feed */}
         {loading 
-        ? <div className='flex flex-wrap justify-center md:justify-start items-center gap-4 px-4 md:mx-[110px]'>
+        ? <div className='flex flex-wrap justify-center md:justify-start items-center px-4 gap-4 md:px-[110px]'>
             {loadingRentads.map(load => (
               <div key={load.id} 
                 className='flex flex-col justify-start w-full sm:w-[calc(50%-0.5rem)] lg:w-[300px] h-[400px] gap-1 pb-4 animate-pulse'>
