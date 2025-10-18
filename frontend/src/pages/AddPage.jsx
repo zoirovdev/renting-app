@@ -29,7 +29,7 @@ const AddPage = () => {
     const dropdownRef = useRef(null);
 
     const propertyOptions = ['Apartment','House'];
-    const currencyOptions = ['currency','$', '€', '£', '¥', '₹', '₽']
+    const currencyOptions = ['$',]
     const periodOptions = ['period','month', 'week', 'day', 'year']
     const unitOptions = ['unit','m²', 'a', 'h']
     const userTypeOptions = ['Rieltor', 'Landlord']

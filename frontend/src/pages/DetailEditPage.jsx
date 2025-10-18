@@ -22,7 +22,7 @@ const DetailEditPage = () => {
         'lease agreement', 'recently renovated', 'rent includes all fees', 
         'wifi', 'tv', 'air conditioning', 'vacuum cleaner', 'fridge', 'washing machine'
     ]
-    const currencyOptions = ['$', '€', '£', '¥', '₹', '₽']
+    const currencyOptions = ['$']
     const periodOptions = ['month', 'week', 'day', 'year']
 
     const [imagesModal, setImagesModal] = useState(false) 
@@ -403,7 +403,7 @@ const DetailEditPage = () => {
                     <div className='dark:text-gray-50 cursor-pointer text-sm md:text-base'
                         onClick={() => navigate(`/random-profile/${currentRentad?.user_id}`)}>
                         <p className='text-lg'>{currentRentad?.user_name}</p>
-                        <p className='text-gray-700'>{currentRentad?.user_type}</p> 
+                        <p className='text-gray-700 dark:text-gray-200'>{currentRentad?.user_type}</p> 
                     </div>
                     <div className='flex flex-row justify-center items-center gap-2
                         cursor-pointer py-2 px-4 rounded-xl shadow-inner dark:hover:bg-gray-800 hover:bg-gray-100 text-sm md:text-base'
@@ -418,11 +418,11 @@ const DetailEditPage = () => {
             }
 
             {isOpenEdit && (
-                <div className='fixed inset-0 z-50 backdrop-blur-sm bg-opacity-50 flex justify-center items-center p-4'>
-                    <div className='flex flex-col bg-gray-50 rounded-xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto '>
-                        <div className='flex justify-between items-center py-4 px-4 border-b border-gray-200 sticky top-0 bg-gray-50'>
-                            <p className="md:text-xl font-semibold tracking-wider">Edit Listing</p>
-                            <X className='w-8 h-8 p-2 hover:bg-gray-300 hover:rounded-xl cursor-pointer' 
+                <div className='fixed inset-0 z-50 backdrop-blur-sm bg-opacity-50 flex justify-center items-center p-4 tracking-wider'>
+                    <div className='flex flex-col bg-gray-50 dark:bg-gray-900 rounded-xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto '>
+                        <div className='flex justify-between items-center py-4 px-4 border-b border-gray-200 dark:border-gray-700 sticky top-0 '>
+                            <p className="md:text-xl font-semibold tracking-wider dark:text-gray-50">Edit Listing</p>
+                            <X className='w-8 h-8 p-2 hover:bg-gray-300 dark:hover:bg-gray-500 rounded-xl cursor-pointer dark:text-gray-50' 
                                 onClick={() => setIsOpenEdit(false)}/>
                         </div>
                         
@@ -434,10 +434,10 @@ const DetailEditPage = () => {
                             )}
 
                             {/* Image Upload Section */}
-                            <div className='flex flex-col border border-gray-200 rounded-xl p-4 gap-3'>
+                            <div className='flex flex-col border border-gray-200 dark:border-gray-700 rounded-xl p-4 gap-3'>
                                 <div className='flex justify-start items-center gap-2'>
-                                    <ImagePlus className="w-4 h-4"/>
-                                    <label className='text-sm md:text-base text-gray-500'>Images</label>
+                                    <ImagePlus className="w-4 h-4 dark:text-gray-100"/>
+                                    <label className='text-sm md:text-base text-gray-500 dark:text-gray-200'>Images</label>
                                 </div>
                                 
                                 <div className='grid grid-cols-3 gap-2'>
@@ -460,9 +460,9 @@ const DetailEditPage = () => {
                                 </div>
 
                                 <label className='flex flex-col items-center justify-center border-2 border-dashed 
-                                    border-gray-300 rounded-xl p-4 cursor-pointer hover:bg-gray-100'>
-                                    <Upload className='w-8 h-8 text-gray-400'/>
-                                    <span className='text-sm text-gray-500 mt-2'>
+                                    border-gray-300 dark:border-gray-700 rounded-xl p-4 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-500'>
+                                    <Upload className='w-8 h-8 text-gray-400 dark:text-gray-200'/>
+                                    <span className='text-sm text-gray-500 mt-2 dark:text-gray-200'>
                                         {uploading ? 'Uploading...' : 'Click to upload images'}
                                     </span>
                                     <input
@@ -494,14 +494,15 @@ const DetailEditPage = () => {
                             </div>
                             
                             {/* Rent Section */}
-                            <div className='flex flex-col pt-4 pb-6 px-4 md:px-6 gap-2 border border-gray-200 rounded-xl'>
+                            <div className='flex flex-col pt-4 pb-6 px-4 md:px-6 gap-2 border border-gray-200 dark:border-gray-700
+                                rounded-xl'>
                                 <div className='flex justify-start items-center gap-2'>
-                                    <Coins className="w-4 h-4"/>
-                                    <label htmlFor='rent' className='text-sm md:text-base text-gray-500'>Rent</label>
+                                    <Coins className="w-4 h-4 dark:text-gray-50"/>
+                                    <label htmlFor='rent' className='text-sm md:text-base text-gray-500 dark:text-gray-100'>Rent</label>
                                 </div>
                                 <div className='flex flex-col md:flex-row justify-between gap-2'>
                                     <select value={formData?.rent_currency} 
-                                        className='border border-gray-200 rounded-xl py-2 px-4 text-sm md:text-base'
+                                        className='border border-gray-200 dark:border-gray-700 dark:text-gray-50 rounded-xl py-2 px-4 text-sm md:text-base'
                                         onChange={(e) => { setFormData({ ...formData, rent_currency: e.target.value }) }}>
                                         {currencyOptions.map(currency => (
                                             <option key={currency} value={currency}>{currency}</option>
@@ -511,7 +512,8 @@ const DetailEditPage = () => {
                                         type="number"
                                         id="rent" 
                                         name="rent"
-                                        className="w-full md:basis-[80%] border border-gray-200 rounded-xl px-4 py-2
+                                        className="w-full md:basis-[80%] border border-gray-200 dark:border-gray-700
+                                            dark:text-gray-50 rounded-xl px-4 py-2
                                             text-sm md:text-base outline-none appearance-none 
                                             [&::-webkit-outer-spin-button]:appearance-none 
                                             [&::-webkit-inner-spin-button]:appearance-none"
@@ -520,7 +522,7 @@ const DetailEditPage = () => {
                                         onChange={(e) => { setFormData({ ...formData, rent: e.target.value })}}
                                     />
                                     <select value={formData?.rent_period}
-                                        className='border border-gray-200 rounded-xl py-2 px-4 text-sm md:text-base'
+                                        className='border border-gray-200 dark:border-gray-700 dark:text-gray-50 rounded-xl py-2 px-4 text-sm md:text-base'
                                         onChange={(e) => setFormData({ ...formData, rent_period: e.target.value })}>
                                         {periodOptions.map(period => (
                                             <option key={period} value={period}>{period}</option>
@@ -530,27 +532,27 @@ const DetailEditPage = () => {
                             </div>
 
                             {/* Bedrooms and Bathrooms */}
-                            <div className='flex flex-col border border-gray-200 rounded-xl'>
-                                <div className='flex justify-between items-center pt-4 pb-6 px-4 md:px-6 border-b border-gray-200'>
+                            <div className='flex flex-col border border-gray-200 dark:border-gray-700 rounded-xl'>
+                                <div className='flex justify-between items-center pt-4 pb-6 px-4 md:px-6 border-b border-gray-200 dark:border-gray-700'>
                                     <div className='flex justify-start items-center gap-2'>
-                                        <Bed className='w-4 h-4'/>
-                                        <label className='text-sm md:text-base text-gray-500'>Bedrooms</label>
+                                        <Bed className='w-4 h-4 dark:text-gray-100'/>
+                                        <label className='text-sm md:text-base text-gray-500 dark:text-gray-100'>Bedrooms</label>
                                     </div>
                                     <div className='flex flex-row justify-center items-center'>
                                         <Minus 
-                                            className='border border-gray-200 rounded-xl p-1.5 md:p-2 w-7 h-7 md:w-8 md:h-8 
-                                                cursor-pointer hover:bg-gray-100' 
+                                            className='border border-gray-200 dark:border-gray-700 rounded-xl p-1.5 md:p-2 w-7 h-7 md:w-8 md:h-8 
+                                                cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-500 dark:text-gray-100' 
                                             onClick={() => updateBedrooms(-1)}
                                         />
                                         <input 
-                                            className="w-[30px] md:w-[40px] ml-2 text-center text-sm md:text-base"
+                                            className="w-[30px] md:w-[40px] ml-2 text-center text-sm md:text-base dark:text-gray-100"
                                             onChange={(e) => setFormData({ ...formData, bedrooms: parseInt(e.target.value) || 0 })}
                                             value={formData?.bedrooms || 0}
                                             type="number"
                                         />
                                         <Plus 
-                                            className='border border-gray-200 rounded-xl p-1.5 md:p-2 w-7 h-7 md:w-8 md:h-8 
-                                                cursor-pointer hover:bg-gray-100' 
+                                            className='border border-gray-200 dark:border-gray-700 rounded-xl p-1.5 md:p-2 w-7 h-7 md:w-8 md:h-8 
+                                                cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-500 dark:text-gray-100' 
                                             onClick={() => updateBedrooms(+1)}
                                         />
                                     </div>
@@ -558,24 +560,24 @@ const DetailEditPage = () => {
 
                                 <div className='flex justify-between items-center pt-4 pb-6 px-4 md:px-6'>
                                     <div className='flex justify-start items-center gap-2'>
-                                        <Bath className='w-4 h-4'/>
-                                        <label htmlFor='bathrooms' className='text-sm md:text-base text-gray-500'>Bathrooms</label>
+                                        <Bath className='w-4 h-4 dark:text-gray-100'/>
+                                        <label htmlFor='bathrooms' className='text-sm md:text-base text-gray-500 dark:text-gray-100'>Bathrooms</label>
                                     </div>
                                     <div className='flex flex-row justify-center items-center'>
                                         <Minus 
-                                            className='border border-gray-200 rounded-xl p-1.5 md:p-2 w-7 h-7 md:w-8 md:h-8 
-                                                cursor-pointer hover:bg-gray-100' 
+                                            className='border border-gray-200 dark:border-gray-700 rounded-xl p-1.5 md:p-2 w-7 h-7 md:w-8 md:h-8 
+                                                cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-500 dark:text-gray-100' 
                                             onClick={() => updateBathrooms(-1)}
                                         />
                                         <input 
-                                            className="w-[30px] md:w-[40px] ml-2 text-center text-sm md:text-base"
+                                            className="w-[30px] md:w-[40px] ml-2 text-center text-sm md:text-base dark:text-gray-100"
                                             onChange={(e) => setFormData({ ...formData, bathrooms: parseInt(e.target.value) || 0 })}
                                             value={formData?.bathrooms || 0}
                                             type="number"
                                         />
                                         <Plus 
-                                            className='border border-gray-200 rounded-xl p-1.5 md:p-2 w-7 h-7 md:w-8 md:h-8 
-                                                cursor-pointer hover:bg-gray-100' 
+                                            className='border border-gray-200 dark:border-gray-700 rounded-xl p-1.5 md:p-2 w-7 h-7 md:w-8 md:h-8 
+                                                cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-500 dark:text-gray-100' 
                                             onClick={() => updateBathrooms(+1)}
                                         />
                                     </div>
@@ -584,10 +586,10 @@ const DetailEditPage = () => {
 
                             {/* Offers */}
                             <div className='flex flex-col justify-center items-center pt-4 pb-6 px-4 md:px-6 gap-2
-                                border border-gray-200 rounded-xl'>
+                                border border-gray-200 dark:border-gray-700 rounded-xl'>
                                 <div className='flex flex-row justify-start items-center gap-2 w-full'>
-                                    <HandCoins className='w-4 h-4'/>    
-                                    <label className="text-sm md:text-base text-gray-500">Offers</label>
+                                    <HandCoins className='w-4 h-4 dark:text-gray-100'/>    
+                                    <label className="text-sm md:text-base text-gray-500 dark:text-gray-100">Offers</label>
                                 </div>
                                 <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 w-full gap-2'>
                                     {offerOptions.map(offer => (
@@ -599,7 +601,7 @@ const DetailEditPage = () => {
                                                 onChange={() => handleOffer(offer)}
                                                 className='cursor-pointer'
                                             />
-                                            <label htmlFor={offer} className='text-sm md:text-base cursor-pointer'>
+                                            <label htmlFor={offer} className='text-sm md:text-base cursor-pointer dark:text-gray-100'>
                                                 {offer}
                                             </label>
                                         </div>
@@ -644,16 +646,16 @@ const DetailEditPage = () => {
                     <div className='bg-gray-50 dark:bg-gray-900 p-4 flex flex-col gap-4 rounded-xl'>
                         <div className='flex flex-row justify-between items-center'>
                             <p className='dark:text-gray-50 md:text-xl font-semibold tracking-wider'>Share</p>
-                            <X className='w-8 h-8 hover:bg-gray-300 p-2 rounded-xl' 
+                            <X className='w-8 h-8 hover:bg-gray-300 dark:hover:bg-gray-600 p-2 rounded-xl dark:text-gray-50' 
                                 onClick={() => setIsOpenShare(false)}/>
                         </div>
-                        <div className='py-2 px-4 md:px-8 shadow-inner border border-gray-200 rounded-xl
-                            flex flex-row justify-center items-center gap-2'>
+                        <div className='py-2 px-4 md:px-8 shadow-inner border border-gray-200 dark:border-gray-700
+                            flex flex-row justify-center items-center gap-2  rounded-xl'>
                             {shareCopied
                             ? <Check className="w-4 h-4 text-lime-400"/>
                             : <Copy className="w-4 h-4 text-lime-400"/>
                             }
-                            <p className='text-gray-800 overflow-scroll'>{window.location.origin + window.location.pathname}</p>
+                            <p className='text-gray-800 dark:text-gray-400 overflow-scroll'>{window.location.origin + window.location.pathname}</p>
                         </div>
                         <div className='flex flex-row-reverse'>
                             <button className='bg-lime-400 py-2 px-4 rounded-xl cursor-pointer'
@@ -666,20 +668,20 @@ const DetailEditPage = () => {
             {isOpenDelete && (
                 <div className='fixed inset-0 z-50 backdrop-blur-sm bg-opacity-50 flex justify-center items-center p-4'>
                     <div className='flex flex-col justify-between fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
-                        z-50 bg-gray-50 rounded-xl shadow-xl p-6 gap-4 max-w-md w-full mx-4'>
+                        z-50 bg-gray-50 dark:bg-gray-900 rounded-xl shadow-xl p-6 gap-4 max-w-md w-full mx-4'>
                         <div className='flex flex-col justify-center items-center gap-2'>
-                            <p className='text-lg font-semibold'>Are you sure?</p>
-                            <p className='text-center text-gray-600'>Do you want to delete this listing? This action cannot be undone.</p>
+                            <p className='text-lg font-semibold dark:text-gray-50'>Are you sure?</p>
+                            <p className='text-center text-gray-600 dark:text-gray-400'>This action cannot be undone.</p>
                         </div>
                         <div className='flex gap-2 w-full'>
                             <button onClick={() => setIsOpenDelete(false)}
                                 className='flex-1 bg-gray-500 hover:bg-gray-600 text-gray-50 py-2 px-4 
-                                    rounded-xl transition-colors'>
+                                    rounded-xl transition-colors cursor-pointer'>
                                 Cancel
                             </button>
                             <button 
                                 className='flex-1 bg-red-500 hover:bg-red-600 text-gray-50 py-2 px-4 
-                                    rounded-xl transition-colors'
+                                    rounded-xl transition-colors cursor-pointer'
                                 onClick={handleDelete}
                             >
                                 Delete
