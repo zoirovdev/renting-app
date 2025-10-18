@@ -44,7 +44,7 @@ function DetailMap({lat, lon, wth}) {
         <MapContainer 
         center={position} 
         zoom={13} 
-        className='h-[250px] md:h-[400px] w-full rounded-xl'
+        className='h-[250px] md:h-[400px] w-full rounded-xl z-10'
         scrollWheelZoom={true}
         >
             <TileLayer

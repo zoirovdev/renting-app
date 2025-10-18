@@ -372,3 +372,29 @@ export const deleteById = async (req, res) => {
         })
     }
 }
+
+
+export const update = async (req, res) => {
+    try {
+        const { id } = req.params
+        const { area, area_unit, rent, rent_currency, rent_period, bedrooms, bathrooms, 
+            images, offers } = req.body
+
+        const imageArray = Array.isArray(images) ? images : [images]
+        const offerArray = Array.isArray(offers) ? offers : [offers]
+
+        const result = await sql`
+            UPDATE rentads SET area = ${area}, area_unit = ${area_unit}, rent = ${rent}, rent_period = ${rent_period},
+            rent_currency = ${rent_currency}, bedrooms = ${bedrooms}, bathrooms = ${bathrooms}, images = ${imageArray},
+            offers = ${offerArray} WHERE id = ${id} RETURNING *
+        `
+
+        res.status(200).json({ success: true, data: result })
+    } catch (err) {
+        console.log("Error in deleteById function in rentadsController", err)
+        res.status(500).json({ 
+            success: false, 
+            message: "Internal server error" 
+        })
+    }
+}

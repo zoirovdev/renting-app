@@ -39,7 +39,7 @@ const RandomProfilePage = () => {
             getByUserId(randomUser?.id)
             console.log(rentads)
         }
-    }, [randomUser, getByUserId])
+    }, [randomUser])
 
     if(randomUserLoading){
         return <div>Loading random user...</div>

@@ -18,6 +18,7 @@ const DetailPage = () => {
     const [currentIndex, setCurrentIndex] = useState(0)
     const [copied, setCopied] = useState(false)
     const [shareCopied, setShareCopied] = useState(false)
+    const [isOpenShare, setIsOpenShare] = useState(false)
 
 
 
@@ -146,25 +147,35 @@ const DetailPage = () => {
             </div>
             :   <div className={`${imagesModal ? "hidden" : ""} w-full max-w-[800px]`}>
                 <div className="flex flex-col justify-center w-full h-[300px] md:h-[500px] relative">
+                    <ChevronLeft className={`${currentIndex===0 ? "invisible" : "text-white shadow-xl hover:bg-gray-500"} w-8 h-8 md:w-12 md:h-12 rounded-xl p-2 cursor-pointer absolute left-2`}
+                        onClick={() => {goPrev()}}/>
                     <img 
-                        src={currentRentad?.images?.[0]|| null} 
+                        src={currentRentad?.images[currentIndex] || null} 
                         alt="image" 
                         className='object-cover w-full h-full rounded-xl'
                     />
-                    <button className='absolute bottom-2 right-2 bg-gray-100 py-2 px-3 md:px-4 text-sm md:text-base
-                        cursor-pointer rounded-xl z-20'
-                        onClick={() => setImagesModal(true)}>
-                        view pics
-                    </button>
+                    <ChevronRight className={`${currentIndex===currentRentad?.images.length-1 ? "invisible" : "text-white shadow-xl hover:bg-gray-500"} w-8 h-8 md:w-12 md:h-12 rounded-xl p-2 cursor-pointer absolute right-2`}
+                        onClick={() => {goNext()}}/>
+                </div>
+                <div className='w-full flex justify-center items-center gap-1'>
+                    {currentRentad?.images && currentRentad?.images.map((pic, index) => (
+                        <p key={pic} 
+                            className={`text-3xl ${
+                                index === currentIndex
+                                    ? 'text-lime-500 rounded-xl' 
+                                    : 'text-gray-400 rounded-xl'
+                            }`}
+                            onClick={() => setCurrentImageIndex(index)}>
+                            •
+                        </p>
+                    ))}
                 </div>
                 <div className='flex justify-between items-center mt-4 md:mt-8 mb-1'>
                     <p className='text-base md:text-lg font-bold tracking-wider dark:text-gray-50'>Details</p>
                     <button className='flex justify-center items-center gap-2 border border-gray-200 
                         dark:border-gray-700 rounded-xl px-3 py-1 cursor-pointer text-sm md:text-base'
-                        onClick={handleShare}>
-                        {shareCopied 
-                        ? <Check className='w-4 h-4 dark:text-gray-50'/>
-                        : <Share className='w-4 h-4 dark:text-gray-50'/>}
+                        onClick={() => setIsOpenShare(true)}>
+                        <Share className='w-4 h-4 dark:text-gray-50'/>
                         <p className="dark:text-gray-50">Share</p>
                     </button>
                 </div>
@@ -175,7 +186,7 @@ const DetailPage = () => {
                                 <p className='font-semibold tracking-wider dark:text-gray-50 text-sm md:text-base'>
                                     {currentRentad?.property}
                                 </p>
-                                <p className='text-sm md:text-base '><span className="text-lime-400">{currentRentad?.rent_currency}</span> {currentRentad?.rent} / {currentRentad?.rent_period}</p>
+                                <p className='text-sm md:text-base dark:text-gray-50'><span className="text-lime-400">{currentRentad?.rent_currency}</span> {currentRentad?.rent} / {currentRentad?.rent_period}</p>
                             </div>
                             <p className='text-xs md:text-sm text-gray-500 dark:text-gray-400'>{Math.floor((new Date() - new Date(currentRentad?.created_at)) / (1000 * 60 * 60 * 24))===0 ? 'Today' : 
                                 Math.floor((new Date() - new Date(currentRentad?.created_at)) / (1000 * 60 * 60 * 24))===1 ? 'Yesterday' : 
@@ -226,6 +237,30 @@ const DetailPage = () => {
                 </div>
             </div>
             }
+
+            {isOpenShare && (
+                <div className='fixed inset-0 z-50 backdrop-blur-sm bg-opacity-50 flex justify-center items-center p-4'>
+                    <div className='bg-gray-50 dark:bg-gray-900 p-4 flex flex-col gap-4 rounded-xl'>
+                        <div className='flex flex-row justify-between items-center'>
+                            <p className='dark:text-gray-50 md:text-xl font-semibold tracking-wider'>Share</p>
+                            <X className='w-8 h-8 hover:bg-gray-300 p-2 rounded-xl' 
+                                onClick={() => setIsOpenShare(false)}/>
+                        </div>
+                        <div className='py-2 px-4 md:px-8 shadow-inner border border-gray-200 rounded-xl
+                            flex flex-row justify-center items-center gap-2'>
+                            {shareCopied
+                            ? <Check className="w-4 h-4 text-lime-400"/>
+                            : <Copy className="w-4 h-4 text-lime-400"/>
+                            }
+                            <p className='text-gray-800 overflow-scroll'>{window.location.origin + window.location.pathname}</p>
+                        </div>
+                        <div className='flex flex-row-reverse'>
+                            <button className='bg-lime-400 py-2 px-4 rounded-xl cursor-pointer'
+                                onClick={() => handleShare()}>Copy</button>
+                        </div>
+                    </div>
+                </div>
+            )}
             
 
             {imagesModal && 

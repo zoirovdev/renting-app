@@ -33,7 +33,7 @@ const ProfileEditPage = () => {
     useEffect(() => {
         if(currentUser){
             getByUserId(currentUser?.id)
-            console.log(rentads)
+            // console.log(rentads)
             console.log(1)
         }
     }, [getByUserId, currentUser])
