@@ -22,7 +22,6 @@ const DetailEditPage = () => {
         'lease agreement', 'recently renovated', 'rent includes all fees', 
         'wifi', 'tv', 'air conditioning', 'vacuum cleaner', 'fridge', 'washing machine'
     ]
-    const currencyOptions = ['$']
     const periodOptions = ['month', 'week', 'day', 'year']
 
     const [imagesModal, setImagesModal] = useState(false) 
@@ -94,6 +93,11 @@ const DetailEditPage = () => {
             prev.includes(offer) ? prev.filter(item => item !== offer) : [...prev, offer]
         )
     }
+
+    useEffect(() => {
+        setFormData({ ...formData, rent_currency: '$' })
+    }, [])
+
 
     useEffect(() => {
         setCurrentIndex(0)
@@ -501,13 +505,9 @@ const DetailEditPage = () => {
                                     <label htmlFor='rent' className='text-sm md:text-base text-gray-500 dark:text-gray-100'>Rent</label>
                                 </div>
                                 <div className='flex flex-col md:flex-row justify-between gap-2'>
-                                    <select value={formData?.rent_currency} 
-                                        className='border border-gray-200 dark:border-gray-700 dark:text-gray-50 rounded-xl py-2 px-4 text-sm md:text-base'
-                                        onChange={(e) => { setFormData({ ...formData, rent_currency: e.target.value }) }}>
-                                        {currencyOptions.map(currency => (
-                                            <option key={currency} value={currency}>{currency}</option>
-                                        ))}
-                                    </select>
+                                    <p className='border border-gray-200 dark:border-gray-700 dark:text-gray-50 rounded-xl py-2 px-4 text-sm md:text-base'>
+                                        {formData?.rent_currency}
+                                    </p>
                                     <input 
                                         type="number"
                                         id="rent" 

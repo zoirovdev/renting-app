@@ -29,9 +29,9 @@ const AddPage = () => {
     const dropdownRef = useRef(null);
 
     const propertyOptions = ['Apartment','House'];
-    const currencyOptions = ['$',]
+    const currencyOptions = ['$']
     const periodOptions = ['period','month', 'week', 'day', 'year']
-    const unitOptions = ['unit','m²', 'a', 'h']
+    const unitOptions = ['unit','m²']
     const userTypeOptions = ['Rieltor', 'Landlord']
 
     const [selectedOffers, setSelectedOffers] = useState([])
@@ -47,7 +47,14 @@ const AddPage = () => {
         )
     }
 
-    
+
+    useEffect(() => {
+        setFormData({ ...formData, rent_currency: '$'})
+    }, [])
+
+    useEffect(() => {
+        setFormData({ ...formData, area_unit: 'sqm'})
+    }, [])
     
     useEffect(() => {
         setFormData({ ...formData, offers: selectedOffers })
@@ -294,13 +301,11 @@ const AddPage = () => {
                             <label htmlFor='rent' className='text-sm md:text-base text-gray-500 dark:text-gray-100'>Rent</label>
                         </div>
                         <div className='flex flex-col md:flex-row justify-between gap-2'>
-                            <select value={formData?.rent_currency} 
-                                className={`border border-gray-200 dark:border-gray-700 dark:text-gray-400 rounded-xl py-2 px-4 text-sm md:text-base`}
-                                onChange={(e) => { setFormData({ ...formData, rent_currency: e.target.value }) }}>
-                                {currencyOptions.map(currency => (
-                                    <option key={currency} value={currency}>{currency}</option>
-                                ))}
-                            </select>
+                            <p 
+                               className={`border border-gray-200 dark:border-gray-700 dark:text-gray-400 
+                               rounded-xl py-2 px-4 text-sm md:text-base`}>
+                                {formData?.rent_currency}
+                            </p>
                             <input 
                                 type="number"
                                 id="rent" name="rent"
@@ -340,13 +345,10 @@ const AddPage = () => {
                                 value={formData?.area || ''}
                                 onChange={(e) => { setFormData({ ...formData, area: e.target.value })}}
                             />
-                            <select value={formData?.area_unit}
-                                className='border border-gray-200 dark:border-gray-700 dark:text-gray-400 rounded-xl py-2 px-4 text-sm md:text-base'
-                                onChange={(e) => setFormData({ ...formData, area_unit: e.target.value})}>
-                                {unitOptions.map(unit => (
-                                    <option key={unit} value={unit}>{unit}</option>
-                                ))}
-                            </select>
+                            <p
+                                className='border border-gray-200 dark:border-gray-700 dark:text-gray-400 rounded-xl py-2 px-4 text-sm md:text-base'>
+                                {formData?.area_unit}
+                            </p>
                         </div>
                     </div>
                 </div>

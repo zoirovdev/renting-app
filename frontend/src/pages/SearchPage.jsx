@@ -6,8 +6,13 @@ import { Link } from "react-router-dom"
 import { MapPin, Wallet, DollarSign, BedDouble } from "lucide-react"
 
 const SearchPage = () => {
+    
     const { searchRentad, rentads, fetchRentads, loading } = useRentadStore()
-    const [searchTerm, setSearchTerm] = useState({})
+    const [searchTerm, setSearchTerm] = useState({
+        property: "",
+        location_display: "",
+        bedrooms: ""
+    })
 
     const [rentRange, setRentRange] = useState({ min: 0, max: 5000 })
     const [areaRange, setAreaRange] = useState({ min: 0, max: 500 })
@@ -24,12 +29,8 @@ const SearchPage = () => {
     const [showAreaRange, setShowAreaRange] = useState(false)
     const [isBedroomsOpen, setIsBedroomsOpen] = useState(false)
     
-    // Refs for click outside
-    const propertyRef = useRef(null)
-    const locationRef = useRef(null)
-    const rentRef = useRef(null)
-    const areaRef = useRef(null)
-    const bedroomsRef = useRef(null)
+
+    
 
     const loadingRentads = [
         { id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 },
@@ -41,28 +42,7 @@ const SearchPage = () => {
         fetchRentads()
     }, [])
 
-    // Close dropdowns when clicking outside
-    useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (propertyRef.current && !propertyRef.current.contains(event.target)) {
-                setIsPropertyOpen(false)
-            }
-            if (locationRef.current && !locationRef.current.contains(event.target)) {
-                setIsLocationOpen(false)
-            }
-            if (rentRef.current && !rentRef.current.contains(event.target)) {
-                setShowRentRange(false)
-            }
-            if (areaRef.current && !areaRef.current.contains(event.target)) {
-                setShowAreaRange(false) 
-            }
-            if (bedroomsRef.current && !bedroomsRef.current.contains(event.target)) {
-                setIsBedroomsOpen(false)
-            }
-        }
-        document.addEventListener('mousedown', handleClickOutside)
-        return () => document.removeEventListener('mousedown', handleClickOutside)
-    }, [])
+    
     
     const handleSearch = async (e) => {
         e.preventDefault()
@@ -115,6 +95,7 @@ const SearchPage = () => {
 
             if(count === 5) return
 
+            console.log(searchTerm)
             await searchRentad(params)
         } catch (err) {
             console.log("Error ", err)
@@ -129,6 +110,7 @@ const SearchPage = () => {
         })
         setRentRange({ min: 0, max: 5000 })
         setAreaRange({ min: 0, max: 500 })
+        await fetchRentads()
     }
     
     return (
@@ -150,12 +132,12 @@ const SearchPage = () => {
                     dark:bg-gray-800 dark:text-gray-50 mx-auto'>
 
                     {/* Property Type Dropdown */}
-                    <div className='relative' ref={propertyRef}>
+                    <div className='relative' >
                         <button 
                             className='outline-none py-2 px-4 cursor-pointer focus:bg-gray-50 dark:focus:bg-gray-900 
                                 focus:text-gray-900 dark:focus:text-gray-50 focus:rounded-xl focus:shadow-xl 
                                 flex items-center justify-between gap-2 whitespace-nowrap' 
-                            onClick={() => setIsPropertyOpen(!isPropertyOpen)}>
+                            onClick={() => setIsPropertyOpen(true)}>
                             <span>{searchTerm.property || "Property type"}</span>
                         </button>
                         
@@ -178,7 +160,7 @@ const SearchPage = () => {
                     </div>
 
                     {/* Location Dropdown */}
-                    <div className='relative' ref={locationRef}>
+                    <div className='relative' >
                         <button 
                             className='outline-none py-2 px-4 cursor-pointer focus:text-gray-900 dark:focus:text-gray-50
                                 focus:rounded-xl focus:shadow-xl focus:bg-gray-50 dark:focus:bg-gray-900 
@@ -206,7 +188,7 @@ const SearchPage = () => {
                     </div>
 
                     {/* Rent Range */}
-                    <div className='relative' ref={rentRef}>
+                    <div className='relative' >
                         <button 
                             className='outline-none py-2 px-4 cursor-pointer focus:text-gray-900 dark:focus:text-gray-50
                                 focus:rounded-xl focus:shadow-xl focus:bg-gray-50 dark:focus:bg-gray-900 
@@ -249,7 +231,7 @@ const SearchPage = () => {
                     </div>
 
                     {/* Area Range */}
-                    <div className='relative' ref={areaRef}>
+                    <div className='relative' >
                         <button 
                             className='outline-none py-2 px-4 cursor-pointer focus:text-gray-900 dark:focus:text-gray-50
                                 focus:rounded-xl focus:shadow-xl focus:bg-gray-50 dark:focus:bg-gray-900 
@@ -292,7 +274,7 @@ const SearchPage = () => {
                     </div>
 
                     {/* Bedrooms Dropdown */}
-                    <div className='relative' ref={bedroomsRef}>
+                    <div className='relative' >
                         <button 
                             className='outline-none py-2 px-4 cursor-pointer focus:text-gray-900 dark:focus:text-gray-50
                                 focus:rounded-xl focus:shadow-xl focus:bg-gray-50 dark:focus:bg-gray-900 
@@ -333,7 +315,7 @@ const SearchPage = () => {
                         dark:bg-gray-800 dark:text-gray-50 flex flex-col gap-2'>
                         
                         {/* Property Type - Mobile */}
-                        <div className='relative' ref={propertyRef}>
+                        <div className='relative' >
                             <button 
                                 className='w-full py-3 px-4 bg-gray-50 dark:bg-gray-900 rounded-xl
                                     text-left flex items-center justify-between text-sm'
@@ -359,7 +341,7 @@ const SearchPage = () => {
                         </div>
 
                         {/* Location - Mobile */}
-                        <div className='relative' ref={locationRef}>
+                        <div className='relative' >
                             <button 
                                 className='w-full py-3 px-4 bg-gray-50 dark:bg-gray-900 rounded-xl
                                     text-left flex items-center justify-between text-sm'
@@ -385,7 +367,7 @@ const SearchPage = () => {
                         </div>
 
                         {/* Rent Range - Mobile */}
-                        <div className='relative' ref={rentRef}>
+                        <div className='relative' >
                             <button 
                                 className='w-full py-3 px-4 bg-gray-50 dark:bg-gray-900 rounded-xl
                                     text-left flex items-center justify-between text-sm'
@@ -422,7 +404,7 @@ const SearchPage = () => {
                         </div>
 
                         {/* Area Range - Mobile */}
-                        <div className='relative' ref={areaRef}>
+                        <div className='relative' >
                             <button 
                                 className='w-full py-3 px-4 bg-gray-50 dark:bg-gray-900 rounded-xl
                                     text-left flex items-center justify-between text-sm'
@@ -459,7 +441,7 @@ const SearchPage = () => {
                         </div>
 
                         {/* Bedrooms - Mobile */}
-                        <div className='relative' ref={bedroomsRef}>
+                        <div className='relative' >
                             <button 
                                 className='w-full py-3 px-4 bg-gray-50 dark:bg-gray-900 rounded-xl
                                     text-left flex items-center justify-between text-sm'
