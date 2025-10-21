@@ -3,6 +3,7 @@ import helmet from "helmet"
 import morgan from "morgan"
 import cors from "cors"
 import dotenv from "dotenv"
+import path from "path"
 
 
 
@@ -19,7 +20,7 @@ dotenv.config()
 
 const app = express()
 const PORT = process.env.PORT || 8000
-
+const __dirname = path.resolve()
 
 
 
@@ -67,24 +68,22 @@ app.use("/api/users", userRoutes)
 app.use("/api/rentads", rentadRoutes)
 app.use("/api/locations", locationRoutes)
 
-app.get("/", (req, res) => {
-    res.send("Everything is working!")
-})
+
+
+
+if(process.env.NODE_ENV==="production"){
+    // server our react app
+    app.use(express.static(path.join(__dirname, "/frontend/dist")))
+
+    app.get("/{*any}", (req, res) => {
+        res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"))
+    })
+}
 
 
 async function initDB(){
     try {
-        // await sql`DROP TABLE IF EXISTS rentads CASCADE`
-        // await sql`DROP TABLE IF EXISTS users CASCADE`
-        // await sql`DROP TABLE IF EXISTS locations CASCADE`
-
-        // await sql`
-        //     ALTER TABLE locations 
-        //         ALTER COLUMN lat TYPE DOUBLE PRECISION USING lat::DOUBLE PRECISION,
-        //         ALTER COLUMN lon TYPE DOUBLE PRECISION USING lon::DOUBLE PRECISION;`
-
-        // await sql`ALTER TABLE rentads ALTER COLUMN area TYPE INTEGER USING area::INTEGER`
-        // await sql`ALTER TABLE rentads ALTER COLUMN rent TYPE INTEGER USING rent::INTEGER`
+        
 
         await sql`
             CREATE TABLE IF NOT EXISTS users(
