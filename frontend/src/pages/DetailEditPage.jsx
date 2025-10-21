@@ -150,7 +150,7 @@ const DetailEditPage = () => {
             
             // Refresh the current rental ad
             await fetchRentad(id)
-            
+            resetFormData()
         } catch (err) {
             console.error('Update failed:', err)
             setError(err.message || 'Failed to update listing')
@@ -306,25 +306,6 @@ const DetailEditPage = () => {
                     />
                     <ChevronRight className={`${currentIndex===currentRentad?.images?.length-1 ? "invisible" : "text-white"} w-8 h-8 md:w-12 md:h-12 rounded-xl p-2 cursor-pointer absolute right-2`}
                         onClick={() => {goNext()}}/>
-                    <div className='absolute top-2 right-2'>
-                        <EllipsisVertical className='w-8 h-8 hover:bg-gray-500 text-white p-1 rounded-xl'
-                            onClick={() => setIsOpenBtns(!isOpenBtns)}/>
-                        {isOpenBtns && (
-                            <div className="absolute top-8 right-2 bg-gray-50 rounded-xl p-2
-                                flex flex-col justify-center items-center">
-                                <div className='flex justify-start items-center gap-1 hover:bg-gray-200
-                                    py-1 px-2 rounded-xl w-full'>
-                                    <Trash2 className='w-4 h-4'/>
-                                    <p>Delete</p>
-                                </div>
-                                <div className='flex justify-start items-center gap-1 hover:bg-gray-200
-                                    py-1 px-2 rounded-xl w-full'>
-                                    <Plus className='w-4 h-4'/>
-                                    <p>Upload</p>
-                                </div>
-                            </div>
-                        )}
-                    </div>
                 </div>
                 <div className='w-full flex justify-center items-center gap-1'>
                     {currentRentad?.images && currentRentad?.images.map((pic, index) => (

@@ -20,9 +20,9 @@ const AddPage = () => {
     const { currentUser } = useUserStore()
     const { createLocation, formLocation, setFormLocation, currentLocation, setCurrentLocation } = useLocationStore()
 
-    if(Array.isArray(currentLocation)){
-        setCurrentLocation(currentLocation[0])
-    }
+    // if(Array.isArray(currentLocation)){
+    //     setCurrentLocation(currentLocation[0])
+    // }
 
     const [isOpen, setIsOpen] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
@@ -257,9 +257,7 @@ const AddPage = () => {
         setBuildingImages(prev => prev.filter((_, i) => i !== index))
     }
 
-    console.log(formData)
-    console.log(currentLocation)
-
+    
     return (
         <div className='flex justify-center items-center px-4 md:px-0 pb-20 md:pb-8'>
             <div className='w-full max-w-[800px] mt-4 md:mt-[50px] p-4 md:p-8 space-y-4'>
@@ -282,8 +280,8 @@ const AddPage = () => {
                         {propertyOptions && propertyOptions.map(pType => (
                             <button key={pType} className={`border dark:border-none border-gray-200 rounded-xl py-3 md:py-4 px-4 md:px-8
                                 w-full md:w-[50%] hover:bg-gray-100 dark:hover:bg-gray-700 dark:bg-gray-800 cursor-pointer 
-                                flex justify-center items-center gap-2
-                                focus:ring-2 focus:ring-lime-500 text-sm md:text-base`}
+                                flex justify-center items-center gap-2 text-sm md:text-base
+                                ${formData.property === pType ? 'ring-2 ring-lime-500' : ''}`}
                                 onClick={() => { setFormData({ ...formData, property: pType })}}>
                                 <img src={`${pType==="Apartment" ? "apartment-building.svg" : "house-building.svg"}`} alt="home" 
                                     className='w-8 h-8 md:w-10 md:h-10 object-cover dark:invert'/>
@@ -464,9 +462,10 @@ const AddPage = () => {
                     <div className='flex flex-col md:flex-row gap-2'>
                         {userTypeOptions.map(userType => (
                             <button key={userType} 
-                                className={`border border-gray-200 dark:border-gray-700 rounded-xl py-2 md:py-2 px-4 md:px-8
-                                w-full md:w-[50%] hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer dark:text-gray-100
-                                focus:ring-2 focus:ring-lime-500 text-sm md:text-base`}
+                                className={`border border-gray-200 dark:border-gray-700 rounded-xl py-2 md:py-2 px-4 
+                                md:px-8 w-full md:w-[50%] cursor-pointer dark:text-gray-100
+                                text-sm md:text-base
+                                ${formData.user_type === userType ? 'ring-2 ring-lime-500' : ''}`}
                                 onClick={() => { setFormData({ ...formData, user_type: userType })}}
                             >
                                 {userType}

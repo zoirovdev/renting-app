@@ -16,7 +16,7 @@ export const create = async (req, res) => {
             RETURNING *
         `
 
-        res.status(201).json({ success: true, data: newLocation })
+        res.status(201).json({ success: true, data: newLocation[0] })
     } catch (error) {
         console.log("Error in create in locationControllers.js", error)
         res.status(500).json({ success: false, message: "Internal Server Error" })
@@ -29,6 +29,10 @@ export const get = async (req, res) => {
         const { id } = req.params
 
         const location = await sql`SELECT * FROM locations WHERE id=${id}`
+
+        if(!location || location.length === 0){
+            return res.status(404).json({ success: false, message: "Location not found" })
+        }
 
         res.status(200).json({ success: true, data: location[0] })
     } catch (error) {

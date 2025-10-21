@@ -9,8 +9,8 @@ export const getAll = async (req, res) => {
         `
 
         res.status(200).json({ success: true, data: rentads })
-    } catch (error) {
-        console.log("Error get rentads", error)
+    } catch (err) {
+        console.log("Error get rentads", err)
         res.status(500).json({ success: false, message: "Internal Server Error" })
     }
 }
@@ -38,8 +38,8 @@ export const create = async (req, res) => {
         `
     
         res.status(201).json({ success: true, data: newRentad[0] })
-    } catch (error) {
-        console.log("Error in create", error)
+    } catch (err) {
+        console.log("Error in create", err)
         res.status(500).json({ success: false, message: "Internal Server Error" })
     }
 }
@@ -52,6 +52,9 @@ export const getRentad = async (req, res) => {
         const rentad = await sql`
             SELECT * FROM rentads WHERE id=${id}
         `
+        if(!rentad || rentad.length === 0){
+            return res.status(404).json({ success: false, message: "Rentad not found" })
+        }
 
         res.status(200).json({ success: true, data: rentad[0] })
     } catch (err) {
@@ -315,8 +318,13 @@ export const getWithoutRieltor = async (req, res) => {
 export const getNearby = async (req, res) => {
     try {
         const { user_lat, user_lon } = req.query
+        if(!user_lat || !user_lon){
+            return res.status(400).json({ success:false, message: "User latitude and longitude are required!" })
+        }
+
         const userLat = parseFloat(user_lat)
         const userLon = parseFloat(user_lon)
+
         const distance_km = 5
 
         const result = await sql`
@@ -363,6 +371,10 @@ export const deleteById = async (req, res) => {
         const result = await sql`
             DELETE FROM rentads WHERE id = ${id} RETURNING *
         `
+        if(!result || result.length === 0){
+            return res.status(404).json({ success: false, message: "Rentad not found" })
+        }
+
         res.status(200).json({ success: true, data: result[0], message: "deleted successfully" })
     } catch (err) {
         console.log("Error in deleteById function in rentadsController", err)
@@ -380,6 +392,10 @@ export const update = async (req, res) => {
         const { area, area_unit, rent, rent_currency, rent_period, bedrooms, bathrooms, 
             images, offers } = req.body
 
+        if(!area || !area_unit || !rent || !rent_currency || !rent_period || !bedrooms || !bathrooms || !images || !offers){
+            return res.status(400).json({ success: false, message: "Fields are required to update rentad" })
+        }
+
         const imageArray = Array.isArray(images) ? images : [images]
         const offerArray = Array.isArray(offers) ? offers : [offers]
 
@@ -388,6 +404,10 @@ export const update = async (req, res) => {
             rent_currency = ${rent_currency}, bedrooms = ${bedrooms}, bathrooms = ${bathrooms}, images = ${imageArray},
             offers = ${offerArray} WHERE id = ${id} RETURNING *
         `
+
+        if(!result || result.length === 0){
+            return res.status(404).json({ success: false, message: "Rentad not found" })
+        }
 
         res.status(200).json({ success: true, data: result })
     } catch (err) {
