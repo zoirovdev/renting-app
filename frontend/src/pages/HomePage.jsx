@@ -88,12 +88,6 @@ const HomePage = () => {
         {/* Sort */}
         <div className="flex sm:flex-wrap justify-center items-center px-4 md:px-0">
           <div className='flex flex-row justify-start md:justify-center items-center gap-1 overflow-x-auto pb-2 md:pb-0 w-full md:w-auto'>
-            <button onClick={() => {fetchRentads(); setSortOption('New')}}
-              className={`border border-gray-200 dark:border-gray-700 rounded-xl py-2 px-4 cursor-pointer whitespace-nowrap
-                ${sortOption === 'New' ? "border-none bg-gray-900 dark:bg-gray-50 text-gray-50 dark:text-gray-900" 
-                : "dark:text-gray-50" }`}>
-              New
-            </button>
             <button onClick={() => {sortByOffers('recently renovated'); setSortOption('Recently renovated')}}
               className={`border border-gray-200 dark:border-gray-700 rounded-xl py-2 px-4 cursor-pointer whitespace-nowrap
                 ${sortOption === 'Recently renovated' ? "border-none bg-gray-900 dark:bg-gray-50 text-gray-50 dark:text-gray-900" 
