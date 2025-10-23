@@ -3,10 +3,11 @@ import { useNavigate } from "react-router-dom"
 
 
 const LoginPage = () => {
-    const { login, loginForm, setLoginForm } = useUserStore()
+    const { login, loginForm, setLoginForm, error } = useUserStore()
     const navigate = useNavigate()
 
-    const handleLogin = async () => {
+    const handleLogin = async (e) => {
+      e.preventDefault()
       try {
         await login()
         navigate("/")
@@ -41,14 +42,17 @@ const LoginPage = () => {
                     py-2 px-4 rounded-xl dark:text-gray-50 text-sm md:text-base" 
                   onChange={(e) => setLoginForm({ ...loginForm, password: e.target.value })}/>
               </div>
-              <div className="flex flex-col md:flex-row justify-between items-stretch md:items-center gap-3 md:gap-2">
+              <div>
+                <p className="text-red-400">{error}</p>
+              </div>
+              <div className="flex flex-col md:flex-row justify-between items-stretch md:items-center pt-2 gap-3 md:gap-2">
                 <p onClick={(e) => navigate('/signup')}
                   className="text-lime-600 hover:text-lime-500 cursor-pointer text-sm md:text-base text-center md:text-left">
                   Don't have account? sign up
                 </p>
                 <button className="bg-lime-400 hover:bg-lime-500 py-2 px-4 rounded-xl cursor-pointer 
                     transition-colors text-sm md:text-base font-medium w-full md:w-auto"
-                  onClick={handleLogin}>
+                  onClick={(e) => handleLogin(e)}>
                   Submit
                 </button>
               </div>

@@ -94,13 +94,21 @@ export const useUserStore = create((set, get) => ({
             localStorage.setItem("token", response.data.token)
             localStorage.setItem("userId", response.data.user.id)
             get().resetSignupForm()
+
+            return { success: true, message: "Successfully!" }
         } catch (err) {
             if(err.status === 429) {
                 set({ error: "Rate limit exceeded", currentUser: null }) 
+                return { success: false, message: "Error" }
             } else if (err.status === 401) {
                 set({ error: "Invalid credentials", currentUser: null })
+                return { success: false, message: "Error" }
+            } else if (err.status === 409){
+                set({ error: "Username or phone number already registered", currentUser: null })
+                return { success: false, message: "Error" }
             } else {
                 set({ error: "Something went wrong", currentUser: null })
+                return { success: false, message: "Error" }
             }
         } finally {
             set({ currentUserloading: false })
@@ -118,7 +126,7 @@ export const useUserStore = create((set, get) => ({
             get().resetLoginForm()
         } catch (err) {
             if(err.status === 429) {
-                 set({ error: "Rate limit exceeded", currentUser: null }) 
+                set({ error: "Rate limit exceeded", currentUser: null }) 
             } else if (err.status === 401) {
                 set({ error: "Invalid credentials", currentUser: null })
             } else {

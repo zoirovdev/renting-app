@@ -3,13 +3,16 @@ import { useNavigate } from "react-router-dom"
 
 
 const SignupPage = () => {
-    const { signup, signupForm, setSignupForm } = useUserStore()
+    const { signup, signupForm, setSignupForm, error } = useUserStore()
     const navigate = useNavigate()
 
-    const handleSignup = async () => {
+    const handleSignup = async (e) => {
+        e.preventDefault()
         try {
-            await signup()
-            navigate("/")
+            const res = await signup()
+            if(res.success){
+                navigate("/")
+            }
         } catch (err) {
             console.log("Error in signup", err)
             return
@@ -72,6 +75,9 @@ const SignupPage = () => {
                         placeholder="Create a password"
                         onChange={(e) => setSignupForm({ ...signupForm, password: e.target.value })}/> 
                 </div>
+                <div>
+                    <p className="text-red-400">{error}</p>
+                </div>
                 <div className="flex flex-col md:flex-row justify-between items-stretch md:items-center gap-3 md:gap-2">
                     <p onClick={(e) => navigate('/login')}
                         className="text-lime-600 hover:text-lime-500 cursor-pointer text-sm md:text-base text-center md:text-left">
@@ -80,7 +86,7 @@ const SignupPage = () => {
                     <button 
                         className="bg-lime-400 hover:bg-lime-500 cursor-pointer py-2 px-4 rounded-xl 
                         transition-colors text-sm md:text-base font-medium w-full md:w-auto"
-                        onClick={handleSignup}>
+                        onClick={(e) => handleSignup(e)}>
                         Submit
                     </button>
                 </div>
