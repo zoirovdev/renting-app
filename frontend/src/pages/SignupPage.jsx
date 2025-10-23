@@ -23,6 +23,8 @@ const SignupPage = () => {
                 <div className="flex justify-center items-center">
                     <p className="text-lg md:text-xl font-semibold tracking-widest dark:text-gray-50">Sign up</p>
                 </div>
+                <p className="flex justify-center items-center text-gray-500 dark:text-gray-400">You can enter any phone number it is considered valid. </p>
+                <p className="flex justify-center items-center text-gray-500 dark:text-gray-400">And we don't send SMS to you</p>
                 <div className="flex flex-col">
                     <label htmlFor="username" className="text-gray-500 dark:text-gray-300 text-sm md:text-base mb-1">Username</label>
                     <input type="text"
