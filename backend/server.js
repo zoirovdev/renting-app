@@ -69,6 +69,13 @@ app.use("/api/rentads", rentadRoutes)
 app.use("/api/locations", locationRoutes)
 
 
+app.use(express.static('dist', {
+    setHeaders: (res, path) => {
+        if (path.endsWith('.svg')) {
+            res.setHeader('Content-Type', 'image/svg+xml');
+        }
+    }
+}));
 
 
 if(process.env.NODE_ENV==="production"){
