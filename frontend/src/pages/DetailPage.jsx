@@ -194,11 +194,9 @@ const DetailPage = () => {
                             </p>
                         </div>
                         <div className='flex flex-row gap-1 md:gap-2 dark:text-gray-50 text-sm md:text-base'>
+                            <p>{currentRentad?.bedrooms} rooms</p>
+                            <span className=''>•</span>
                             <p>{currentRentad?.area} {currentRentad?.area_unit}</p>
-                            <span className=''>•</span>
-                            <p>{currentRentad?.bedrooms} bedrooms</p>
-                            <span className=''>•</span>
-                            <p>{currentRentad?.bathrooms} bathrooms</p>
                         </div>
                         <div className='flex flex-wrap gap-2 pt-2 text-sm md:text-base'>
                             {currentRentad?.offers && currentRentad?.offers.map(offer => (

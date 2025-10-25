@@ -73,11 +73,11 @@ const AddPage = () => {
         }
     }
 
-    const updateBathrooms = val => {
-        if(formData.bathrooms >= 0 && formData.bathrooms <=20){
-            setFormData({ ...formData, bathrooms: formData.bathrooms+val})
-        }
-    }
+    // const updateBathrooms = val => {
+    //     if(formData.bathrooms >= 0 && formData.bathrooms <=20){
+    //         setFormData({ ...formData, bathrooms: formData.bathrooms+val})
+    //     }
+    // }
 
 
     const success = async (position) => {
@@ -190,6 +190,7 @@ const AddPage = () => {
         e.preventDefault()
         try {
             await createRentad(e)
+            resetFormData()
         } catch (err){
             console.log("error at handleSubmit", err)
         }
@@ -352,10 +353,10 @@ const AddPage = () => {
                 {/* Rooms */}
                 <div className='flex flex-col border dark:border-gray-700 border-gray-200 rounded-xl'>
 
-                    <div className='flex justify-between items-center pt-4 pb-6 px-4 md:px-6 border-b border-gray-200 dark:border-gray-700'>
+                    <div className='flex justify-between items-center pt-4 pb-4 px-4 md:px-6 dark:border-gray-700'>
                         <div className='flex justify-start items-center gap-2'>
                             <Bed className='w-4 h-4 dark:text-gray-100'/>
-                            <label className='text-sm md:text-base text-gray-500 dark:text-gray-100'>Bedrooms</label>
+                            <label className='text-sm md:text-base text-gray-500 dark:text-gray-100'>Rooms</label>
                         </div>
                         <div className='flex flex-row justify-center items-center'>
                             <Minus 
@@ -375,7 +376,7 @@ const AddPage = () => {
                         </div>
                     </div>
 
-                    <div className='flex justify-between items-center pt-4 pb-6 px-4 md:px-6'>
+                    {/* <div className='flex justify-between items-center pt-4 pb-6 px-4 md:px-6'>
                         <div className='flex justify-start items-center gap-2'>
                             <Bath className='w-4 h-4 dark:text-gray-100'/>
                             <label htmlFor='bathrooms' className='text-sm md:text-base text-gray-500 dark:text-gray-100'>Bathrooms</label>
@@ -396,7 +397,7 @@ const AddPage = () => {
                                 onClick={() => updateBathrooms(+1)}
                             />
                         </div>
-                    </div>
+                    </div> */}
                 </div>
 
                 {/* Offers */}

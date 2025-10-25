@@ -18,7 +18,7 @@ export const getAll = async (req, res) => {
 
 export const create = async (req, res) => {
     try {
-        const { property, area, area_unit, rent, rent_currency, rent_period, bedrooms, bathrooms, 
+        const { property, area, area_unit, rent, rent_currency, rent_period, bedrooms, 
             location_id, location_display, images, offers, user_id, user_type, user_phone, user_name } = req.body
         console.log(req.body)
 
@@ -31,8 +31,8 @@ export const create = async (req, res) => {
         const offerArray = Array.isArray(offers) ? offers : [offers]
 
         const newRentad = await sql`
-            INSERT INTO rentads (property, area, area_unit, rent, rent_currency, rent_period, bedrooms, bathrooms, location_id, location_display, images, offers, user_id, user_type, user_phone, user_name)
-            VALUES (${property}, ${area}, ${area_unit}, ${rent}, ${rent_currency}, ${rent_period}, ${bedrooms}, ${bathrooms}, ${location_id}, ${location_display}, ${imageArray}, ${offerArray}, 
+            INSERT INTO rentads (property, area, area_unit, rent, rent_currency, rent_period, bedrooms, location_id, location_display, images, offers, user_id, user_type, user_phone, user_name)
+            VALUES (${property}, ${area}, ${area_unit}, ${rent}, ${rent_currency}, ${rent_period}, ${bedrooms}, ${location_id}, ${location_display}, ${imageArray}, ${offerArray}, 
             ${parseInt(user_id)}, ${user_type}, ${user_phone}, ${user_name})
             RETURNING *
         `
@@ -389,10 +389,10 @@ export const deleteById = async (req, res) => {
 export const update = async (req, res) => {
     try {
         const { id } = req.params
-        const { area, area_unit, rent, rent_currency, rent_period, bedrooms, bathrooms, 
+        const { area, area_unit, rent, rent_currency, rent_period, bedrooms, 
             images, offers } = req.body
 
-        if(!area || !area_unit || !rent || !rent_currency || !rent_period || !bedrooms || !bathrooms || !images || !offers){
+        if(!area || !area_unit || !rent || !rent_currency || !rent_period || !bedrooms || !images || !offers){
             return res.status(400).json({ success: false, message: "Fields are required to update rentad" })
         }
 
@@ -401,7 +401,7 @@ export const update = async (req, res) => {
 
         const result = await sql`
             UPDATE rentads SET area = ${area}, area_unit = ${area_unit}, rent = ${rent}, rent_period = ${rent_period},
-            rent_currency = ${rent_currency}, bedrooms = ${bedrooms}, bathrooms = ${bathrooms}, images = ${imageArray},
+            rent_currency = ${rent_currency}, bedrooms = ${bedrooms}, images = ${imageArray},
             offers = ${offerArray} WHERE id = ${id} RETURNING *
         `
 

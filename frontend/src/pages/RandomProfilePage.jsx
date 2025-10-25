@@ -80,7 +80,7 @@ const RandomProfilePage = () => {
             {/* List */}
             <div className="space-y-4 w-full">
                 <div className="flex justify-center items-center">
-                    <p className="text-base md:text-lg font-semibold tracking-widest dark:text-slate-100">Posted ads</p>
+                    <p className="text-base md:text-lg font-semibold tracking-widest dark:text-slate-100">Posted listings</p>
                 </div>
                 {loading 
                     ? <div className='flex flex-wrap justify-center md:justify-start items-center gap-4 md:px-[110px]'>

@@ -72,7 +72,7 @@ const ProfileEditPage = () => {
             {/* List */}
             <div className="space-y-4 w-full">
                 <div className="flex justify-center items-center">
-                    <p className="text-base md:text-lg font-semibold tracking-widest dark:text-slate-100">Posted ads</p>
+                    <p className="text-base md:text-lg font-semibold tracking-widest dark:text-slate-100">Posted listings</p>
                 </div>
                 {loading 
                     ? <div className='flex flex-wrap justify-center md:justify-start items-center gap-4 md:px-[110px]'>
@@ -131,7 +131,7 @@ const ProfileEditPage = () => {
                             <div className='flex justify-between items-center'>
                                 <div className='flex flex-col'>
                                 <p className='font-semibold tracking-wider dark:text-slate-50 text-sm md:text-base'>{rentad.property}</p>
-                                <p className='dark:text-slate-50 text-xs md:text-sm'>{rentad.bedrooms} <span className='text-gray-500 dark:text-slate-300'>{rentad.bedrooms > 1 ? "rooms" : "room"}</span> • {rentad.bathrooms} <span className='text-gray-500 dark:text-slate-300'>{rentad.bathrooms > 1 ? "baths" : "bath"}</span></p>
+                                <p className='dark:text-slate-50 text-xs md:text-sm'>{rentad.bedrooms} <span className='text-gray-500 dark:text-slate-300'>{rentad.bedrooms > 1 ? "rooms" : "room"}</span> • {rentad.area} <span className='text-gray-500 dark:text-slate-300'>{rentad.area_unit}</span></p>
                                 </div>
                                 <div className='flex flex-col dark:text-slate-50'>
                                 <p className='text-lime-500 text-sm md:text-base'>{rentad.rent_currency}{(rentad.rent).toString().split('.')[0]}</p>

@@ -179,7 +179,7 @@ const HomePage = () => {
                 <div className='flex justify-between items-center'>
                   <div className='flex flex-col'>
                     <p className='font-semibold tracking-wider dark:text-slate-50'>{rentad.property}</p>
-                    <p className='dark:text-slate-50'>{rentad.bedrooms} <span className='text-gray-500 dark:text-slate-300'>{rentad.bedrooms > 1 ? "rooms" : "room"}</span> • {rentad.bathrooms} <span className='text-gray-500 dark:text-slate-300'>{rentad.bathrooms > 1 ? "baths" : "bath"}</span></p>
+                    <p className='dark:text-slate-50'>{rentad.bedrooms} <span className='text-gray-500 dark:text-slate-300'>{rentad.bedrooms > 1 ? "rooms" : "room"}</span> • {rentad.area} <span className='text-gray-500 dark:text-slate-300'>{rentad.area_unit}</span></p>
                   </div>
                   <div className='flex flex-col dark:text-slate-50'>
                     <p className='text-lime-500'>{rentad.rent_currency}{(rentad.rent).toString().split('.')[0]}</p>

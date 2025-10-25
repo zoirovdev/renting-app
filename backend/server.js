@@ -83,7 +83,6 @@ if(process.env.NODE_ENV==="production"){
 
 async function initDB(){
     try {
-        
 
         await sql`
             CREATE TABLE IF NOT EXISTS users(
@@ -136,7 +135,6 @@ async function initDB(){
                 rent_currency VARCHAR(255) NOT NULL,
                 rent_period VARCHAR(255) NOT NULL,
                 bedrooms INTEGER NOT NULL,
-                bathrooms INTEGER NOT NULL,
                 images TEXT[],
                 offers TEXT[],
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
