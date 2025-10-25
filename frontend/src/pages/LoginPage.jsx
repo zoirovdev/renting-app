@@ -7,9 +7,8 @@ const LoginPage = () => {
     const navigate = useNavigate()
 
     const handleLogin = async (e) => {
-      e.preventDefault()
       try {
-        await login()
+        await login(e)
         navigate("/")
       } catch (err) {
         console.log("Error in handleLogin", err)

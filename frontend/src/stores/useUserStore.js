@@ -115,8 +115,9 @@ export const useUserStore = create((set, get) => ({
         }
     },
 
-    login: async () => {
+    login: async (e) => {
         set({ currentUserloading: true })
+        e.preventDefault()
 
         try {
             const response = await axios.post(`${BASE_URL}/api/users/login`, get().loginForm)
