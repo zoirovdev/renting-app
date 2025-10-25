@@ -283,8 +283,6 @@ const AddPage = () => {
                                 flex justify-center items-center gap-2 text-sm md:text-base
                                 ${formData.property === pType ? 'ring-2 ring-lime-500' : ''}`}
                                 onClick={() => { setFormData({ ...formData, property: pType })}}>
-                                <img src={`${pType==="Apartment" ? "apartment-building.svg" : "house-building.svg"}`} alt="home" 
-                                    className='w-8 h-8 md:w-10 md:h-10 object-cover dark:invert'/>
                                 <p className='dark:text-gray-100'>{pType}</p>
                             </button>
                         ))}
