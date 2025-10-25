@@ -14,6 +14,8 @@ import PublicRoute from "./components/PublicRoute.jsx"
 import ProtectedRoute from "./components/ProtectedRoute.jsx"
 import { ThemeProvider } from "./components/ThemeProvider.jsx"
 
+import { Toaster } from "react-hot-toast"
+
 
 import 'leaflet/dist/leaflet.css';
 
@@ -26,6 +28,7 @@ function App() {
   return (
     <ThemeProvider>
     <div className="dark:bg-gray-900 min-h-screen">
+      <Toaster position="top-center"/>
       {showBar && <Bar />}
        
       <div className={showBar ? "mt-[40px]" : ""}>

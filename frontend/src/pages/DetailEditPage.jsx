@@ -8,6 +8,7 @@ import { useLocationStore } from '../stores/useLocationStore'
 import DetailMap from '../components/DetailMap'
 import { useUserStore } from '../stores/useUserStore'
 import axios from 'axios'
+import toast from "react-hot-toast"
 
 const DetailEditPage = () => {
     const { fetchRentad, currentRentad, loading, deleteById, formData, setFormData, resetFormData,
@@ -49,6 +50,7 @@ const DetailEditPage = () => {
 
     const handleDelete = async () => {
         await deleteById(currentRentad?.id)
+        toast.success("Listing deleted!")
         navigate(-1)
     }
 
@@ -150,6 +152,7 @@ const DetailEditPage = () => {
             
             // Refresh the current rental ad
             await fetchRentad(id)
+            toast.success("Successfully updated!")
             resetFormData()
         } catch (err) {
             console.error('Update failed:', err)

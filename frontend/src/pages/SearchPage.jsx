@@ -1,9 +1,8 @@
 import { useState, useRef, useEffect } from 'react'
 import { useRentadStore } from '../stores/useRentadStore.js'
-import { Search } from 'lucide-react'
 import Map from "../components/Map.jsx"
 import { Link } from "react-router-dom"
-import { MapPin, Wallet, DollarSign, BedDouble } from "lucide-react"
+import { MapPin, Wallet, DollarSign, BedDouble, BrushCleaning, Search } from "lucide-react"
 
 const SearchPage = () => {
     
@@ -114,30 +113,31 @@ const SearchPage = () => {
     }
     
     return (
-        <div className='flex flex-col gap-4 md:gap-8 px-4 md:px-[110px] py-4 md:py-8 pb-20 md:pb-8'>
+        <div className='flex flex-col gap-4 md:gap-8 px-4 md:px-[110px] py-4 pb-20 md:pb-8'>
             {/* Filters Section */}
             <div className='flex flex-col gap-2'>
-                {/* Clear Filters Button */}
-                <button 
-                    className="w-full md:w-auto md:self-center border dark:border-none border-gray-100 dark:bg-gray-800 shadow-xl
-                        hover:bg-gray-100 dark:hover:bg-gray-700 py-3 px-4 rounded-xl cursor-pointer
-                        dark:text-gray-50 text-sm md:text-base"
-                    onClick={handleClearFilters}>
-                    Clear filters
-                </button>
+                
 
                 {/* Desktop Filters - Horizontal */}
-                <div className='hidden md:flex border dark:border-none border-gray-100 rounded-xl p-1 shadow-xl
-                    justify-center items-center focus-within:bg-gray-100 dark:focus-within:bg-gray-700
-                    dark:bg-gray-800 dark:text-gray-50 mx-auto'>
+                <div className='hidden md:flex p-1 justify-center items-center 
+                    dark:bg-gray-800 dark:text-gray-50 mx-auto gap-1'>
+                    {/* Clear Filters Button */}
+                    <button 
+                        className="border dark:border-none border-gray-200 dark:bg-gray-800
+                            hover:bg-gray-100 dark:hover:bg-gray-700 py-2 px-4 rounded-xl cursor-pointer
+                            dark:text-gray-50 text-sm md:text-base flex justify-center items-center gap-1"
+                        onClick={handleClearFilters}>
+                        <BrushCleaning className="w-4 h-4"/>
+                        <p>Clear filters</p>
+                    </button>
 
                     {/* Property Type Dropdown */}
                     <div className='relative' >
                         <button 
-                            className='outline-none py-2 px-4 cursor-pointer focus:bg-gray-50 dark:focus:bg-gray-900 
-                                focus:text-gray-900 dark:focus:text-gray-50 focus:rounded-xl focus:shadow-xl 
-                                flex items-center justify-between gap-2 whitespace-nowrap' 
-                            onClick={() => setIsPropertyOpen(true)}>
+                            className='border dark:border-none border-gray-200 dark:bg-gray-800
+                            hover:bg-gray-100 dark:hover:bg-gray-700 py-2 px-4 rounded-xl cursor-pointer
+                            dark:text-gray-50 text-sm md:text-base' 
+                            onClick={() => setIsPropertyOpen(!isPropertyOpen)}>
                             <span>{searchTerm.property || "Property type"}</span>
                         </button>
                         
@@ -148,7 +148,7 @@ const SearchPage = () => {
                                     <div key={option}
                                         onClick={() => {
                                             setSearchTerm({ ...searchTerm, property: option })
-                                            setIsPropertyOpen(false)
+                                            setIsPropertyOpen(!isPropertyOpen)
                                         }}
                                         className="py-3 px-4 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer
                                             transition-colors border-b border-gray-200 dark:border-gray-700 last:border-b-0">
@@ -160,11 +160,11 @@ const SearchPage = () => {
                     </div>
 
                     {/* Location Dropdown */}
-                    <div className='relative' >
+                    {/* <div className='relative' >
                         <button 
-                            className='outline-none py-2 px-4 cursor-pointer focus:text-gray-900 dark:focus:text-gray-50
-                                focus:rounded-xl focus:shadow-xl focus:bg-gray-50 dark:focus:bg-gray-900 
-                                flex items-center justify-between gap-2 whitespace-nowrap' 
+                            className='border dark:border-none border-gray-200 dark:bg-gray-800
+                            hover:bg-gray-100 dark:hover:bg-gray-700 py-2 px-4 rounded-xl cursor-pointer
+                            dark:text-gray-50 text-sm md:text-base' 
                             onClick={() => setIsLocationOpen(!isLocationOpen)}>
                             <span>{searchTerm.location_display || "Location"}</span>
                         </button>
@@ -185,14 +185,14 @@ const SearchPage = () => {
                                 ))}
                             </div>
                         )}
-                    </div>
+                    </div> */}
 
                     {/* Rent Range */}
                     <div className='relative' >
                         <button 
-                            className='outline-none py-2 px-4 cursor-pointer focus:text-gray-900 dark:focus:text-gray-50
-                                focus:rounded-xl focus:shadow-xl focus:bg-gray-50 dark:focus:bg-gray-900 
-                                flex items-center justify-between gap-2 whitespace-nowrap' 
+                            className='border dark:border-none border-gray-200 dark:bg-gray-800
+                            hover:bg-gray-100 dark:hover:bg-gray-700 py-2 px-4 rounded-xl cursor-pointer
+                            dark:text-gray-50 text-sm md:text-base' 
                             onClick={() => setShowRentRange(!showRentRange)}>
                             <span>
                                 {rentRange.min === 0 && rentRange.max === 5000 
@@ -233,9 +233,9 @@ const SearchPage = () => {
                     {/* Area Range */}
                     <div className='relative' >
                         <button 
-                            className='outline-none py-2 px-4 cursor-pointer focus:text-gray-900 dark:focus:text-gray-50
-                                focus:rounded-xl focus:shadow-xl focus:bg-gray-50 dark:focus:bg-gray-900 
-                                flex items-center justify-between gap-2 whitespace-nowrap' 
+                            className='border dark:border-none border-gray-200 dark:bg-gray-800
+                            hover:bg-gray-100 dark:hover:bg-gray-700 py-2 px-4 rounded-xl cursor-pointer
+                            dark:text-gray-50 text-sm md:text-base' 
                             onClick={() => setShowAreaRange(!showAreaRange)}>
                             <span>
                                 {areaRange.min === 0 && areaRange.max === 500 
@@ -276,11 +276,11 @@ const SearchPage = () => {
                     {/* Bedrooms Dropdown */}
                     <div className='relative' >
                         <button 
-                            className='outline-none py-2 px-4 cursor-pointer focus:text-gray-900 dark:focus:text-gray-50
-                                focus:rounded-xl focus:shadow-xl focus:bg-gray-50 dark:focus:bg-gray-900 
-                                flex items-center justify-between gap-2 whitespace-nowrap' 
+                            className='border dark:border-none border-gray-200 dark:bg-gray-800
+                            hover:bg-gray-100 dark:hover:bg-gray-700 py-2 px-4 rounded-xl cursor-pointer
+                            dark:text-gray-50 text-sm md:text-base' 
                             onClick={() => setIsBedroomsOpen(!isBedroomsOpen)}>
-                            <span>{searchTerm.bedrooms ? `${searchTerm.bedrooms} bed${searchTerm.bedrooms !== '1' ? 's' : ''}` : "Bedrooms"}</span>
+                            <span>{searchTerm.bedrooms ? `${searchTerm.bedrooms} room${searchTerm.bedrooms !== '1' ? 's' : ''}` : "Bedrooms"}</span>
                         </button>
                         
                         {isBedroomsOpen && (
@@ -303,14 +303,24 @@ const SearchPage = () => {
 
                     <button 
                         className='cursor-pointer py-2 px-4 bg-lime-300 text-gray-900
-                            hover:bg-lime-400 rounded-xl shadow-xl transition-colors whitespace-nowrap ml-1' 
+                            hover:bg-lime-400 rounded-xl shadow-xl transition-colors whitespace-nowrap
+                            flex justify-center items-center gap-1' 
                         onClick={handleSearch}>
-                        Search
+                        <p>Search</p>
+                        <Search className="w-4 h-4"/>
                     </button>
                 </div>
 
                 {/* Mobile Filters - Vertical Stacked */}
                 <div className='md:hidden flex flex-col gap-2'>
+                    <button 
+                        className="w-full md:w-auto md:self-center border dark:border-none border-gray-100 dark:bg-gray-800 shadow-xl
+                            hover:bg-gray-100 dark:hover:bg-gray-700 py-3 px-4 rounded-xl cursor-pointer
+                            dark:text-gray-50 text-sm md:text-base flex justify-center items-center gap-1"
+                        onClick={handleClearFilters}>
+                        <BrushCleaning className='w-4 h-4'/>
+                        <p>Clear filters</p>
+                    </button>
                     <div className='border dark:border-none border-gray-100 rounded-xl p-3 shadow-xl
                         dark:bg-gray-800 dark:text-gray-50 flex flex-col gap-2'>
                         
@@ -470,9 +480,10 @@ const SearchPage = () => {
                     {/* Search Button - Mobile */}
                     <button 
                         className='w-full py-3 px-4 bg-lime-300 hover:bg-lime-400 text-gray-900
-                            rounded-xl shadow-xl transition-colors font-medium' 
+                            rounded-xl shadow-xl transition-colors font-medium flex justify-center items-center gap-1' 
                         onClick={handleSearch}>
-                        Search
+                        <p>Search</p>
+                        <Search className="w-4 h-4"/>
                     </button>
                 </div>
             </div>

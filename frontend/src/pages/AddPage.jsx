@@ -6,6 +6,7 @@ import axios from 'axios'
 import { useUserStore } from '../stores/useUserStore'
 import { useLocationStore } from '../stores/useLocationStore'
 import DetailMap from '../components/DetailMap'
+import toast from "react-hot-toast"
 
 const AddPage = () => {
     const navigate = useNavigate()
@@ -190,6 +191,7 @@ const AddPage = () => {
         e.preventDefault()
         try {
             await createRentad(e)
+            toast.success("Successfully created!")
             resetFormData()
         } catch (err){
             console.log("error at handleSubmit", err)
