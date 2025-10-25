@@ -261,7 +261,7 @@ const AddPage = () => {
     
     return (
         <div className='flex justify-center items-center px-4 md:px-0 pb-20 md:pb-8'>
-            <div className='w-full max-w-[800px] mt-4 md:mt-[50px] p-4 md:p-8 space-y-4'>
+            <div className='w-full max-w-[800px] mt-4 md:mt-0 p-4 md:p-0 space-y-4 '>
                 <div className='flex flex-col justify-center items-center'>
                     <p className='text-lg md:text-xl font-bold tracking-wider dark:text-gray-50'>List your property</p>
                     <p className='text-sm md:text-lg text-gray-500 dark:text-gray-400 text-center'>Fill details to create your rental listing</p>

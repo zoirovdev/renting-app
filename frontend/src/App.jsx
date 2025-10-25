@@ -28,7 +28,7 @@ function App() {
     <div className="dark:bg-gray-900 min-h-screen">
       {showBar && <Bar />}
        
-      <div className={showBar ? "mt-[100px]" : ""}>
+      <div className={showBar ? "mt-[40px]" : ""}>
         <Routes>
           <Route path="/" element={
             <ProtectedRoute>
