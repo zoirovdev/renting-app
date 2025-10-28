@@ -1,34 +1,41 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useRentadStore } from '../stores/useRentadStore.js'
 import Map from "../components/Map.jsx"
 import { Link } from "react-router-dom"
-import { MapPin, Wallet, DollarSign, BedDouble, BrushCleaning, Search } from "lucide-react"
+import { MapPin, BrushCleaning, Search, X, Bed, Minus, Plus, HandCoins, House, Coins, Scan, Funnel } from "lucide-react"
+import RangeSlider from 'react-range-slider-input';
+import 'react-range-slider-input/dist/style.css';
+import "../rangeSlider.css"
+
+
 
 const SearchPage = () => {
     
-    const { searchRentad, rentads, fetchRentads, loading } = useRentadStore()
+    const { rentads, fetchRentads, loading, filterRentad } = useRentadStore()
     const [searchTerm, setSearchTerm] = useState({
         property: "",
-        location_display: "",
-        bedrooms: ""
+        bedrooms: 0,
+        offers: []
     })
 
-    const [rentRange, setRentRange] = useState({ min: 0, max: 5000 })
-    const [areaRange, setAreaRange] = useState({ min: 0, max: 500 })
-    
-    // Dropdown options
-    const propertyOptions = ['Apartment', 'House']
-    const locationOptions = ['Yangihayot', 'Sergeli', 'Chilonzor', 'Yakkasaroy', 'Shayhontohur', 'Mirobod', 'Yunusobod', 'Olmazor']
-    const bedroomOptions = ['1', '2', '3', '4', '5+']
-    
-    // Dropdown states
-    const [isPropertyOpen, setIsPropertyOpen] = useState(false)
-    const [isLocationOpen, setIsLocationOpen] = useState(false)
-    const [showRentRange, setShowRentRange] = useState(false)
-    const [showAreaRange, setShowAreaRange] = useState(false)
-    const [isBedroomsOpen, setIsBedroomsOpen] = useState(false)
-    
+    const [rentRange, setRentRange] = useState([0, 5000])
+    const [areaRange, setAreaRange] = useState([0, 500])
 
+
+    const [isFilterOpen, setIsFilterOpen] = useState(false)
+    
+    const [selectedOffers, setSelectedOffers] = useState([])
+    const offerOptions = [
+        'lease agreement', 'recently renovated', 'rent includes all fees', 
+        'wifi', 'tv', 'air conditioning', 'vacuum cleaner', 'fridge', 'washing machine'
+    ]
+
+    const updateBedrooms = (val) => {
+        const newValue = searchTerm.bedrooms + val
+        if(newValue >= 0 && newValue <= 20){
+            setSearchTerm({ ...searchTerm, bedrooms: newValue })
+        }
+    }
     
 
     const loadingRentads = [
@@ -41,74 +48,55 @@ const SearchPage = () => {
         fetchRentads()
     }, [])
 
-    
-    
-    const handleSearch = async (e) => {
-        e.preventDefault()
+    useEffect(() => {
+        setSearchTerm({ ...searchTerm, offers: selectedOffers })
+    }, [selectedOffers])
 
-        try {
-            const params = new URLSearchParams()
-            let count = 0
-            
-            if (searchTerm.property) {
-                params.append('property', searchTerm.property)
-            } else {
-                count += 1
-            }
-            
-            if (searchTerm.location_display) {
-                params.append('location_display', searchTerm.location_display)
-            } else {
-                count += 1
-            }
 
-            if(rentRange.min || rentRange.max){
-                if (rentRange.min > 0) {
-                    params.append('minRent', rentRange.min)
-                }
-    
-                if (rentRange.max < 5000) {
-                    params.append('maxRent', rentRange.max)
-                }
-            } else {
-                count+=1
-            }
-
-            if(areaRange.min || areaRange.max){
-                if (areaRange.min > 0) {
-                    params.append('minArea', areaRange.min)
-                }
-    
-                if (areaRange.max < 500) { 
-                    params.append('maxArea', areaRange.max) 
-                }
-            } else {
-                count+=1
-            }
-
-            if (searchTerm.bedrooms) {
-                params.append('bedrooms', searchTerm.bedrooms)
-            } else {
-                count += 1
-            }
-
-            if(count === 5) return
-
-            console.log(searchTerm)
-            await searchRentad(params)
-        } catch (err) {
-            console.log("Error ", err)
-        }
+    const handleOffer = (offer) => {
+        setSelectedOffers(prev =>
+            prev.includes(offer) ? prev.filter(item => item !== offer) : [...prev, offer]
+        )
     }
 
+    const handleFilter = async (e) => {
+        e.preventDefault()
+        try {
+            if(searchTerm.bedrooms===0 && searchTerm.property==='' && searchTerm.offers.length===0 && selectedOffers.length===0 && rentRange[0]===0 && rentRange[1]===5000 && areaRange[0]===0 && areaRange[1]===500){
+                console.log("handleFilter")
+                return 
+            }
+
+            const filters = {
+                offers: selectedOffers,
+                property: searchTerm.property,
+                bedrooms: searchTerm.bedrooms,
+                minRent: rentRange[0],
+                maxRent: rentRange[1],
+                minArea: areaRange[0],
+                maxArea: areaRange[1]
+            }
+
+            setSearchTerm(filters)
+
+            setIsFilterOpen(!isFilterOpen)
+
+            await filterRentad(searchTerm)
+        } catch (err) {
+            console.log(err)
+        }
+    }    
+    
+    
     const handleClearFilters = async () => {
         setSearchTerm({
             property: "",
-            location_display: "",
-            bedrooms: ""
+            bedrooms: 0,
+            offers: []
         })
-        setRentRange({ min: 0, max: 5000 })
-        setAreaRange({ min: 0, max: 500 })
+        setRentRange([0, 5000])
+        setAreaRange([0, 500])
+        setIsFilterOpen(!isFilterOpen)
         await fetchRentads()
     }
     
@@ -126,186 +114,23 @@ const SearchPage = () => {
                         className="border dark:border-none border-gray-200 dark:bg-gray-800
                             hover:bg-gray-100 dark:hover:bg-gray-700 py-2 px-4 rounded-xl cursor-pointer
                             dark:text-gray-50 text-sm md:text-base flex justify-center items-center gap-1"
-                        onClick={handleClearFilters}>
-                        <BrushCleaning className="w-4 h-4"/>
-                        <p>Clear filters</p>
+                        onClick={(e) => setIsFilterOpen(!isFilterOpen)}>
+                        <Funnel className="w-4 h-4"/>
+                        <p>Filters</p>
                     </button>
 
-                    {/* Property Type Dropdown */}
-                    <div className='relative' >
-                        <button 
-                            className='border dark:border-none border-gray-200 dark:bg-gray-800
-                            hover:bg-gray-100 dark:hover:bg-gray-700 py-2 px-4 rounded-xl cursor-pointer
-                            dark:text-gray-50 text-sm md:text-base' 
-                            onClick={() => setIsPropertyOpen(!isPropertyOpen)}>
-                            <span>{searchTerm.property || "Property type"}</span>
-                        </button>
-                        
-                        {isPropertyOpen && (
-                            <div className="absolute top-full left-0 mt-2 w-[200px] bg-gray-50 dark:bg-gray-800 
-                                text-gray-900 dark:text-gray-50 rounded-xl shadow-xl max-h-60 overflow-auto z-[9999]">
-                                {propertyOptions.map(option => (
-                                    <div key={option}
-                                        onClick={() => {
-                                            setSearchTerm({ ...searchTerm, property: option })
-                                            setIsPropertyOpen(!isPropertyOpen)
-                                        }}
-                                        className="py-3 px-4 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer
-                                            transition-colors border-b border-gray-200 dark:border-gray-700 last:border-b-0">
-                                        {option}
-                                    </div>
-                                ))}
-                            </div>
-                        )}
-                    </div>
+                    
 
-                    {/* Location Dropdown */}
-                    {/* <div className='relative' >
-                        <button 
-                            className='border dark:border-none border-gray-200 dark:bg-gray-800
-                            hover:bg-gray-100 dark:hover:bg-gray-700 py-2 px-4 rounded-xl cursor-pointer
-                            dark:text-gray-50 text-sm md:text-base' 
-                            onClick={() => setIsLocationOpen(!isLocationOpen)}>
-                            <span>{searchTerm.location_display || "Location"}</span>
-                        </button>
-                        
-                        {isLocationOpen && (
-                            <div className="absolute top-full left-0 mt-2 w-[200px] bg-gray-50 dark:bg-gray-800 
-                                text-gray-900 dark:text-gray-50 rounded-xl shadow-xl max-h-60 overflow-auto z-[9999]">
-                                {locationOptions.map(option => (
-                                    <div key={option}
-                                        onClick={() => {
-                                            setSearchTerm({ ...searchTerm, location_display: option })
-                                            setIsLocationOpen(false)
-                                        }}
-                                        className="py-3 px-4 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer
-                                            transition-colors border-b border-gray-200 dark:border-gray-700 last:border-b-0">
-                                        {option}
-                                    </div>
-                                ))}
-                            </div>
-                        )}
-                    </div> */}
-
-                    {/* Rent Range */}
-                    <div className='relative' >
-                        <button 
-                            className='border dark:border-none border-gray-200 dark:bg-gray-800
-                            hover:bg-gray-100 dark:hover:bg-gray-700 py-2 px-4 rounded-xl cursor-pointer
-                            dark:text-gray-50 text-sm md:text-base' 
-                            onClick={() => setShowRentRange(!showRentRange)}>
-                            <span>
-                                {rentRange.min === 0 && rentRange.max === 5000 
-                                    ? "Rent" 
-                                    : `$${rentRange.min} - $${rentRange.max}`}
-                            </span>
-                        </button>
-                        
-                        {showRentRange && (
-                            <div className="absolute top-full left-0 mt-2 w-[300px] bg-gray-50 dark:bg-gray-800
-                                text-gray-900 dark:text-gray-50 rounded-xl shadow-xl p-6 z-[9999]">
-                                <div className="space-y-4">
-                                    <div>
-                                        <label className="text-sm text-gray-600 dark:text-gray-50 mb-2 block">
-                                            Min: ${rentRange.min}
-                                        </label>
-                                        <input type="range" min="0" max="5000" step="100" value={rentRange.min}
-                                            onChange={(e) => setRentRange({ ...rentRange, min: Math.min(Number(e.target.value), rentRange.max - 100)})}
-                                            className="w-full h-2 bg-gray-200 rounded-xl appearance-none cursor-pointer accent-lime-400"/>
-                                    </div>
-                                    <div>
-                                        <label className="text-sm text-gray-600 dark:text-gray-50 mb-2 block">
-                                            Max: ${rentRange.max}
-                                        </label>
-                                        <input type="range" min="0" max="5000" step="100" value={rentRange.max}
-                                            onChange={(e) => setRentRange({ ...rentRange, max: Math.max(Number(e.target.value), rentRange.min + 100)})}
-                                            className="w-full h-2 bg-gray-200 rounded-xl appearance-none cursor-pointer accent-lime-400"/>
-                                    </div>
-                                    <button onClick={() => setShowRentRange(false)}
-                                        className="w-full py-2 bg-lime-300 hover:bg-lime-400 dark:text-gray-900 rounded-xl transition-colors">
-                                        Apply
-                                    </button>
-                                </div>
-                            </div>
-                        )}
-                    </div>
-
-                    {/* Area Range */}
-                    <div className='relative' >
-                        <button 
-                            className='border dark:border-none border-gray-200 dark:bg-gray-800
-                            hover:bg-gray-100 dark:hover:bg-gray-700 py-2 px-4 rounded-xl cursor-pointer
-                            dark:text-gray-50 text-sm md:text-base' 
-                            onClick={() => setShowAreaRange(!showAreaRange)}>
-                            <span>
-                                {areaRange.min === 0 && areaRange.max === 500 
-                                    ? "Area" 
-                                    : `${areaRange.min} - ${areaRange.max} sqm`}
-                            </span>
-                        </button>
-                        
-                        {showAreaRange && (
-                            <div className="absolute top-full left-0 mt-2 w-[300px] bg-gray-50 dark:bg-gray-800 
-                                text-gray-900 dark:text-gray-50 rounded-xl shadow-xl p-6 z-[9999]">
-                                <div className="space-y-4">
-                                    <div>
-                                        <label className="text-sm text-gray-600 dark:text-gray-50 mb-2 block">
-                                            Min: {areaRange.min} sqm
-                                        </label>
-                                        <input type="range" min="0" max="500" step="10" value={areaRange.min}
-                                            onChange={(e) => setAreaRange({ ...areaRange, min: Math.min(Number(e.target.value), areaRange.max - 10)})}
-                                            className="w-full h-2 bg-gray-200 rounded-xl appearance-none cursor-pointer accent-lime-400"/>
-                                    </div>
-                                    <div>
-                                        <label className="text-sm text-gray-600 dark:text-gray-50 mb-2 block">
-                                            Max: {areaRange.max} sqm
-                                        </label>
-                                        <input type="range" min="0" max="500" step="10" value={areaRange.max}
-                                            onChange={(e) => setAreaRange({ ...areaRange, max: Math.max(Number(e.target.value), areaRange.min + 10)})}
-                                            className="w-full h-2 bg-gray-200 rounded-xl appearance-none cursor-pointer accent-lime-400"/>
-                                    </div>
-                                    <button onClick={() => setShowAreaRange(false)}
-                                        className="w-full py-2 bg-lime-300 hover:bg-lime-400 dark:text-gray-900 rounded-xl transition-colors">
-                                        Apply
-                                    </button>
-                                </div>
-                            </div>
-                        )}
-                    </div>
-
-                    {/* Bedrooms Dropdown */}
-                    <div className='relative' >
-                        <button 
-                            className='border dark:border-none border-gray-200 dark:bg-gray-800
-                            hover:bg-gray-100 dark:hover:bg-gray-700 py-2 px-4 rounded-xl cursor-pointer
-                            dark:text-gray-50 text-sm md:text-base' 
-                            onClick={() => setIsBedroomsOpen(!isBedroomsOpen)}>
-                            <span>{searchTerm.bedrooms ? `${searchTerm.bedrooms} room${searchTerm.bedrooms !== '1' ? 's' : ''}` : "Bedrooms"}</span>
-                        </button>
-                        
-                        {isBedroomsOpen && (
-                            <div className="absolute top-full left-0 mt-2 w-[200px] bg-gray-50 dark:bg-gray-800 
-                                text-gray-900 dark:text-gray-50 rounded-xl shadow-xl max-h-60 overflow-auto z-[9999]">
-                                {bedroomOptions.map(option => (
-                                    <div key={option}
-                                        onClick={() => {
-                                            setSearchTerm({ ...searchTerm, bedrooms: option })
-                                            setIsBedroomsOpen(false)
-                                        }}
-                                        className="py-3 px-4 hover:bg-lime-50 dark:hover:bg-gray-700 cursor-pointer
-                                            transition-colors border-b border-gray-200 dark:border-gray-700 last:border-b-0">
-                                        {option} {option === '1' ? 'Bedroom' : 'Bedrooms'}
-                                    </div>
-                                ))}
-                            </div>
-                        )}
-                    </div>
+                    <input type="text" 
+                        className="border border-gray-200 rounded-xl py-2 px-4 focus:outline-1 focus:outline-lime-400
+                            md:w-[500px] "
+                        placeholder="🔍 Where"/>
 
                     <button 
                         className='cursor-pointer py-2 px-4 bg-lime-300 text-gray-900
-                            hover:bg-lime-400 rounded-xl shadow-xl transition-colors whitespace-nowrap
+                            hover:bg-lime-400 rounded-xl transition-colors whitespace-nowrap
                             flex justify-center items-center gap-1' 
-                        onClick={handleSearch}>
+                        >
                         <p>Search</p>
                         <Search className="w-4 h-4"/>
                     </button>
@@ -314,179 +139,188 @@ const SearchPage = () => {
                 {/* Mobile Filters - Vertical Stacked */}
                 <div className='md:hidden flex flex-col gap-2'>
                     <button 
-                        className="w-full md:w-auto md:self-center border dark:border-none border-gray-100 dark:bg-gray-800 shadow-xl
+                        className="w-full md:w-auto md:self-center border dark:border-none border-gray-100 dark:bg-gray-800
                             hover:bg-gray-100 dark:hover:bg-gray-700 py-3 px-4 rounded-xl cursor-pointer
                             dark:text-gray-50 text-sm md:text-base flex justify-center items-center gap-1"
-                        onClick={handleClearFilters}>
-                        <BrushCleaning className='w-4 h-4'/>
-                        <p>Clear filters</p>
+                        onClick={(e) => setIsFilterOpen(!isFilterOpen)}>
+                        <Funnel className='w-4 h-4'/>
+                        <p>Filters</p>
                     </button>
-                    <div className='border dark:border-none border-gray-100 rounded-xl p-3 shadow-xl
-                        dark:bg-gray-800 dark:text-gray-50 flex flex-col gap-2'>
-                        
-                        {/* Property Type - Mobile */}
-                        <div className='relative' >
-                            <button 
-                                className='w-full py-3 px-4 bg-gray-50 dark:bg-gray-900 rounded-xl
-                                    text-left flex items-center justify-between text-sm'
-                                onClick={() => setIsPropertyOpen(!isPropertyOpen)}>
-                                <span>{searchTerm.property || "Property type"}</span>
-                            </button>
-                            {isPropertyOpen && (
-                                <div className="absolute top-full left-0 mt-2 w-full bg-gray-50 dark:bg-gray-800 
-                                    rounded-xl shadow-xl max-h-60 overflow-auto z-[9999]">
-                                    {propertyOptions.map(option => (
-                                        <div key={option}
-                                            onClick={() => {
-                                                setSearchTerm({ ...searchTerm, property: option })
-                                                setIsPropertyOpen(false)
-                                            }}
-                                            className="py-3 px-4 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer
-                                                text-gray-900 dark:text-gray-50 border-b border-gray-200 dark:border-gray-700 last:border-b-0 text-sm">
-                                            {option}
-                                        </div>
-                                    ))}
-                                </div>
-                            )}
-                        </div>
-
-                        {/* Location - Mobile */}
-                        <div className='relative' >
-                            <button 
-                                className='w-full py-3 px-4 bg-gray-50 dark:bg-gray-900 rounded-xl
-                                    text-left flex items-center justify-between text-sm'
-                                onClick={() => setIsLocationOpen(!isLocationOpen)}>
-                                <span>{searchTerm.location_display || "Location"}</span>
-                            </button>
-                            {isLocationOpen && (
-                                <div className="absolute top-full left-0 mt-2 w-full bg-gray-50 dark:bg-gray-800 
-                                    rounded-xl shadow-xl max-h-60 overflow-auto z-[9999]">
-                                    {locationOptions.map(option => (
-                                        <div key={option}
-                                            onClick={() => {
-                                                setSearchTerm({ ...searchTerm, location_display: option })
-                                                setIsLocationOpen(false)
-                                            }}
-                                            className="py-3 px-4 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer
-                                                text-gray-900 dark:text-gray-50 border-b border-gray-200 dark:border-gray-700 last:border-b-0 text-sm">
-                                            {option}
-                                        </div>
-                                    ))}
-                                </div>
-                            )}
-                        </div>
-
-                        {/* Rent Range - Mobile */}
-                        <div className='relative' >
-                            <button 
-                                className='w-full py-3 px-4 bg-gray-50 dark:bg-gray-900 rounded-xl
-                                    text-left flex items-center justify-between text-sm'
-                                onClick={() => setShowRentRange(!showRentRange)}>
-                                <span>
-                                    {rentRange.min === 0 && rentRange.max === 5000 
-                                        ? "Rent" 
-                                        : `$${rentRange.min} - $${rentRange.max}`}
-                                </span>
-                            </button>
-                            {showRentRange && (
-                                <div className="absolute top-full left-0 mt-2 w-full bg-gray-50 dark:bg-gray-800
-                                    rounded-xl shadow-xl p-4 z-[9999] text-gray-900 dark:text-gray-50">
-                                    <div className="space-y-4">
-                                        <div>
-                                            <label className="text-sm mb-2 block">Min: ${rentRange.min}</label>
-                                            <input type="range" min="0" max="5000" step="100" value={rentRange.min}
-                                                onChange={(e) => setRentRange({ ...rentRange, min: Math.min(Number(e.target.value), rentRange.max - 100)})}
-                                                className="w-full h-2 bg-gray-200 rounded-xl appearance-none cursor-pointer accent-lime-400"/>
-                                        </div>
-                                        <div>
-                                            <label className="text-sm mb-2 block">Max: ${rentRange.max}</label>
-                                            <input type="range" min="0" max="5000" step="100" value={rentRange.max}
-                                                onChange={(e) => setRentRange({ ...rentRange, max: Math.max(Number(e.target.value), rentRange.min + 100)})}
-                                                className="w-full h-2 bg-gray-200 rounded-xl appearance-none cursor-pointer accent-lime-400"/>
-                                        </div>
-                                        <button onClick={() => setShowRentRange(false)}
-                                            className="w-full py-2 bg-lime-300 hover:bg-lime-400 text-gray-900 rounded-xl text-sm">
-                                            Apply
-                                        </button>
-                                    </div>
-                                </div>
-                            )}
-                        </div>
-
-                        {/* Area Range - Mobile */}
-                        <div className='relative' >
-                            <button 
-                                className='w-full py-3 px-4 bg-gray-50 dark:bg-gray-900 rounded-xl
-                                    text-left flex items-center justify-between text-sm'
-                                onClick={() => setShowAreaRange(!showAreaRange)}>
-                                <span>
-                                    {areaRange.min === 0 && areaRange.max === 500 
-                                        ? "Area" 
-                                        : `${areaRange.min} - ${areaRange.max} sqm`}
-                                </span>
-                            </button>
-                            {showAreaRange && (
-                                <div className="absolute top-full left-0 mt-2 w-full bg-gray-50 dark:bg-gray-800
-                                    rounded-xl shadow-xl p-4 z-[9999] text-gray-900 dark:text-gray-50">
-                                    <div className="space-y-4">
-                                        <div>
-                                            <label className="text-sm mb-2 block">Min: {areaRange.min} sqm</label>
-                                            <input type="range" min="0" max="500" step="10" value={areaRange.min}
-                                                onChange={(e) => setAreaRange({ ...areaRange, min: Math.min(Number(e.target.value), areaRange.max - 10)})}
-                                                className="w-full h-2 bg-gray-200 rounded-xl appearance-none cursor-pointer accent-lime-400"/>
-                                        </div>
-                                        <div>
-                                            <label className="text-sm mb-2 block">Max: {areaRange.max} sqm</label>
-                                            <input type="range" min="0" max="500" step="10" value={areaRange.max}
-                                                onChange={(e) => setAreaRange({ ...areaRange, max: Math.max(Number(e.target.value), areaRange.min + 10)})}
-                                                className="w-full h-2 bg-gray-200 rounded-xl appearance-none cursor-pointer accent-lime-400"/>
-                                        </div>
-                                        <button onClick={() => setShowAreaRange(false)}
-                                            className="w-full py-2 bg-lime-300 hover:bg-lime-400 text-gray-900 rounded-xl text-sm">
-                                            Apply
-                                        </button>
-                                    </div>
-                                </div>
-                            )}
-                        </div>
-
-                        {/* Bedrooms - Mobile */}
-                        <div className='relative' >
-                            <button 
-                                className='w-full py-3 px-4 bg-gray-50 dark:bg-gray-900 rounded-xl
-                                    text-left flex items-center justify-between text-sm'
-                                onClick={() => setIsBedroomsOpen(!isBedroomsOpen)}>
-                                <span>{searchTerm.bedrooms ? `${searchTerm.bedrooms} bed${searchTerm.bedrooms !== '1' ? 's' : ''}` : "Bedrooms"}</span>
-                            </button>
-                            {isBedroomsOpen && (
-                                <div className="absolute top-full left-0 mt-2 w-full bg-gray-50 dark:bg-gray-800 
-                                    rounded-xl shadow-xl max-h-60 overflow-auto z-[9999]">
-                                    {bedroomOptions.map(option => (
-                                        <div key={option}
-                                            onClick={() => {
-                                                setSearchTerm({ ...searchTerm, bedrooms: option })
-                                                setIsBedroomsOpen(false)
-                                            }}
-                                            className="py-3 px-4 hover:bg-lime-50 dark:hover:bg-gray-700 cursor-pointer
-                                                text-gray-900 dark:text-gray-50 border-b border-gray-200 dark:border-gray-700 last:border-b-0 text-sm">
-                                            {option} {option === '1' ? 'Bedroom' : 'Bedrooms'}
-                                        </div>
-                                    ))}
-                                </div>
-                            )}
-                        </div>
-                    </div>
+                    
+                    <input type="text" 
+                        className="border border-gray-100 rounded-xl py-2 px-4 focus:outline-1 focus:outline-lime-400"
+                        placeholder="🔍 Where"/>
 
                     {/* Search Button - Mobile */}
                     <button 
                         className='w-full py-3 px-4 bg-lime-300 hover:bg-lime-400 text-gray-900
                             rounded-xl shadow-xl transition-colors font-medium flex justify-center items-center gap-1' 
-                        onClick={handleSearch}>
+                        >
                         <p>Search</p>
                         <Search className="w-4 h-4"/>
                     </button>
                 </div>
             </div>
+
+            {isFilterOpen && (
+                <div className="fixed inset-0 z-50 backdrop-blur-md bg-opacity-50 flex justify-center items-center">
+                    <div className="w-[90%] md:w-[600px] bg-gray-50 flex flex-col  rounded-xl">
+                        <div className='flex justify-between items-center border-b border-gray-400 p-4'>
+                            <p className="tracking-wider text-lg font-semibold">Filters</p>
+                            <X className="w-8 h-8 hover:bg-gray-200 rounded-xl p-2"
+                                onClick={(e) => setIsFilterOpen(!isFilterOpen)}/>
+                        </div>
+                        <div className='px-2'>
+                            <div className="border-b border-gray-300 py-4 px-2 space-y-1">
+                                <div className="flex justify-start items-center gap-1">
+                                    <House className="w-4 h-4 dark:text-gray-100"/>
+                                    <p className="">Property</p>
+                                </div>
+                                <div className="flex w-full gap-1">
+                                    <button
+                                        className={`basis-1/2 border border-gray-200 flex justify-center items-center p-2 rounded-xl cursor-pointer
+                                            ${searchTerm.property==="Apartment" ? "ring-2 ring-lime-400" : ""}`}
+                                        onClick={() => {setSearchTerm({ ...searchTerm, property: 'Apartment' }); }}>
+                                        Apartment
+                                    </button>
+                                    <button
+                                        className={`basis-1/2 border border-gray-200 flex justify-center items-center p-2 rounded-xl cursor-pointer
+                                            ${searchTerm.property==="House" ? "ring-2 ring-lime-400" : ""}`}
+                                        onClick={() => {setSearchTerm({ ...searchTerm, property: 'House' });}}>
+                                        House
+                                    </button>
+                                </div>
+                            </div>
+                            <div className="border-b border-gray-200 py-4 px-2">
+                                <div className="flex justify-start items-center gap-1">
+                                    <Coins className="w-4 h-4"/>
+                                    <p>Rent</p>
+                                </div>
+                                <div className="space-y-4 mt-2">
+                                    <RangeSlider
+                                        value={rentRange}
+                                        onInput={setRentRange}
+                                        min={0}
+                                        max={5000}
+                                        className='range-slider-custom'
+                                    />
+                                    <div className='w-full flex justify-between items-center'>
+                                        <div className='flex flex-col justify-center items-center'>
+                                            <label htmlFor="">Min</label>
+                                            <input type="number"
+                                                className='outline-none w-[80px] p-2 rounded-xl border border-gray-200'
+                                                value={rentRange[0]}
+                                                onChange={(e) => setRentRange([e.target.value, rentRange[1]])}
+                                                />
+                                        </div>
+                                        <div className='flex flex-col justify-center items-center'>
+                                            <label htmlFor="">Max</label>
+                                            <input type="number"
+                                                className='outline-none w-[80px] p-2 rounded-xl border border-gray-200'
+                                                value={rentRange[1]}
+                                                onChange={(e) => setRentRange([rentRange[0], e.target.value])}
+                                                />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="border-b border-gray-200 py-4 px-2">
+                                <div className="flex justify-start items-center gap-1">
+                                    <Scan className="w-4 h-4"/>
+                                    <p>Area</p>
+                                </div>
+                                <div className="space-y-4 mt-2">
+                                    <RangeSlider
+                                        value={areaRange}
+                                        onInput={setAreaRange}
+                                        min={0}
+                                        max={500}
+                                        className='range-slider-custom'
+                                    />
+                                    <div className='w-full flex justify-between items-center'>
+                                        <div className='flex flex-col justify-center items-center'>
+                                            <label htmlFor="">Min</label>
+                                            <input type="number"
+                                                className='outline-none w-[80px] p-2 rounded-xl border border-gray-200'
+                                                value={areaRange[0]}
+                                                onChange={(e) => setAreaRange([e.target.value, areaRange[1]])}
+                                                />
+                                        </div>
+                                        <div className='flex flex-col justify-center items-center'>
+                                            <label htmlFor="">Max</label>
+                                            <input type="number"
+                                                className='outline-none w-[80px] p-2 rounded-xl border border-gray-200'
+                                                value={areaRange[1]}
+                                                onChange={(e) => setAreaRange([areaRange[0], e.target.value])}
+                                                />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className='flex justify-between items-center pt-4 pb-4 px-4 md:px-6 border-b border-gray-200 dark:border-gray-700'>
+                                <div className='flex justify-start items-center gap-2'>
+                                    <Bed className='w-4 h-4 dark:text-gray-100'/>
+                                    <label className='text-sm md:text-base text-gray-500 dark:text-gray-100'>Rooms</label>
+                                </div>
+                                <div className='flex flex-row justify-center items-center'>
+                                    <Minus 
+                                        className='border border-gray-200 dark:border-gray-700 rounded-xl p-1.5 md:p-2 w-7 h-7 md:w-8 md:h-8 
+                                            cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-500 dark:text-gray-100' 
+                                        onClick={() => updateBedrooms(-1)}
+                                    />
+                                    <input 
+                                        className="w-[30px] md:w-[40px] ml-2 text-center text-sm md:text-base dark:text-gray-100"
+                                        value={searchTerm.bedrooms || 0}
+                                        onChange={(e) => setSearchTerm({ ...searchTerm, bedrooms: e.target.value })}
+                                        type="number"
+                                    />
+                                    <Plus 
+                                        className='border border-gray-200 dark:border-gray-700 rounded-xl p-1.5 md:p-2 w-7 h-7 md:w-8 md:h-8 
+                                            cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-500 dark:text-gray-100' 
+                                        onClick={() => updateBedrooms(+1)}
+                                    />
+                                </div>
+                            </div>
+                            <div className='flex flex-col justify-center items-center pt-4 pb-6 px-4 md:px-6 gap-2
+                                '>
+                                <div className='flex flex-row justify-start items-center gap-2 w-full'>
+                                    <HandCoins className='w-4 h-4 dark:text-gray-100'/>    
+                                    <label className="text-sm md:text-base text-gray-500 dark:text-gray-100">Offers</label>
+                                </div>
+                                <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 w-full gap-2'>
+                                    {offerOptions.map(offer => (
+                                        <div className='flex items-center space-x-2' key={offer}>
+                                            <input
+                                                type="checkbox"
+                                                checked={selectedOffers.includes(offer)}
+                                                id={offer}
+                                                onChange={() => handleOffer(offer)}
+                                                className='cursor-pointer'
+                                            />
+                                            <label htmlFor={offer} className='text-sm md:text-base cursor-pointer dark:text-gray-100'>
+                                                {offer}
+                                            </label>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                        <div className="w-full flex gap-2 p-2">
+                            <button className="basis-1/2 bg-gray-300 hover:bg-gray-400 p-2 rounded-xl cursor-pointer
+                                flex justify-center items-center gap-1"
+                                onClick={(e) => handleClearFilters()}>
+                                <BrushCleaning className="w-4 h-4"/>
+                                <p>Clear</p>
+                            </button>
+                            <button 
+                                className="basis-1/2 bg-lime-300 hover:bg-lime-400 p-2 rounded-xl cursor-pointer"
+                                onClick={(e) => handleFilter(e)}>
+                                Show results
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
 
             {/* Map */}
             <Map />

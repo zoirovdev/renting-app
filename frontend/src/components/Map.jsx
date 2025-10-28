@@ -47,15 +47,10 @@ const createCustomIcon = (price, currency) => {
 };
 
 function Map() {
-  const { rentadsWithLocations, getRentadWithLocs, loading } = useRentadStore();
-
-  // Fetch rentads with locations on mount
-  useEffect(() => {
-    getRentadWithLocs();
-  }, [getRentadWithLocs]);
+  const { loading, rentads } = useRentadStore();
 
   // Filter rentads that have valid coordinates
-  const rentadsWithCoords = rentadsWithLocations.filter(
+  const rentadsWithCoords = rentads.filter(
     rentad => rentad.latitude && rentad.longitude
   );
 
@@ -79,7 +74,7 @@ function Map() {
     <MapContainer 
       center={mapCenter} 
       zoom={12} 
-      className='h-[300px] md:h-[500px] w-full rounded-xl'
+      className='h-[300px] md:h-[500px] w-full rounded-xl z-4'
       scrollWheelZoom={true}
     >
       <TileLayer

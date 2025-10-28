@@ -4,8 +4,7 @@ import { sql } from "../config/db.js"
 export const getAll = async (req, res) => {
     try {
         const rentads = await sql`
-            SELECT * FROM rentads
-            ORDER BY created_at DESC
+            SELECT rentads.*, locations.lat AS latitude, locations.lon AS longitude FROM rentads INNER JOIN locations ON rentads.location_id = locations.id ORDER BY rentads.created_at DESC
         `
 
         res.status(200).json({ success: true, data: rentads })
@@ -129,118 +128,6 @@ export const uploadImage = async (req, res) => {
             })
         }
     })
-}
-
-
-
-export const searchRentad = async (req, res) => {
-    try {
-        const {
-            property,
-            location_display,
-            minRent,
-            maxRent,
-            minArea,
-            maxArea,
-            bedrooms,
-            rent_period
-        } = req.query
-
-        let whereConditions = []
-        let params = []
-        let paramCount = 0
-
-        if(property && property.trim() !== ""){
-            paramCount++
-            whereConditions.push(`property ILIKE $${paramCount}`)
-            params.push(`%${property}%`)
-        }
-
-        if(location_display && location_display.trim() !== ''){
-            paramCount++
-            whereConditions.push(`location_display ILIKE $${paramCount}`)
-            params.push(`%${location_display}%`)
-        }
-
-        if(minRent){
-            paramCount++
-            whereConditions.push(`rent >= $${paramCount}`)
-            params.push(parseFloat(minRent))
-        }
-
-        if(maxRent){
-            paramCount++
-            whereConditions.push(`rent <= $${paramCount}`)
-            params.push(parseFloat(maxRent))
-        }
-
-        if(minArea){
-            paramCount++
-            whereConditions.push(`area >= $${paramCount}`)
-            params.push(parseFloat(minArea))
-        }
-
-        if(maxArea){
-            paramCount++
-            whereConditions.push(`area <= $${paramCount}`)
-            params.push(parseFloat(maxArea))
-        }
-
-        if(bedrooms){
-            paramCount++
-            whereConditions.push(`bedrooms = $${paramCount}`)
-            params.push(parseInt(bedrooms))
-        }
-
-        if(rent_period && rent_period.trim() !== ""){
-            paramCount++
-            whereConditions.push(`rent_period = $${paramCount}`)
-            params.push(rent_period)
-        }
-
-        let queryString = `SELECT * FROM rentads`
-
-        if(whereConditions.length > 0){
-            queryString += ` WHERE ${whereConditions.join(' AND ')}`
-        }
-
-        queryString += ` ORDER BY created_at DESC`
-
-        const result = await sql.query(queryString, params)
-
-        res.status(200).json({ 
-            success: true, 
-            count: result.length,
-            data: result 
-        })
-        
-    } catch (err) {
-        console.log("Error in searchRentad function", err)
-        res.status(500).json({ 
-            success: false, 
-            message: "Internal server error" 
-        })
-    }
-}
-
-
-
-export const getRentadsWithLocations = async (req, res) => {
-    try {
-        const result = await sql`
-            SELECT rentads.*, locations.lat AS latitude, locations.lon AS longitude FROM rentads
-            INNER JOIN locations ON rentads.location_id = locations.id
-            ORDER BY rentads.created_at DESC
-        `
-
-        res.status(200).json({ success: true, data: result })
-    } catch (err) {
-        console.log("Error in getRentadsWithLocations function in rentadsController", err)
-        res.status(500).json({ 
-            success: false, 
-            message: "Internal server error" 
-        })
-    }
 }
 
 
@@ -417,4 +304,97 @@ export const update = async (req, res) => {
             message: "Internal server error" 
         })
     }
+}
+
+
+
+// controller file (adjust import if needed)
+// assume you have something like:
+// import { neon } from "@neondatabase/serverless"
+// export const sql = neon(process.env.DATABASE_URL)
+// and you're importing `sql` here
+
+export const filterRentad = async (req, res) => {
+  try {
+    const { data } = req.query
+    const query = JSON.parse(data || "{}")
+
+    // require at least one filter
+    if (
+      !(Array.isArray(query.offers) && query.offers.length > 0) &&
+      !query.bedrooms &&
+      !query.property &&
+      !query.minRent &&
+      !query.maxRent &&
+      !query.minArea &&
+      !query.maxArea
+    ) {
+      return res.status(400).json({ success: false, message: "At least one field required" })
+    }
+
+    const whereClauses = []
+    const params = []
+    let idx = 1 // parameter index
+
+    if (query.property) {
+      whereClauses.push(`rentads.property ILIKE $${idx}`)
+      params.push(`%${query.property}%`)
+      idx++
+    }
+
+    if (query.bedrooms) {
+      whereClauses.push(`rentads.bedrooms = $${idx}`)
+      params.push(query.bedrooms)
+      idx++
+    }
+
+    if (query.minRent) {
+      whereClauses.push(`rentads.rent >= $${idx}`)
+      params.push(query.minRent)
+      idx++
+    }
+
+    if (query.maxRent) {
+      whereClauses.push(`rentads.rent <= $${idx}`)
+      params.push(query.maxRent)
+      idx++
+    }
+
+    if (query.minArea) {
+      whereClauses.push(`rentads.area >= $${idx}`)
+      params.push(query.minArea)
+      idx++
+    }
+
+    if (query.maxArea) {
+      whereClauses.push(`rentads.area <= $${idx}`)
+      params.push(query.maxArea)
+      idx++
+    }
+
+    if (Array.isArray(query.offers) && query.offers.length > 0) {
+      // pass JS array and cast to text[] in SQL
+      whereClauses.push(`rentads.offers && $${idx}::text[]`)
+      params.push(query.offers)
+      idx++
+    }
+
+    let queryText = "SELECT rentads.*, locations.lat AS latitude, locations.lon AS longitude FROM rentads INNER JOIN locations ON rentads.location_id = locations.id"
+
+    if (whereClauses.length > 0) {
+      queryText += " WHERE " + whereClauses.join(" AND ")
+    }
+    queryText += " ORDER BY rentads.created_at DESC"
+
+    // Use sql.query for conventional calls with placeholders
+    const result = await sql.query(queryText, params)
+
+    // neon/sql.query often returns an object with `rows`; fallback to result directly
+    const rows = result?.rows ?? result
+
+    return res.status(200).json({ success: true, data: rows })
+  } catch (err) {
+    console.error("Error in filterRentad function in rentadsController", err)
+    return res.status(500).json({ success: false, message: "Internal server error" })
+  }
 }

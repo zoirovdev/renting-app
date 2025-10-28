@@ -1,17 +1,16 @@
 import { useRentadStore } from '../stores/useRentadStore'
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { ArrowLeft, ChevronLeft, ChevronRight, X, CircleCheck, Copy, Check, Share } from 'lucide-react'
+import { ChevronLeft, ChevronRight, X, CircleCheck, Copy, Check, Share } from 'lucide-react'
 import { useLocationStore } from '../stores/useLocationStore'
 import DetailMap from '../components/DetailMap'
-import { useUserStore } from '../stores/useUserStore'
 
 
 
 const DetailPage = () => {
     const { fetchRentad, currentRentad, loading } = useRentadStore()
     const { id } = useParams()
-    const { getLocation, currentLocation, setCurrentLocation } = useLocationStore()
+    const { getLocation, currentLocation } = useLocationStore()
     const navigate = useNavigate()
 
     const [imagesModal, setImagesModal] = useState(false) 

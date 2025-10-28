@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react"
 import { useUserStore } from "../stores/useUserStore.js"
 import { useRentadStore } from "../stores/useRentadStore.js"
-import { MapPin, Wallet, DollarSign, BedDouble, Copy, Check } from "lucide-react"
+import { MapPin, Copy, Check } from "lucide-react"
 import { Link, useParams } from "react-router-dom"
 
 const RandomProfilePage = () => {
-    const { currentUser, randomUser, getRandomUser, randomUserLoading } = useUserStore()
+    const { randomUser, getRandomUser, randomUserLoading } = useUserStore()
     const { rentads, getByUserId, loading } = useRentadStore()
     const [copied, setCopied] = useState(false)
     const { id } = useParams()
@@ -45,7 +45,6 @@ const RandomProfilePage = () => {
         return <div>Loading random user...</div>
     }
 
-    console.log(randomUser)
 
     return (
         <div className='flex flex-col items-center gap-4 md:gap-8 py-4 md:py-8 px-4 md:px-0 pb-20 md:pb-8'>

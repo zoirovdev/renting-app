@@ -1,7 +1,7 @@
-import { Plus, Minus, Upload, X, House, DollarSign, Coins, Scan, Bed, Bath, HandCoins, User, MapPin } from 'lucide-react'
-import { useState, useRef, useEffect } from 'react'
+import { Plus, Minus, Upload, X, House, Coins, Scan, Bed, HandCoins, User, MapPin } from 'lucide-react'
+import { useState, useEffect } from 'react'
 import { useRentadStore } from '../stores/useRentadStore'
-import { useLocation, useNavigate } from "react-router-dom"
+import {  useNavigate } from "react-router-dom"
 import axios from 'axios'
 import { useUserStore } from '../stores/useUserStore'
 import { useLocationStore } from '../stores/useLocationStore'
@@ -14,25 +14,14 @@ const AddPage = () => {
     const [buildingImages, setBuildingImages] = useState([]) 
     const [uploading, setUploading] = useState(false)
     const [uploadProgress, setUploadProgress] = useState({})
-    const [filePaths, setFilePaths] = useState([])
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(null)
     const { formData, createRentad, setFormData, resetFormData } = useRentadStore()
     const { currentUser } = useUserStore()
-    const { createLocation, formLocation, setFormLocation, currentLocation, setCurrentLocation } = useLocationStore()
-
-    // if(Array.isArray(currentLocation)){
-    //     setCurrentLocation(currentLocation[0])
-    // }
-
-    const [isOpen, setIsOpen] = useState(false);
-    const [searchTerm, setSearchTerm] = useState('');
-    const dropdownRef = useRef(null);
+    const { createLocation, setFormLocation, currentLocation } = useLocationStore()
 
     const propertyOptions = ['Apartment','House'];
-    const currencyOptions = ['$']
     const periodOptions = ['period','month', 'week', 'day', 'year']
-    const unitOptions = ['unit','m²']
     const userTypeOptions = ['Rieltor', 'Landlord']
 
     const [selectedOffers, setSelectedOffers] = useState([])
@@ -73,12 +62,6 @@ const AddPage = () => {
             setFormData({ ...formData, bedrooms: formData.bedrooms+val})
         }
     }
-
-    // const updateBathrooms = val => {
-    //     if(formData.bathrooms >= 0 && formData.bathrooms <=20){
-    //         setFormData({ ...formData, bathrooms: formData.bathrooms+val})
-    //     }
-    // }
 
 
     const success = async (position) => {

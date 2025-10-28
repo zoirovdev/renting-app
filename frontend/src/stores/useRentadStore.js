@@ -84,33 +84,6 @@ export const useRentadStore = create((set, get) => ({
         }
     },
 
-    searchRentad: async (params) => {
-        set({ loading: true })
-
-        try {
-            const response = await axios.get(`${BASE_URL}/api/rentads/search?${params.toString()}`)
-            set({ rentads: response.data.data })
-        } catch (err) {
-            console.log("Error in searchRentad func", err)
-        } finally {
-            set({ loading:false })
-        }
-    },
-
-    getRentadWithLocs: async () => {
-        set({ loading: true })
-
-        try {
-            const response = await axios.get(`${BASE_URL}/api/rentads/getWithLocations`)
-            set({ rentadsWithLocations: response.data.data, err:null })
-        } catch (err) {
-            if(err.status === 429) set({ error: "Rate limit exceeded", rentadsWithLocations:[] })
-            else set({ error: "something went wrong", rentadsWithLocations: [] })
-        } finally {
-            set({ loading:false })
-        }
-    },
-
     getByUserId: async (userId) => {
         set({ loading: true })
 
@@ -201,6 +174,22 @@ export const useRentadStore = create((set, get) => ({
         try {
             const response = await axios.put(`${BASE_URL}/api/rentads/${id}`, get().formData)
             set({ error: null, currentRentad: response.data.data })
+        } catch (err) {
+            if(err.status === 429) set({ error: "Rate limit exceeded", rentads:[] })
+            else set({ error: "something went wrong", rentads: [] })
+        } finally {
+            set({ loading: false })
+        }
+    },
+
+    filterRentad: async (searchTerm) => {
+        set({ loading: true })
+
+        try {
+            const query = encodeURIComponent(JSON.stringify(searchTerm))
+            const response = await axios.get(`${BASE_URL}/api/rentads/filter?data=${query}`)
+            console.log(response.data)
+            set({ error: null, rentads: response.data.data })
         } catch (err) {
             if(err.status === 429) set({ error: "Rate limit exceeded", rentads:[] })
             else set({ error: "something went wrong", rentads: [] })

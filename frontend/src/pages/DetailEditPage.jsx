@@ -1,12 +1,11 @@
 import { useRentadStore } from '../stores/useRentadStore'
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { ArrowLeft, ChevronLeft, ChevronRight, X, CircleCheck, Copy, Check, Share, PencilLine, Trash2, 
-    HandCoins, Bed, Bath, Minus, Plus, Coins, EllipsisVertical, Upload, ImagePlus, Trash
+import { ChevronLeft, ChevronRight, X, CircleCheck, Copy, Check, Share, PencilLine, Trash2, 
+    HandCoins, Bed, Minus, Plus, Coins, EllipsisVertical, Upload, ImagePlus
 } from 'lucide-react'
 import { useLocationStore } from '../stores/useLocationStore'
 import DetailMap from '../components/DetailMap'
-import { useUserStore } from '../stores/useUserStore'
 import axios from 'axios'
 import toast from "react-hot-toast"
 
@@ -15,7 +14,7 @@ const DetailEditPage = () => {
         updateById
     } = useRentadStore()
     const { id } = useParams()
-    const { getLocation, currentLocation, setCurrentLocation } = useLocationStore()
+    const { getLocation, currentLocation } = useLocationStore()
     const navigate = useNavigate()
 
     const [selectedOffers, setSelectedOffers] = useState([])
@@ -31,7 +30,6 @@ const DetailEditPage = () => {
     const [shareCopied, setShareCopied] = useState(false)
     const [isOpenDelete, setIsOpenDelete] = useState(false)
     const [isOpenEdit, setIsOpenEdit] = useState(false)
-    const [isOpenBtns, setIsOpenBtns] = useState(false)
     const [buildingImages, setBuildingImages] = useState([]) 
     const [uploading, setUploading] = useState(false)
     const [uploadProgress, setUploadProgress] = useState({})
@@ -120,13 +118,6 @@ const DetailEditPage = () => {
         const newValue = formData.bedrooms + val
         if(newValue >= 0 && newValue <= 20){
             setFormData({ ...formData, bedrooms: newValue })
-        }
-    }
-
-    const updateBathrooms = val => {
-        const newValue = formData.bathrooms + val
-        if(newValue >= 0 && newValue <= 20){
-            setFormData({ ...formData, bathrooms: newValue })
         }
     }
 

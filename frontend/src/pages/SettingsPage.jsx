@@ -6,7 +6,7 @@ import { useUserStore } from "../stores/useUserStore.js"
 
 const SettingsPage = () => {
     const { isDark, toggleTheme } = useTheme()
-    const { logout, changePassword, currentUser, error, updateProfile } = useUserStore()
+    const { logout, changePassword, currentUser, updateProfile } = useUserStore()
 
     const [ currentPassword, setCurrentPassword ] = useState('')
     const [ newPassword, setNewPassword ] = useState('')

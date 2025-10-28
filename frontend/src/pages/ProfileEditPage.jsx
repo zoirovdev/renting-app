@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react"
 import { useUserStore } from "../stores/useUserStore.js"
 import { useRentadStore } from "../stores/useRentadStore.js"
-import { MapPin, Wallet, DollarSign, BedDouble, Copy, Check } from "lucide-react"
-import { Link, useParams } from "react-router-dom"
+import { MapPin, Copy, Check } from "lucide-react"
+import { Link } from "react-router-dom"
 
 
 const ProfileEditPage = () => {

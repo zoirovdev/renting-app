@@ -1,18 +1,12 @@
-import React from 'react'
 import { useRentadStore } from "../stores/useRentadStore.js"
 import { useEffect, useState } from 'react'
-import { DollarSign, MapPin, BedDouble, Wallet, Settings, Calendar1 } from "lucide-react"
+import { MapPin } from "lucide-react"
 import { Link } from "react-router-dom"
-import Map from "../components/Map.jsx"
-import { useLocationStore } from '../stores/useLocationStore.js'
 
 
 const HomePage = () => {
   const { fetchRentads, rentads, loading, sortByOffers, sortByRents, getWithoutRieltor, getNearby } = useRentadStore()
-  const [displayRentads, setDisplayRentads] = useState()
   const [sortOption, setSortOption] = useState('')
-  const [locationLoading, setLocationLoading] = useState(false)
-  const [error, setError] = useState(null)
 
   const loadingRentads = [
     { id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 },
@@ -77,11 +71,9 @@ const HomePage = () => {
 
   useEffect(() => {
     fetchRentads()
-    
   }, [fetchRentads])
 
 
-  // if(loading) return <div>Loading...</div>
 
   return (
       <div className='flex flex-col gap-4 relative min-h-screen py-4 md:pb-8 pb-20 dark:bg-gray-900'>
