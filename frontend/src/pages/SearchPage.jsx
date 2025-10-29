@@ -105,6 +105,10 @@ const SearchPage = () => {
         e.preventDefault()
 
         try {
+            if(location===""){
+                return
+            }
+
             await searchRentad(location)
         } catch (err) {
             console.log("Error -> ", err)
