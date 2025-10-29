@@ -124,11 +124,11 @@ const SearchPage = () => {
 
                 {/* Desktop Filters - Horizontal */}
                 <div className='hidden md:flex p-1 justify-center items-center 
-                    dark:bg-gray-800 dark:text-gray-50 mx-auto gap-1'>
+                    dark:text-gray-50 mx-auto gap-1'>
                     {/* Clear Filters Button */}
                     <button 
-                        className="border dark:border-none border-gray-200 dark:bg-gray-800
-                            hover:bg-gray-100 dark:hover:bg-gray-700 py-2 px-4 rounded-xl cursor-pointer
+                        className="border dark:border-none border-gray-200 dark:bg-gray-700
+                            hover:bg-gray-100 dark:hover:bg-gray-500 py-2 px-4 rounded-xl cursor-pointer
                             dark:text-gray-50 text-sm md:text-base flex justify-center items-center gap-1"
                         onClick={(e) => setIsFilterOpen(!isFilterOpen)}>
                         <Funnel className="w-4 h-4"/>
@@ -137,7 +137,7 @@ const SearchPage = () => {
 
                     <input type="text" 
                         className="border border-gray-200 rounded-xl py-2 px-4 focus:outline-1 focus:outline-lime-400
-                            md:w-[500px] "
+                            md:w-[500px] dark:border-gray-700"
                         placeholder="🔍 Where"
                         onChange={(e) => setLocation(e.target.value)}/>
 
@@ -153,9 +153,9 @@ const SearchPage = () => {
                 </div>
 
                 {/* Mobile Filters - Vertical Stacked */}
-                <div className='md:hidden flex flex-col gap-2'>
+                <div className='md:hidden flex flex-col gap-2 dark:text-gray-50'>
                     <button 
-                        className="w-full md:w-auto md:self-center border dark:border-none border-gray-100 dark:bg-gray-800
+                        className="w-full md:w-auto md:self-center border dark:border-none border-gray-100 dark:bg-gray-700
                             hover:bg-gray-100 dark:hover:bg-gray-700 py-3 px-4 rounded-xl cursor-pointer
                             dark:text-gray-50 text-sm md:text-base flex justify-center items-center gap-1"
                         onClick={(e) => setIsFilterOpen(!isFilterOpen)}>
@@ -164,7 +164,7 @@ const SearchPage = () => {
                     </button>
                     
                     <input type="text" 
-                        className="border border-gray-100 rounded-xl py-2 px-4 focus:outline-1 focus:outline-lime-400"
+                        className="border border-gray-100 dark:border-gray-700 rounded-xl py-2 px-4 focus:outline-1 focus:outline-lime-400"
                         placeholder="🔍 Where"
                         onChange={(e) => setLocation(e.target.value)}/>
 
