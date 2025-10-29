@@ -114,9 +114,8 @@ const ProfileEditPage = () => {
                     : rentads.length === 0
                     ? <div className='flex flex-col justify-center items-center md:px-[110px] mt-10 md:mt-20'>
                         <div className='text-gray-400 dark:text-gray-500 text-center'>
-                        <p className='text-6xl mb-4'>🏠</p>
-                        <p className='text-xl font-semibold mb-2'>No properties found</p>
-                        <p className='text-gray-500 dark:text-gray-400'>You haven't posted any ads yet</p>
+                            <p className='text-6xl mb-4'>🏠</p>
+                            <p className='text-xl font-semibold mb-2'>No properties found</p>
                         </div>
                     </div>
                     : <div className='flex flex-wrap justify-center md:justify-start items-center gap-4 md:px-[110px]'>
