@@ -398,3 +398,28 @@ export const filterRentad = async (req, res) => {
     return res.status(500).json({ success: false, message: "Internal server error" })
   }
 }
+
+
+export const searchRentad = async (req, res) => {
+    try {
+        const { location } = req.query
+
+        if(!location){
+            return res.status(400).json({ success: false, message: "Location field is required"})
+        }
+
+        const result = await sql`
+            SELECT rentads.*, locations.lat AS latitude, locations.lon AS longitude FROM rentads 
+            INNER JOIN locations ON rentads.location_id = locations.id
+            WHERE locations.city ILIKE ${'%' + location + '%'} OR locations.county ILIKE ${'%' + location + '%'} OR 
+            locations.neighbourhood ILIKE ${'%' + location + '%'} OR locations.road ILIKE ${'%' + location + '%'} OR 
+            locations.suburb ILIKE ${'%' + location + '%'}
+            ORDER BY rentads.created_at DESC
+        `
+
+        res.status(200).json({ success: true, data: result })
+    } catch (err) {
+        console.log("Error in searchRentad func in rentadControllers.js")
+        return res.status(500).json({ success: false, message: "Internet server error" })
+    }
+}

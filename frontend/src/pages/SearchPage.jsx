@@ -11,12 +11,13 @@ import "../rangeSlider.css"
 
 const SearchPage = () => {
     
-    const { rentads, fetchRentads, loading, filterRentad } = useRentadStore()
+    const { rentads, fetchRentads, loading, filterRentad, searchRentad } = useRentadStore()
     const [searchTerm, setSearchTerm] = useState({
         property: "",
         bedrooms: 0,
         offers: []
     })
+    const [location, setLocation] = useState("")
 
     const [rentRange, setRentRange] = useState([0, 5000])
     const [areaRange, setAreaRange] = useState([0, 500])
@@ -100,6 +101,17 @@ const SearchPage = () => {
         await fetchRentads()
     }
     
+    const handleSearchByLocation = async (e) => {
+        e.preventDefault()
+
+        try {
+            await searchRentad(location)
+        } catch (err) {
+            console.log("Error -> ", err)
+        }
+    }
+
+
     return (
         <div className='flex flex-col gap-4 md:gap-8 px-4 md:px-[110px] py-4 pb-20 md:pb-8'>
             {/* Filters Section */}
@@ -119,17 +131,17 @@ const SearchPage = () => {
                         <p>Filters</p>
                     </button>
 
-                    
-
                     <input type="text" 
                         className="border border-gray-200 rounded-xl py-2 px-4 focus:outline-1 focus:outline-lime-400
                             md:w-[500px] "
-                        placeholder="🔍 Where"/>
+                        placeholder="🔍 Where"
+                        onChange={(e) => setLocation(e.target.value)}/>
 
                     <button 
                         className='cursor-pointer py-2 px-4 bg-lime-300 text-gray-900
                             hover:bg-lime-400 rounded-xl transition-colors whitespace-nowrap
                             flex justify-center items-center gap-1' 
+                        onClick={(e) => handleSearchByLocation(e)}
                         >
                         <p>Search</p>
                         <Search className="w-4 h-4"/>
@@ -149,12 +161,14 @@ const SearchPage = () => {
                     
                     <input type="text" 
                         className="border border-gray-100 rounded-xl py-2 px-4 focus:outline-1 focus:outline-lime-400"
-                        placeholder="🔍 Where"/>
+                        placeholder="🔍 Where"
+                        onChange={(e) => setLocation(e.target.value)}/>
 
                     {/* Search Button - Mobile */}
                     <button 
                         className='w-full py-3 px-4 bg-lime-300 hover:bg-lime-400 text-gray-900
                             rounded-xl shadow-xl transition-colors font-medium flex justify-center items-center gap-1' 
+                        onClick={(e) => handleSearchByLocation(e)}
                         >
                         <p>Search</p>
                         <Search className="w-4 h-4"/>

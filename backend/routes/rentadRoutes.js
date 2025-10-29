@@ -1,7 +1,8 @@
 import express from "express"
 import { getAll, create, getRentad, uploadImage, 
 getAllByUserId, sortByOffers, sortByLowestRent, getWithoutRieltor, getNearby, deleteById, 
-update, filterRentad
+update, filterRentad,
+searchRentad
 } from "../controllers/rentadControllers.js"
 
 const router = express.Router()
@@ -13,8 +14,7 @@ router.post("/", create)
 
 router.get("/filter", filterRentad)
 
-
-
+router.get("/search", searchRentad)
 
 router.get("/sort-by-lowest-rents", sortByLowestRent)
 

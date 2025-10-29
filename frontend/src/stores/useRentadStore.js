@@ -196,5 +196,19 @@ export const useRentadStore = create((set, get) => ({
         } finally {
             set({ loading: false })
         }
+    },
+
+    searchRentad: async (location) => {
+        set({ loading: true })
+
+        try {
+            const response = await axios.get(`${BASE_URL}/api/rentads/search?location=${location}`)
+            set({ error: null, rentads: response.data.data })
+        } catch (err) {
+            if(err.status === 429) set({ error: "Rate limit exceeded", rentads:[] })
+            else set({ error: "something went wrong", rentads: [] })
+        } finally {
+            set({ loading: false })
+        }
     }
 }))
