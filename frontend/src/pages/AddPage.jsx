@@ -19,6 +19,8 @@ const AddPage = () => {
     const { formData, createRentad, setFormData, resetFormData } = useRentadStore()
     const { currentUser } = useUserStore()
     const { createLocation, setFormLocation, currentLocation } = useLocationStore()
+    const [addLoading, setAddLoading] = useState(false)
+    const [complete, setComplete] = useState(false)
 
     const propertyOptions = ['Apartment','House'];
     const periodOptions = ['period','month', 'week', 'day', 'year']
@@ -37,6 +39,16 @@ const AddPage = () => {
         )
     }
 
+    useEffect(() => {
+        if(formData.property==="" || formData.rent===0 || formData.area===0 || formData.rent_period===""
+            || formData.bedrooms===0 || formData.location_id===0 || formData.images.length===0
+        )
+        {
+            setComplete(false)
+        }else{
+            setComplete(true)
+        }
+    }, [formData])
 
     useEffect(() => {
         setFormData({ ...formData, rent_currency: '$'})
@@ -173,11 +185,14 @@ const AddPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
+            setAddLoading(true)
             await createRentad(e)
             toast.success("Successfully created!")
             resetFormData()
         } catch (err){
             console.log("error at handleSubmit", err)
+        } finally {
+            setAddLoading(false)
         }
     }
 
@@ -243,7 +258,6 @@ const AddPage = () => {
         setBuildingImages(prev => prev.filter((_, i) => i !== index))
     }
 
-    
     return (
         <div className='flex justify-center items-center px-4 md:px-0 pb-20 md:pb-8'>
             <div className='w-full max-w-[800px] mt-4 md:mt-0 p-4 md:p-0 space-y-4 '>
@@ -360,29 +374,6 @@ const AddPage = () => {
                             />
                         </div>
                     </div>
-
-                    {/* <div className='flex justify-between items-center pt-4 pb-6 px-4 md:px-6'>
-                        <div className='flex justify-start items-center gap-2'>
-                            <Bath className='w-4 h-4 dark:text-gray-100'/>
-                            <label htmlFor='bathrooms' className='text-sm md:text-base text-gray-500 dark:text-gray-100'>Bathrooms</label>
-                        </div>
-                        <div className='flex flex-row justify-center items-center'>
-                            <Minus 
-                                className='border border-gray-200 dark:border-gray-700 dark:text-gray-100
-                                rounded-xl p-1.5 md:p-2 w-7 h-7 md:w-8 md:h-8 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700' 
-                                onClick={() => updateBathrooms(-1)}
-                            />
-                            <input className="w-[30px] md:w-[40px] ml-2 text-center dark:text-gray-100 text-sm md:text-base"
-                                onChange={(e) => setFormData({ ...formData, bathrooms: e.target.value })}
-                                value={formData.bathrooms}
-                            />
-                            <Plus 
-                                className='border border-gray-200 dark:border-gray-700 dark:text-gray-100
-                                rounded-xl p-1.5 md:p-2 w-7 h-7 md:w-8 md:h-8 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700' 
-                                onClick={() => updateBathrooms(+1)}
-                            />
-                        </div>
-                    </div> */}
                 </div>
 
                 {/* Offers */}
@@ -539,8 +530,9 @@ const AddPage = () => {
                         Clear
                     </button>
                     <button className='bg-lime-300 hover:bg-lime-400 rounded-xl py-2 px-4 md:px-6 cursor-pointer text-sm md:text-base font-medium'
-                        onClick={(e) => {handleSubmit(e);navigate("/")}}>
-                        Submit
+                        onClick={(e) => {handleSubmit(e);navigate("/")}}
+                        disabled={addLoading || !complete}>
+                        {addLoading ? "Submitting..." : "Submit"}
                     </button>
                 </div>
             </div>

@@ -530,31 +530,6 @@ const DetailEditPage = () => {
                                         />
                                     </div>
                                 </div>
-
-                                {/* <div className='flex justify-between items-center pt-4 pb-6 px-4 md:px-6'>
-                                    <div className='flex justify-start items-center gap-2'>
-                                        <Bath className='w-4 h-4 dark:text-gray-100'/>
-                                        <label htmlFor='bathrooms' className='text-sm md:text-base text-gray-500 dark:text-gray-100'>Bathrooms</label>
-                                    </div>
-                                    <div className='flex flex-row justify-center items-center'>
-                                        <Minus 
-                                            className='border border-gray-200 dark:border-gray-700 rounded-xl p-1.5 md:p-2 w-7 h-7 md:w-8 md:h-8 
-                                                cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-500 dark:text-gray-100' 
-                                            onClick={() => updateBathrooms(-1)}
-                                        />
-                                        <input 
-                                            className="w-[30px] md:w-[40px] ml-2 text-center text-sm md:text-base dark:text-gray-100"
-                                            onChange={(e) => setFormData({ ...formData, bathrooms: parseInt(e.target.value) || 0 })}
-                                            value={formData?.bathrooms || 0}
-                                            type="number"
-                                        />
-                                        <Plus 
-                                            className='border border-gray-200 dark:border-gray-700 rounded-xl p-1.5 md:p-2 w-7 h-7 md:w-8 md:h-8 
-                                                cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-500 dark:text-gray-100' 
-                                            onClick={() => updateBathrooms(+1)}
-                                        />
-                                    </div>
-                                </div> */}
                             </div>
 
                             {/* Offers */}
