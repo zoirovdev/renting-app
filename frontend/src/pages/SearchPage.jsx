@@ -182,37 +182,39 @@ const SearchPage = () => {
 
             {isFilterOpen && (
                 <div className="fixed inset-0 z-50 backdrop-blur-md bg-opacity-50 flex justify-center items-center">
-                    <div className="w-[90%] md:w-[600px] bg-gray-50 flex flex-col  rounded-xl">
+                    <div className="w-[90%] md:w-[600px] bg-gray-50 flex flex-col rounded-xl dark:bg-gray-800">
                         <div className='flex justify-between items-center border-b border-gray-400 p-4'>
-                            <p className="tracking-wider text-lg font-semibold">Filters</p>
-                            <X className="w-8 h-8 hover:bg-gray-200 rounded-xl p-2"
+                            <p className="tracking-wider text-lg font-semibold dark:text-gray-100">Filters</p>
+                            <X className="w-8 h-8 hover:bg-gray-200 rounded-xl p-2 dark:text-gray-100"
                                 onClick={(e) => setIsFilterOpen(!isFilterOpen)}/>
                         </div>
                         <div className='px-2'>
-                            <div className="border-b border-gray-300 py-4 px-2 space-y-1">
+                            <div className="border-b border-gray-300 dark:border-gray-700 py-4 px-2 space-y-1">
                                 <div className="flex justify-start items-center gap-1">
                                     <House className="w-4 h-4 dark:text-gray-100"/>
-                                    <p className="">Property</p>
+                                    <p className="dark:text-gray-100">Property</p>
                                 </div>
                                 <div className="flex w-full gap-1">
                                     <button
-                                        className={`basis-1/2 border border-gray-200 flex justify-center items-center p-2 rounded-xl cursor-pointer
+                                        className={`basis-1/2 border border-gray-200 dark:border-gray-700 flex justify-center items-center p-2 rounded-xl cursor-pointer
+                                            dark:text-gray-100
                                             ${searchTerm.property==="Apartment" ? "ring-2 ring-lime-400" : ""}`}
                                         onClick={() => {setSearchTerm({ ...searchTerm, property: 'Apartment' }); }}>
                                         Apartment
                                     </button>
                                     <button
-                                        className={`basis-1/2 border border-gray-200 flex justify-center items-center p-2 rounded-xl cursor-pointer
+                                        className={`basis-1/2 border border-gray-200 dark:border-gray-700 flex justify-center items-center p-2 rounded-xl cursor-pointer
+                                            dark:text-gray-100
                                             ${searchTerm.property==="House" ? "ring-2 ring-lime-400" : ""}`}
                                         onClick={() => {setSearchTerm({ ...searchTerm, property: 'House' });}}>
                                         House
                                     </button>
                                 </div>
                             </div>
-                            <div className="border-b border-gray-200 py-4 px-2">
+                            <div className="border-b border-gray-200 dark:border-gray-700 py-4 px-2">
                                 <div className="flex justify-start items-center gap-1">
-                                    <Coins className="w-4 h-4"/>
-                                    <p>Rent</p>
+                                    <Coins className="w-4 h-4 dark:text-gray-100"/>
+                                    <p className="dark:text-gray-100">Rent</p>
                                 </div>
                                 <div className="space-y-4 mt-2">
                                     <RangeSlider
@@ -224,17 +226,17 @@ const SearchPage = () => {
                                     />
                                     <div className='w-full flex justify-between items-center'>
                                         <div className='flex flex-col justify-center items-center'>
-                                            <label htmlFor="">Min</label>
+                                            <label htmlFor="" className="dark:text-gray-100">Min</label>
                                             <input type="number"
-                                                className='outline-none w-[80px] p-2 rounded-xl border border-gray-200'
+                                                className='outline-none w-[80px] p-2 rounded-xl border border-gray-200 dark:border-gray-700 dark:text-gray-100'
                                                 value={rentRange[0]}
                                                 onChange={(e) => setRentRange([e.target.value, rentRange[1]])}
                                                 />
                                         </div>
                                         <div className='flex flex-col justify-center items-center'>
-                                            <label htmlFor="">Max</label>
+                                            <label htmlFor="" className="dark:text-gray-100">Max</label>
                                             <input type="number"
-                                                className='outline-none w-[80px] p-2 rounded-xl border border-gray-200'
+                                                className='outline-none w-[80px] p-2 rounded-xl border border-gray-200 dark:border-gray-700 dark:text-gray-100'
                                                 value={rentRange[1]}
                                                 onChange={(e) => setRentRange([rentRange[0], e.target.value])}
                                                 />
@@ -242,10 +244,10 @@ const SearchPage = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="border-b border-gray-200 py-4 px-2">
+                            <div className="border-b border-gray-200 dark:border-gray-100 py-4 px-2">
                                 <div className="flex justify-start items-center gap-1">
-                                    <Scan className="w-4 h-4"/>
-                                    <p>Area</p>
+                                    <Scan className="w-4 h-4 dark:text-gray-100"/>
+                                    <p className="dark:text-gray-100">Area</p>
                                 </div>
                                 <div className="space-y-4 mt-2">
                                     <RangeSlider
@@ -257,17 +259,17 @@ const SearchPage = () => {
                                     />
                                     <div className='w-full flex justify-between items-center'>
                                         <div className='flex flex-col justify-center items-center'>
-                                            <label htmlFor="">Min</label>
+                                            <label htmlFor="" className="dark:text-gray-100">Min</label>
                                             <input type="number"
-                                                className='outline-none w-[80px] p-2 rounded-xl border border-gray-200'
+                                                className='outline-none w-[80px] p-2 rounded-xl border border-gray-200 dark:border-gray-700 dark:text-gray-100'
                                                 value={areaRange[0]}
                                                 onChange={(e) => setAreaRange([e.target.value, areaRange[1]])}
                                                 />
                                         </div>
                                         <div className='flex flex-col justify-center items-center'>
-                                            <label htmlFor="">Max</label>
+                                            <label htmlFor="" className="dark:text-gray-100">Max</label>
                                             <input type="number"
-                                                className='outline-none w-[80px] p-2 rounded-xl border border-gray-200'
+                                                className='outline-none w-[80px] p-2 rounded-xl border border-gray-200 dark:border-gray-700 dark:text-gray-100'
                                                 value={areaRange[1]}
                                                 onChange={(e) => setAreaRange([areaRange[0], e.target.value])}
                                                 />
