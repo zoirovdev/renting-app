@@ -97,7 +97,7 @@ const SearchPage = () => {
         })
         setRentRange([0, 5000])
         setAreaRange([0, 500])
-        setIsFilterOpen(!isFilterOpen)
+        // setIsFilterOpen(!isFilterOpen)
         await fetchRentads()
     }
     
@@ -185,7 +185,7 @@ const SearchPage = () => {
                     <div className="w-[90%] md:w-[600px] h-[90%] md:h-[760px] overflow-scroll bg-gray-50 flex flex-col rounded-xl dark:bg-gray-800">
                         <div className='flex justify-between items-center border-b border-gray-400 p-4'>
                             <p className="tracking-wider text-lg font-semibold dark:text-gray-100">Filters</p>
-                            <X className="w-8 h-8 hover:bg-gray-200 rounded-xl p-2 dark:text-gray-100"
+                            <X className="w-8 h-8 hover:bg-gray-200 rounded-xl p-2 dark:text-gray-100 dark:hover:text-gray-900"
                                 onClick={(e) => setIsFilterOpen(!isFilterOpen)}/>
                         </div>
                         <div className='px-2'>
