@@ -182,7 +182,7 @@ const SearchPage = () => {
 
             {isFilterOpen && (
                 <div className="fixed inset-0 z-50 backdrop-blur-md bg-opacity-50 flex justify-center items-center">
-                    <div className="w-[90%] md:w-[600px] bg-gray-50 flex flex-col rounded-xl dark:bg-gray-800">
+                    <div className="w-[90%] md:w-[600px] h-[90%] md:h-[760px] overflow-scroll bg-gray-50 flex flex-col rounded-xl dark:bg-gray-800">
                         <div className='flex justify-between items-center border-b border-gray-400 p-4'>
                             <p className="tracking-wider text-lg font-semibold dark:text-gray-100">Filters</p>
                             <X className="w-8 h-8 hover:bg-gray-200 rounded-xl p-2 dark:text-gray-100"
@@ -244,7 +244,7 @@ const SearchPage = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="border-b border-gray-200 dark:border-gray-100 py-4 px-2">
+                            <div className="border-b border-gray-200 dark:border-gray-700 py-4 px-2">
                                 <div className="flex justify-start items-center gap-1">
                                     <Scan className="w-4 h-4 dark:text-gray-100"/>
                                     <p className="dark:text-gray-100">Area</p>
