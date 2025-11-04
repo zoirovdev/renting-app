@@ -24,13 +24,13 @@ const LoginPage = () => {
                 <p className="text-lg md:text-xl font-semibold tracking-widest dark:text-gray-50">Login</p>
               </div>
               <div className="flex flex-col">
-                <label className="text-gray-500 dark:text-gray-300 text-sm md:text-base mb-1">Username</label>
-                <input type='text'
-                  value={loginForm.username}
-                  placeholder="Enter your username"
-                  className="focus:outline-none focus:ring-2 focus:ring-lime-500 border border-gray-200 dark:border-gray-700 
-                    py-2 px-4 rounded-xl dark:text-gray-50 text-sm md:text-base"
-                  onChange={(e) => setLoginForm({ ...loginForm, username: e.target.value })}/>
+                <label htmlFor="phone" className="text-gray-500 dark:text-gray-300 text-sm md:text-base mb-1">Phone</label>
+                <input type="text"
+                  id="phone" name="phone"
+                  className="focus:outline-none focus:ring-2 focus:ring-lime-500 border border-gray-200 dark:border-gray-700
+                  py-2 px-4 rounded-xl dark:text-gray-50 text-sm md:text-base"
+                  placeholder="+998 90 123 45 67"
+                  onChange={(e) => setSignupForm({ ...signupForm, phone: e.target.value })}/>
               </div>
               <div className="flex flex-col">
                 <label className="text-gray-500 dark:text-gray-300 text-sm md:text-base mb-1">Password</label>

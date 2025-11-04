@@ -1,6 +1,8 @@
 import { sql } from "../config/db.js"
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
+import { parsePhoneNumberFromString } from "libphonenumber-js"
+import crypto from "crypto"
 
 const JWT_SECRET = process.env.JWT_SECRET || 'my-secret-key-change-in-production'
 const SALT_ROUNDS = 10
@@ -25,12 +27,13 @@ export const getAll = async (req, res) => {
 
 export const create = async (req, res) => {
     try {
-        const { firstname, lastname, phone, username, password, location } = req.body
+        const { firstname, lastname, phone, password, location } = req.body
 
-        if(!firstname || !lastname || !phone || !username || !password || !location){
+        if(!firstname || !lastname || !phone || !password || !location){
             return res.status(400).json({ success:false, message:"All fields are required"})
         }
 
+        const username = 'user_' + crypto.randomBytes(3).toString('hex')
         const newUser = await sql`
             INSERT INTO users (firstname, lastname, phone, username, password, location)
             VALUES (${firstname}, ${lastname}, ${phone}, ${username}, ${password}, ${location})
@@ -48,10 +51,16 @@ export const create = async (req, res) => {
 
 export const signup = async (req, res) => {
     try {
-        const { username, firstname, lastname, phone, password} = req.body
+        const { firstname, lastname, phone, password} = req.body
+        const username = 'user_' + crypto.randomBytes(3).toString("hex")
 
         // Validation
-        if (!username || !password || !firstname || !lastname || !phone) {
+        if(!parsePhoneNumberFromString(phone)){
+            console.log(phone)
+            return res.status(401).json({ success: false, message: "Phone number is not valid"})
+        }
+
+        if (!password || !firstname || !lastname || !phone) {
             return res.status(400).json({ success: false, message: 'All fields are required' })
         }
 
@@ -62,11 +71,11 @@ export const signup = async (req, res) => {
         // Check if user already exists
         const existingUser = await sql`
             SELECT id FROM users 
-            WHERE username = ${username} OR phone = ${phone}
+            WHERE phone = ${phone}
         `
 
         if (existingUser.length > 0) {
-            return res.status(409).json({ success: false, message: 'Username or phone number already registered' })
+            return res.status(409).json({ success: false, message: 'Phone number already registered' })
         }
 
         // Hash password
@@ -86,7 +95,7 @@ export const signup = async (req, res) => {
                 username: newUser[0].username 
             },
             JWT_SECRET,
-            { expiresIn: '24h' }
+            { expiresIn: '30d' }
         )
 
         res.status(201).json({
@@ -116,17 +125,23 @@ export const signup = async (req, res) => {
 
 export const login = async (req, res) => {
     try {
-        const { username, password } = req.body
-
+        const { phone, password } = req.body
+        
         // Validation
-        if (!username || !password) {
-            return res.status(400).json({ success: false, message: 'Username and password are required' })
+        if (!phone || !password) {
+            return res.status(400).json({ success: false, message: 'Phone and password are required' })
         }
+
+        if(!parsePhoneNumberFromString(phone)){
+            console.log(phone)
+            return res.status(401).json({ success: false, message: "Phone number is not valid"})
+        }
+
 
         // Find user
         const users = await sql`
             SELECT * FROM users 
-            WHERE username = ${username}
+            WHERE phone = ${phone}
         `
 
         if (users.length === 0) {
@@ -138,7 +153,7 @@ export const login = async (req, res) => {
         // Verify password
         const isPasswordValid = await bcrypt.compare(password, user.password)
         if (!isPasswordValid) {
-            return res.status(401).json({ success: false, message: 'Invalid username or password' })
+            return res.status(401).json({ success: false, message: 'Invalid password' })
         }
 
         // Generate JWT token

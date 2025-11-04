@@ -83,6 +83,9 @@ if(process.env.NODE_ENV==="production"){
 
 async function initDB(){
     try {
+        // await sql`DROP TABLE IF EXISTS users CASCADE`;
+        // await sql`DROP TABLE IF EXISTS rentads CASCADE`;
+        // await sql`DROP TABLE IF EXISTS locations CASCADE`;
 
         await sql`
             CREATE TABLE IF NOT EXISTS users(

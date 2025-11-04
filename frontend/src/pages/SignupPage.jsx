@@ -26,17 +26,6 @@ const SignupPage = () => {
                 <div className="flex justify-center items-center">
                     <p className="text-lg md:text-xl font-semibold tracking-widest dark:text-gray-50">Sign up</p>
                 </div>
-                <p className="flex justify-center items-center text-gray-500 dark:text-gray-400">You can enter any phone number it is considered valid. </p>
-                <p className="flex justify-center items-center text-gray-500 dark:text-gray-400">And we don't send SMS to you</p>
-                <div className="flex flex-col">
-                    <label htmlFor="username" className="text-gray-500 dark:text-gray-300 text-sm md:text-base mb-1">Username</label>
-                    <input type="text"
-                        className="focus:outline-none focus:ring-2 focus:ring-lime-500 border border-gray-200 dark:border-gray-700
-                        py-2 px-4 rounded-xl dark:text-gray-50 text-sm md:text-base"
-                        id="username" name="username"
-                        placeholder="Choose a username"
-                        onChange={(e) => setSignupForm({ ...signupForm, username: e.target.value })}/>
-                </div>
                 <div className="flex flex-col md:flex-row gap-2 md:gap-4">
                     <div className="flex flex-col w-full md:basis-1/2">
                         <label htmlFor="firstname" className="text-gray-500 dark:text-gray-300 text-sm md:text-base mb-1">Firstname</label>

@@ -101,10 +101,10 @@ export const useUserStore = create((set, get) => ({
                 set({ error: "Rate limit exceeded", currentUser: null }) 
                 return { success: false, message: "Error" }
             } else if (err.status === 401) {
-                set({ error: "Invalid credentials", currentUser: null })
+                set({ error: "Phone number is not valid", currentUser: null })
                 return { success: false, message: "Error" }
             } else if (err.status === 409){
-                set({ error: "Username or phone number already registered", currentUser: null })
+                set({ error: "Phone number already registered", currentUser: null })
                 return { success: false, message: "Error" }
             } else {
                 set({ error: "Something went wrong", currentUser: null })
@@ -131,7 +131,7 @@ export const useUserStore = create((set, get) => ({
             } else if (err.status === 401) {
                 set({ error: "Invalid credentials", currentUser: null })
             } else {
-                set({ error: "Something went wrong", currentUser: null })
+                set({ error: response.data.message, currentUser: null })
             }
         } finally {
             set({ currentUserloading: false })
