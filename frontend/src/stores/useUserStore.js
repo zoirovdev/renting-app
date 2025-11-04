@@ -14,7 +14,6 @@ export const useUserStore = create((set, get) => ({
     randomUser: null,
 
     signupForm: {
-        username: "",
         firstname: "",
         lastname: "",
         phone: "",
@@ -23,15 +22,15 @@ export const useUserStore = create((set, get) => ({
 
 
     setSignupForm: (signupForm) => set({ signupForm }),
-    resetSignupForm: () => set({ signupForm: { username:"", firstname:"", lastname:"", phone:"", password:"" }}),
+    resetSignupForm: () => set({ signupForm: { firstname:"", lastname:"", phone:"", password:"" }}),
 
     loginForm: {
-        username: "",
+        phone: "",
         password: ""
     },
 
     setLoginForm: (loginForm) => set({ loginForm }),
-    resetLoginForm: () => set({ loginForm: { username: "", password: "" } }),
+    resetLoginForm: () => set({ loginForm: { phone: "", password: "" } }),
 
     initializeAuth: async () => {
         // console.log("🔍 initializeAuth STARTED")
@@ -131,7 +130,7 @@ export const useUserStore = create((set, get) => ({
             } else if (err.status === 401) {
                 set({ error: "Invalid credentials", currentUser: null })
             } else {
-                set({ error: response.data.message, currentUser: null })
+                set({ error: "Something went wrong", currentUser: null })
             }
         } finally {
             set({ currentUserloading: false })

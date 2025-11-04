@@ -30,7 +30,7 @@ const LoginPage = () => {
                   className="focus:outline-none focus:ring-2 focus:ring-lime-500 border border-gray-200 dark:border-gray-700
                   py-2 px-4 rounded-xl dark:text-gray-50 text-sm md:text-base"
                   placeholder="+998 90 123 45 67"
-                  onChange={(e) => setSignupForm({ ...signupForm, phone: e.target.value })}/>
+                  onChange={(e) => setLoginForm({ ...loginForm, phone: e.target.value })}/>
               </div>
               <div className="flex flex-col">
                 <label className="text-gray-500 dark:text-gray-300 text-sm md:text-base mb-1">Password</label>
