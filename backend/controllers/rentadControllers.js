@@ -69,7 +69,7 @@ import imagekit from '../lib/imagekit.js'
 const upload = multer({
     storage: multer.memoryStorage(),
     limits: {
-        fileSize: 10 * 1024 * 1024, // 10mb 
+        fileSize: 25 * 1024 * 1024, // 10mb 
     },
     fileFilter: (req, file, cb) => {
         if (file.mimetype.startsWith('image/')) {
@@ -82,17 +82,14 @@ const upload = multer({
 
 export const uploadImage = async (req, res) => {
     upload.single('image')(req, res, async (err) => {
-        console.log(1)
         if (err) {
             console.error('Multer error:', err)
             return res.status(400).json({ error: err.message })
         }
 
-        console.log(req.file)
         if (!req.file) {
             return res.status(400).json({ error: 'No file uploaded' })
         }
-        console.log(2)
 
         try {
             const result = await imagekit.upload({

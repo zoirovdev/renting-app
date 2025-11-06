@@ -210,7 +210,7 @@ const AddPage = () => {
         setError(null)
 
         for (const imageFile of imageFiles) {
-            if (imageFile.size > 10 * 1024 * 1024) {
+            if (imageFile.size > 25 * 1024 * 1024) {
                 alert(`File ${imageFile.name} is too large (max 10MB)`)
                 continue
             }
