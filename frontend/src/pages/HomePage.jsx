@@ -49,8 +49,6 @@ const HomePage = () => {
   }
 
   const getLocation = () => {
-      setLocationLoading(true);
-      setError(null);
       
       // Check if geolocation is supported
       if (!navigator.geolocation) {
